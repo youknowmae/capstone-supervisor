@@ -14,6 +14,7 @@ const routes: Routes = [
       loadChildren: ()=> import('./main/main.module'). then((m)=>m.MainModule)
     }]
   },
+  { path: 'application', loadChildren: () => import('./main/components/application/application.module').then(m => m.ApplicationModule) },
 ];
 
 @NgModule({
