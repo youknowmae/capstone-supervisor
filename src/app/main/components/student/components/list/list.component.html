@@ -94,7 +94,7 @@
             
             <ng-container matColumnDef="time_completion">
                 <th mat-header-cell *matHeaderCellDef class="col-md-2"> Progress </th>
-                <td mat-cell *matCellDef="let element" class="col-md-2">  {{ (element.status === "Pending") ? 'N/A' : (element.progress >= element.active_ojt_class.required_hours) ? 'Completed' : element.progress + ' hrs' }} </td>
+                <td mat-cell *matCellDef="let element" class="col-md-2">  {{ element.progress + ' hrs' }} / {{ element.active_ojt_class.required_hours + ' hrs' }} </td>
             </ng-container>
     
             <ng-container matColumnDef="student_evaluation">
