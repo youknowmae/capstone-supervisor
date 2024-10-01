@@ -233,7 +233,7 @@ h1 {
   button {
       padding: 2px 8px;
       font-size: 18px;
-      background-color: #ffffff;
+      background-color: transparent;
       border: none;
       cursor: pointer;
       color: var(--primary-color);
@@ -254,7 +254,7 @@ h1 {
   .filter::before {
       content: '';
       position: absolute; 
-      transform: translateY(45px);
+      transform: translateY(30px);
       width: 0px;
       height: 2px;
       background: var(--primary-color);
@@ -281,7 +281,7 @@ h1 {
 
 .container {
   margin: 0px 20px;
-  background-color: none;
+  background-color: white;
   overflow-y: auto;
   border: 1px solid var(--primary-color);
   height: fit-content;

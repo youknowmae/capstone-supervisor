@@ -7,7 +7,6 @@ import { DataService } from '../../../../../services/data.service';
 import { UserService } from '../../../../../services/user.service';
 
 import { Router } from '@angular/router';
-import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-list',
@@ -15,7 +14,7 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  displayedColumns: string[] = ['name', 'student_number', 'course', 'program', 'required_hours', 'time_completion', 'student_evaluation', 'exit_poll', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'course', 'program', 'required_hours', 'time_completion', 'student_evaluation', 'status', 'actions'];
 
   unfilteredStudents: any
   dataSource: any = new MatTableDataSource<any>();
@@ -47,13 +46,10 @@ export class ListComponent {
       students => {
         console.log(students)
         let studentsList = students.map((student: any) => {
-          //get all classes
-          if (!this.classList.includes(student.active_ojt_class.class_code)) 
-            this.classList.push(student.active_ojt_class.class_code) 
 
-          if(student.ojt_exit_poll) {
-            student.ojt_exit_poll = "Answered"
-          }
+          // if(student.ojt_exit_poll) {
+          //   student.ojt_exit_poll = "Answered"
+          // }
 
           if(student.student_evaluation) {
             student.student_evaluation = student.student_evaluation.average
@@ -68,12 +64,7 @@ export class ListComponent {
             progress += parseInt(student.accomplishment_report.current_total_hours)
           }
 
-
-          let status = (student.accepted_application) ? 'Ongoing' : 'Pending'
-
-          if(progress >= required_hours && student.ojt_exit_poll && student.student_evaluation) {
-            status = "Completed"
-          }
+          let status = (progress >= required_hours && student.student_evaluation) ? 'Completed' : 'Ongoing'
 
           return {
             full_name: student.first_name + " " + student.last_name,
@@ -126,10 +117,10 @@ export class ListComponent {
     let studentDetails = this.unfilteredStudents.find((student: any) => student.id = id)
 
     console.log(studentDetails)
-    this.ds.get('adviser/monitoring/students/', id).subscribe(
+    this.ds.get('supervisor/students/', id).subscribe(
       student => {
         this.us.setStudentProfile({ ...student, required_hours: studentDetails.required_hours })
-        this.router.navigate(['main/students/view'])
+        this.router.navigate(['main/student/view'])
         this.isLoading = false
       },
       error => {

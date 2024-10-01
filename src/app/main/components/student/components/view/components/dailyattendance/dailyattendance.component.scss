@@ -1,6 +1,6 @@
 .container {
     margin: 30px 20px 10px;
-    background-color: none;
+    background-color: white ;
     overflow-y: auto;
     border: 1px solid var(--primary-color);
     height: fit-content;
@@ -11,6 +11,21 @@
     table {
         box-shadow: none;
         margin-bottom: 10px;
+
+        button {
+            font-size: 12px;
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            padding: 2px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+  
+        button:hover {
+            color: var(--secondary-color);
+            background-color: #ffffff;
+            border: 2px solid var(--secondary-color);
+        }
     }
 
 
