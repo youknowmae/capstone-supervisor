@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { GeneralService } from '../../services/general.service';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,6 @@ export class LoginComponent {
     private gs: GeneralService,
     private as: AuthService,
     private fb: FormBuilder,
-    private router: Router
   ) {
     this.loginForm =  this.fb.group({
       email: ['', [Validators.required, Validators.maxLength(30)]],
@@ -33,9 +31,6 @@ export class LoginComponent {
   }
 
   login() {
-    this.router.navigate(['/main'])
-    return
-
     if(this.isLoggingIn) {
       return
     }

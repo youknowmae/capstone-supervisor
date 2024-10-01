@@ -17,6 +17,7 @@ import { MaterialsModules } from '../../../modules/materials.module';
   imports: [
     CommonModule,
     StudentRoutingModule,
+    MaterialsModules
   ]
 })
 export class StudentModule { }
