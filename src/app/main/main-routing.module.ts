@@ -7,11 +7,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: 'profile', component: ProfileComponent }  ,
   { path: 'student', loadChildren: () => import('./components/student/student.module').then(m => m.StudentModule) },
-  { path: 'application', loadChildren: () => import('./components/student/components/view/view.module').then(m => m.ViewModule) }  
+  { path: 'application', loadChildren: () => import('./components/application/application.module').then(m => m.ApplicationModule) }  
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
-})
+}) 
 export class MainRoutingModule { }
