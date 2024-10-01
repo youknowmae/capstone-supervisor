@@ -5,6 +5,7 @@ import { StudentRoutingModule } from './student-routing.module';
 import { StudentComponent } from './student.component';
 import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
+import { MaterialsModules } from '../../../modules/materials.module';
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { ViewComponent } from './components/view/view.component';
   ],
   imports: [
     CommonModule,
-    StudentRoutingModule
+    StudentRoutingModule,
   ]
 })
 export class StudentModule { }

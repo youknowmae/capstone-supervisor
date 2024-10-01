@@ -1,3 +1,4 @@
+import { DataSource } from '@angular/cdk/collections';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './dailyattendance.component.scss'
 })
 export class DailyattendanceComponent {
+  displayedColumns = []
 
+  dataSource: any
+  progress = {
+    total_hours: 0,
+    required_hours: 0,
+    remarks: ''
+  }
 }

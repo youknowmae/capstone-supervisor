@@ -6,6 +6,7 @@ import { ViewComponent } from './view.component';
 import { StudentprofileComponent } from './components/studentprofile/studentprofile.component';
 import { DailyattendanceComponent } from './components/dailyattendance/dailyattendance.component';
 import { WeeklyreportComponent } from './components/weeklyreport/weeklyreport.component';
+import { MaterialsModules } from '../../../../../modules/materials.module';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { WeeklyreportComponent } from './components/weeklyreport/weeklyreport.co
   ],
   imports: [
     CommonModule,
-    ViewRoutingModule
+    ViewRoutingModule,
+    MaterialsModules,
   ]
 })
 export class ViewModule { }

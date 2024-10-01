@@ -1,7 +1,7 @@
 
-// @use '../node_modules/@angular/material' as mat;
+@use '../node_modules/@angular/material' as mat;
 
-// @include mat.all-component-densities(-1);
+@include mat.all-component-densities(-1);
 
 * {
     font-family: 'Poppins'; 
@@ -11,6 +11,10 @@
     box-sizing: border-box; 
     
 }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {
     font-size: 100%;
