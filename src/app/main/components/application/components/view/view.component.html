@@ -109,12 +109,13 @@
                     </div>
                 </div>
                 
-                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 0">
-                    <button (click)="approveApplication()" style="margin-right: 10px;">Approve</button>
-                    <button (click)="rejectApplication()">Reject</button>
+                
+                <div class="button-container" *ngIf="applicationDetails.status == 3">
+                    <button (click)="approveApplication()">Approve</button>
+                    <!-- <button (click)="approveApplication()" style="margin-left: 10px;">Reject</button> -->
                 </div>
 
-                <div class="approve-btn" *ngIf="applicationDetails.status == 3">
+                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 3">
                     <button (click)="generateEndorsement()" style="margin-right: 10px; width: fit-content;">Generate Endorsement</button>
                 </div> -->
             

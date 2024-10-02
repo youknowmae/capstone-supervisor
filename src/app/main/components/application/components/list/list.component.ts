@@ -50,9 +50,7 @@ export class ListComponent {
         console.log(students)
         let studentsList = students.map((student: any) => {
 
-
-
-          let status = (student.status === 3) ? 'Pending' : 'Accepted'
+          let status = (student.status == 3) ? 'Pending' : 'Accepted'
 
           return {
             full_name: student.user.first_name + " " + student.user.last_name,
