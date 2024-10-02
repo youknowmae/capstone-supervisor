@@ -99,7 +99,7 @@ export class ListComponent {
     this.ds.get('supervisor/applications/', id).subscribe(
       application => {
         this.us.setStudentApplication(application)
-        this.router.navigate(['main/application/view'])
+        this.router.navigate(['main/applications/view'])
         console.log(application)
       },
       error => {
