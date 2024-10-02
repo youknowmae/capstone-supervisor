@@ -1,1 +1,123 @@
-<p>view works!</p>
+<div class="container">
+    <div class="left-content">
+        <div class="upload">
+            <div class="upload-content">
+                <div class="back-btn" [routerLink]="['../../list']">
+                    <span class="back-icon">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </span>
+                    <span>
+                        Back
+                    </span>
+                </div>
+
+                <h4>Documents</h4>
+                 
+                <div class="files" *ngIf="applicationDetails">
+                    <div class="items" *ngFor="let item of applicationDetails.documents">
+                        <div class="name">
+                            <span class="material-symbols-outlined">
+                                picture_as_pdf
+                            </span>
+                            <p>{{ item.file_name }}</p>
+                        </div>
+                        <button
+                        class="delete" 
+                        mat-raised-button
+                        matTooltip="View"
+                        [matTooltipShowDelay] = "400"
+                        (click)="previewDocument(item)">
+                            <i class="fa-solid fa-magnifying-glass" ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="comment">
+            <i class="fa-regular fa-circle-user"></i>
+            <form>
+                <input type="text" [(ngModel)]="commentValue" [ngModelOptions]="{standalone: true}" placeholder="Write a comment...">
+            </form>
+            <span class="material-symbols-outlined" (click)="comment()">
+                send
+            </span>
+        </div>
+
+        <div class="comment-log-container" *ngIf="comments.length > 0">
+            <div class="comment-log">
+                <div class="message-container" *ngFor="let comment of comments">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <div class="message">
+                        <h5> {{ comment.user.first_name }} {{ comment.user.last_name }}</h5>
+                        <p> {{ comment.message }}</p>  
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <div class="right-content">
+        <div class="container">
+            <!--  *ngIf="applicationDetails" -->
+            <div class="image-container">
+                <div class="image">
+                    <img src="/assets/images/LOGO.png">
+                </div>
+            </div>
+                <div class="profile-content">
+                    <div class="profile-row">
+                        <p>Name: </p>
+                        <p>Raven Andre D. Legarde</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Program/Year: </p>
+                        <p>BSIT 3</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Domain Email: </p>
+                        <p>{{ '202110187@gordoncollege.edu.ph' }}</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Contact Number: </p>
+                        <p>{{ '09955838183' }}</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Required Ojt Hours: </p>
+                        <p> 6000 Hrs</p>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="table">
+                        <div class="table-row">
+                            <div class="col-md-6">
+                            <h4>Strong Skills Area</h4>
+                            </div>
+                            <div class="col-md-6">  
+                            <h4>Weak Skills Area</h4>
+                            </div>
+                        </div>
+                        <div class="table-row" *ngFor="let skill of applicationDetails.student.skills">
+                            <div class="col-md-6">
+                            <p> {{ skill.strong_skill }} </p>
+                            </div>
+                            <div class="col-md-6">
+                            <p> {{ skill.weak_skill }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 0">
+                    <button (click)="approveApplication()" style="margin-right: 10px;">Approve</button>
+                    <button (click)="rejectApplication()">Reject</button>
+                </div>
+
+                <div class="approve-btn" *ngIf="applicationDetails.status == 3">
+                    <button (click)="generateEndorsement()" style="margin-right: 10px; width: fit-content;">Generate Endorsement</button>
+                </div> -->
+            
+        </div>
+    </div>
+</div>

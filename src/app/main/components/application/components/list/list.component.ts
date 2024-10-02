@@ -58,9 +58,9 @@ export class ListComponent {
             full_name: student.user.first_name + " " + student.user.last_name,
             // progress,
             // status,
-            id: student.id, 
             status: status,
-            ...student.user
+            ...student.user,
+            id: student.id, 
           } 
         })  
         console.log(studentsList)

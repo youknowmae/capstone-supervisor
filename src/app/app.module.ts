@@ -10,22 +10,26 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptor
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     LoginComponent,
+    PdfPreviewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxDocViewerModule
   ],
   providers: [
     provideClientHydration(),
     provideHttpClient(
-      withInterceptorsFromDi()
+    withInterceptorsFromDi()
     ),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -19,12 +19,17 @@
 :root {
     font-size: 100%;
     --primary-color: #748E63;
-    --primary-font-color: #FEFBE9;
     --main-orange: #F9B572;
+    --semi-transparent-main-orange: #F9B57260;
     --warning-color: #d11515;
+
+    --primary-font-color: #FEFBE9;
     --font-color: white;
+
     --secondary-color: #99B080;
     --secondary-color-semi-transparent: 137, 129, 33, .1;
+
+
     --main-green: #31A463;
     --border-color: rgba(0, 0, 0, 0.12);
     --table-border-color: #e0e0e0;
