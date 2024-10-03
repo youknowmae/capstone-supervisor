@@ -18,7 +18,7 @@
 
             <h2>Welcome Supervisor!</h2>
 
-            <form (submit)="login()" [formGroup]="loginForm" ngNativeValidate autocomplete="on">
+            <form (submit)="login()" ngNativeValidate autocomplete="on">
                 <div class="content">
                     <div class="input">
                         <input type="text" name="email" placeholder="Username" formControlName="email" autocomplete="on">      
@@ -27,8 +27,7 @@
                         <input [type]="visible?'password':'text'" name="password" placeholder="Enter password" formControlName="password" autocomplete="on">
                         
                         <div class="icon">
-                            <span class="password-toggle-icon" (click)="togglePassVisibility()"><i
-                                [ngClass]="visible?'fa-regular fa-eye':'fa-regular fa-eye-slash'"></i></span>
+                            <span class="password-toggle-icon" (click)="togglePassVisibility()"></span>
                         </div>
                     </div>
 

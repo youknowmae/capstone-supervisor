@@ -1,5 +1,6 @@
 .container {
     display: row;
+    background-color: var(--main-bg-color);
 
     .container-content {
         display: flex;
@@ -8,7 +9,7 @@
             display: row;
 
             .clipart {
-                margin-top: -30px;
+                margin-top: -20px;
                 opacity: 0;
                 animation: fadeInUp 1s ease-in-out forwards;
             }
@@ -59,14 +60,18 @@
                 opacity: 0;
                 animation: fadeInUp 2s ease-in-out forwards;
 
+                ::placeholder {
+                    color: var(--primary-color);
+                }
+
                 input {
                     margin: 10px;
                     padding: 15px 25px;
                     width: 400px;
                     border: none;
                     border-radius: 30px;
-                    background-color: #F9E8D9;
-                    color: #EE7214;
+                    background-color: rgba(249, 181, 114, 0.5);
+                    color: var(--primary-color);
                     font-size: 15px;
                     height: 60px;
                     outline: none;
@@ -96,9 +101,9 @@
 
                 button {
                     border: none;
-                    color: var(--secondary-color);
-                    background-color: #F9E8D9;
-                    margin-top: 10px;
+                    color: var(--primary-color);
+                    background-color: rgba(249, 181, 114, 0.5);
+                    margin-top: 20px;
                     padding: 10px 20px;
                     font-size: 19px;
                     border-radius: 20px;
@@ -107,7 +112,7 @@
                 }
 
                 button:hover {
-                    background-color: #EE7214;
+                    background-color: var(--active-color);
                     color: #F9E8D9;
                     transform: scale(1.1);
                 }
