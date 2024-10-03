@@ -1,102 +1,241 @@
-<div class="header">
-    <h1>Profile </h1>
-</div>
-  
 <div class="container">
-    (--isame nalang ba natin sa profile ni student?)
-    <div class="back-btn" [routerLink]="['../list']" routerLinkActive="router-link-active">
-        <span class="icon">
-            <i class="fa-solid fa-arrow-left"></i>
-        </span>
-        <span class="btn-name">
-            Back
-        </span>
-    </div>
-
-    <div class="content">
-        <div class="image">
-            <img [src]="(industryPartner) ? industryPartner.image : '/assets/images/LOGO.png'" alt="logo image">
-        </div>
-        <div class="container-info">
-            <div class="info">
-                <h2>{{ industryPartner.company_name }}</h2>
-                <p>{{ industryPartner.description }}</p>
-                
-                <h3 style="margin: 0; font-weight: 600;" >Company Head:</h3>
-                <p> {{ industryPartner.company_head }}, {{ industryPartner.head_position }}</p>
-
-                <h3 style="margin: 0; font-weight: 600;" >Immediate Supervisor :</h3>
-                <p> {{ industryPartner.immediate_supervisor }}, {{ industryPartner.supervisor_position }}</p>
-                
-                <ul>
-                <li>
-                    <b>Company Address: </b>
-                    {{  industryPartner.street }}
-                    {{  industryPartner.barangay }}
-                    {{  industryPartner.municipality }}
-                </li>
-                <li><b>Official Email Address:</b> {{ industryPartner.email }}</li>
-                <li *ngIf="industryPartner.telephone_number"><b>Telephone Number:</b> {{ industryPartner.telephone_number }}</li>
-                <li *ngIf="industryPartner.fax_number"><b>Fax Number:</b> {{ industryPartner.fax_number }}</li>
-                <li><b>Contact Number:</b> {{ industryPartner.mobile_number }}</li>
-                <li *ngIf="industryPartner.website"><b>Website:</b> {{ industryPartner.website }}</li>
-                </ul>
-                
-                <!-- <div class="slots">
-                    <p>Available Slots: <p>
-                </div> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- <div class="container">
-    <div class="students-content">
-        <h2>Number of Students: {{ dataSource.data.length }}</h2> 
-        
-        <table mat-table>
-            <ng-container matColumnDef="name" >
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element" class="col-md-3"> 
-                    <div class="name">
-                        <p style="margin: 0;"> {{ element.full_name }} </p>
-                        <P style="margin: 0;"> {{ element.user.student_profile.program }}</P>
-                    </div>
-                </td>
-            </ng-container>
-            
-            
-            <ng-container matColumnDef="course" >
-                <th mat-header-cell *matHeaderCellDef> Course </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{ element.user.student_courses[0].course_code }} 
-                </td>
-            </ng-container>
     
-            <ng-container matColumnDef="student_number" >
-                <th mat-header-cell *matHeaderCellDef> Student Number </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{ element.user.student_profile.student_number }} 
-                </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="year_level" >
-                <th mat-header-cell *matHeaderCellDef> Year </th>
-                <td mat-cell *matCellDef="let element"> 
-                    {{ element.user.student_profile.year_level }} 
-                </td>
-            </ng-container>
-            
-            <ng-container matColumnDef="status" >
-                <th mat-header-cell *matHeaderCellDef> Status </th>
-                <td mat-cell *matCellDef="let element"> 
-                </td>
-            </ng-container>
+    <div class="content">
+        <form [formGroup]="formDetails" (submit)="submit()">
+            <div class="form-content">
+                
+                <h3>Profile</h3>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+                <div class="row">
+                    <div class="col-md-5">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Company Name</mat-label>
+                          <input matInput formControlName="company_name">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-10">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput
+                                    cdkTextareaAutosize
+                                    #autosize="cdkTextareaAutosize"
+                                    cdkAutosizeMinRows="3"
+                                    cdkAutosizeMaxRows="3"
+                                    formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <h3>Company Head</h3>
+
+                <div class="row" formGroupName="company_head">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>First Name</mat-label>
+                          <input matInput formControlName="first_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Middle Name</mat-label>
+                          <input matInput formControlName="middle_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Last Name</mat-label>
+                          <input matInput formControlName="last_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline" [floatLabel]="'always'">
+                          <mat-label>Suffix</mat-label>
+                          <mat-select formControlName="ext_name" placeholder="None">
+                            <mat-option [value]="null">None</mat-option>
+                            <mat-option *ngFor="let title of titles" [value]="title">
+                              {{ title }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Position</mat-label>
+                          <input matInput formControlName="head_position">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <h3>Immediate Supervisor <span style="font-size: 14px; font-weight: 300; opacity: .7;">*This can be the same as Company head</span></h3> 
+
+                <div class="row" formGroupName="immediate_supervisor">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>First Name</mat-label>
+                          <input matInput formControlName="first_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Middle Name</mat-label>
+                          <input matInput formControlName="middle_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Last Name</mat-label>
+                          <input matInput formControlName="last_name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline" [floatLabel]="'always'">
+                          <mat-label>Suffix</mat-label>
+                          <mat-select formControlName="ext_name" placeholder="None">
+                            <mat-option [value]="null">None</mat-option>
+                            <mat-option *ngFor="let title of titles" [value]="title">
+                              {{ title }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Position</mat-label>
+                          <input matInput formControlName="supervisor_position">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <h3>Address</h3>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Region</mat-label>
+                            <mat-select formControlName="region">
+                              <mat-option [value]="'III'">
+                                REGION III 
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <!-- <mat-form-field appearance="outline">
+                          <mat-label>Region</mat-label>
+                          <input matInput formControlName="region">
+                        </mat-form-field> -->
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <mat-form-field appearance="outline">
+                            <mat-label>Select Province</mat-label>
+                            <mat-select formControlName="province">
+                              <mat-option [value]="'Zambales'">
+                                ZAMBALES
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field> -->
+                        <mat-form-field appearance="outline">
+                          <mat-label>Province</mat-label>
+                          <input matInput formControlName="province">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <mat-form-field appearance="outline">
+                            <mat-label>Region</mat-label>
+                            <mat-select formControlName="region">
+                              <mat-option *ngFor="let municipality of municipalities" [value]="municipality.citymunDesc">
+                                {{ municipality.citymunDesc }}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <mat-form-field appearance="outline">
+                          <mat-label>Municipality</mat-label>
+                          <input matInput formControlName="municipality">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Barangay</mat-label>
+                          <input matInput formControlName="barangay">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <mat-form-field appearance="outline">
+                          <mat-label>House No./Lot No./Street Name</mat-label>
+                          <input matInput formControlName="street">
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-md-2">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Zip Code</mat-label>
+                          <input matInput formControlName="zip_code">
+                        </mat-form-field>
+                    </div> -->
+                </div>
+                
+                <h3>Contact Information</h3>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Telephone Number</mat-label>
+                          <input matInput formControlName="telephone_number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Mobile Number</mat-label>
+                          <input matInput formControlName="mobile_number">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Fax Number</mat-label>
+                          <input matInput formControlName="fax_number">
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Email Address</mat-label>
+                          <input matInput formControlName="email">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                          <mat-label>URL/Website</mat-label>
+                          <input matInput formControlName="website">
+                        </mat-form-field>
+                    </div>
+                </div>
+            
+                <h3>Logo</h3>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="file-input-container"> 
+                            <div class="label"> Upload Image </div>
+                            <input class="file-input" type="file" accept=".jpeg, .png, .jpg, .svg" (change)="uploadFile($event)"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="btn">
+                <button type="submit" [class.invalid]="formDetails.invalid">Save</button>
+            </div>
+        </form>
     </div>
-</div> -->
-  
-  
+  </div>
