@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { DataService } from '../../../../../../../services/data.service';
+import { UserService } from '../../../../../../../services/user.service';
 
 @Component({
   selector: 'app-studentprofile',
@@ -7,4 +10,19 @@ import { Component } from '@angular/core';
 })
 export class StudentprofileComponent {
   student: any
+
+  constructor(
+    private ds: DataService,
+    private us: UserService
+  ) {
+  }
+
+  ngOnInit() {
+    this.getStudent()
+  }
+
+  getStudent() {
+    this.student = this.us.getStudentProfile()
+    console.log(this.student)
+  }
 }

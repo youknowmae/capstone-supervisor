@@ -29,7 +29,7 @@ import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.compon
   providers: [
     provideClientHydration(),
     provideHttpClient(
-    withInterceptorsFromDi()
+      withInterceptorsFromDi()
     ),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

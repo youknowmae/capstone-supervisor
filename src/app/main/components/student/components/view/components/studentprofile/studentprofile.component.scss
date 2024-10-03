@@ -130,6 +130,41 @@ mat-form-field {
     width: 100%;
 }
 
+//for skill area table
+.table-container {
+  width: 100%; 
+  padding: 5px 10px;
+
+  .table {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+  
+    .table-row {
+      min-height: 40px;
+      display: flex;
+      border-bottom: 1px solid black;
+    }
+    
+    .table-row:last-child {
+      border-bottom: none;
+    }
+  
+    h4 {
+      font-weight: 600;
+    }
+    
+    p, h4 {
+      font-family: poppins;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: 0;
+      padding: 8px 10px;
+    }
+  }
+}
+
 .noItem {
     height: 40px;
   }

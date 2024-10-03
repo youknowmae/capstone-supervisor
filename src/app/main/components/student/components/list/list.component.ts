@@ -119,7 +119,9 @@ export class ListComponent {
     console.log(studentDetails)
     this.ds.get('supervisor/students/', id).subscribe(
       student => {
-        this.us.setStudentProfile({ ...student, required_hours: studentDetails.required_hours })
+        console.log(studentDetails)
+        this.us.setStudentProfile({ ...student, required_hours: studentDetails.active_ojt_class.required_hours })
+
         this.router.navigate(['main/student/view'])
         this.isLoading = false
       },
