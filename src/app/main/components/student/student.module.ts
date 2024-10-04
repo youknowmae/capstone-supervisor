@@ -6,18 +6,22 @@ import { StudentComponent } from './student.component';
 import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
 import { MaterialsModules } from '../../../modules/materials.module';
+import { StudentEvaluationComponent } from './components/student-evaluation/student-evaluation.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
     // StudentComponent,
     ListComponent,
-    ViewComponent
+    ViewComponent,
+    StudentEvaluationComponent
   ],
   imports: [
     CommonModule,
     StudentRoutingModule,
-    MaterialsModules
+    MaterialsModules,
+    ReactiveFormsModule
   ]
 })
 export class StudentModule { }

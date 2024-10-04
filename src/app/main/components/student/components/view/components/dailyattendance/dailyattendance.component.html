@@ -46,7 +46,7 @@
     </div>
 
     <div class="button-container">
-        <button (click)="verifyAllAttendance()" [disabled]="unverified_attendance === 0">Verify All</button>
+        <button (click)="verifyAllAttendance()" *ngIf="unverified_attendance != 0" [disabled]="unverified_attendance == 0">Verify All</button>
         <!-- <button (click)="approveApplication()" style="margin-left: 10px;">Reject</button> -->
     </div>
 </main>
