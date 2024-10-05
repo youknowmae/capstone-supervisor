@@ -49,14 +49,14 @@
     <div class="container">
         <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name" >
-                <th mat-header-cell *matHeaderCellDef class="col-md-3"> Name </th>
-                <td mat-cell *matCellDef="let element" class="col-md-3"> {{ element.full_name }} </td>
+                <th mat-header-cell *matHeaderCellDef class="col-md-2"> Name </th>
+                <td mat-cell *matCellDef="let element" class="col-md-2"> {{ element.full_name }} </td>
             </ng-container>
             
             <!-- inactive -->
-            <ng-container matColumnDef="student_number" >
-                <th mat-header-cell *matHeaderCellDef class="col-md-2"> Student Number </th>
-                <td mat-cell *matCellDef="let element" class="col-md-2"> {{ element.email }} </td>
+            <ng-container matColumnDef="email" >
+                <th mat-header-cell *matHeaderCellDef class="col-md-3"> Domain Email </th>
+                <td mat-cell *matCellDef="let element" class="col-md-3"> {{ element.email + '@gordoncollege.edu.ph' }} </td>
             </ng-container>
             
             <ng-container matColumnDef="course" >
@@ -66,8 +66,8 @@
     
             <!-- inactive -->
             <ng-container matColumnDef="mobile" >
-                <th mat-header-cell *matHeaderCellDef class="col-md-2"> Mobile Number </th>
-                <td mat-cell *matCellDef="let element" class="col-md-2"> {{ element.student_profile.contact_number }} </td>
+                <th mat-header-cell *matHeaderCellDef class="col-md-1"> Mobile Number </th>
+                <td mat-cell *matCellDef="let element" class="col-md-1"> {{ element.student_profile.contact_number }} </td>
             </ng-container>
         
             <ng-container matColumnDef="program">
@@ -94,12 +94,15 @@
             
             <ng-container matColumnDef="time_completion">
                 <th mat-header-cell *matHeaderCellDef class="col-md-2"> Progress </th>
-                <td mat-cell *matCellDef="let element" class="col-md-2">  {{ element.progress + ' hrs' }} / {{ element.active_ojt_class.required_hours + ' hrs' }} </td>
+                <td mat-cell *matCellDef="let element" class="col-md-2">  
+                    <p>{{ element.progress + ' hrs' }} / {{ element.active_ojt_class.required_hours + ' hrs' }} </p>
+                    <p class="sub-text" *ngIf="element.progress >= element.active_ojt_class.required_hours">Completed</p>
+                </td>
             </ng-container>
     
             <ng-container matColumnDef="student_evaluation">
-                <th mat-header-cell *matHeaderCellDef class="col-md-1"> Student Evaluation </th>
-                <td mat-cell *matCellDef="let element" class="col-md-1">  {{ (element.student_evaluation) ?  element.student_evaluation : 'N/A' }} </td>
+                <th mat-header-cell *matHeaderCellDef class="col-md-2"> Student Evaluation </th>
+                <td mat-cell *matCellDef="let element" class="col-md-2">  {{ (element.student_evaluation) ?  element.student_evaluation : 'N/A' }} </td>
             </ng-container>
     
             <!-- inactive -->

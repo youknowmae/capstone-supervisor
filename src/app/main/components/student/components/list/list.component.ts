@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  displayedColumns: string[] = ['name', 'course', 'program', 'required_hours', 'time_completion', 'student_evaluation', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'mobile', 'time_completion', 'student_evaluation', 'status', 'actions'];
+  // displayedColumns: string[] = ['name', 'course', 'program', 'required_hours', 'time_completion', 'student_evaluation', 'status', 'actions'];
 
   unfilteredStudents: any
   dataSource: any = new MatTableDataSource<any>();

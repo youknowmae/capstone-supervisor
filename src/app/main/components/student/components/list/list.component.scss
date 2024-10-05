@@ -317,6 +317,7 @@ h1 {
       font-size: 14px;
       text-align: center;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
   }
@@ -340,4 +341,9 @@ h1 {
       background-color: rgba(var(--secondary-color-semi-transparent));
       transition: all ease-in-out .2s;
   }
+}
+
+.sub-text {
+    color: grey;
+    font-size: 12px;
 }

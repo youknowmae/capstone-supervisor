@@ -31,12 +31,6 @@ export class StudentEvaluationComponent {
     private us: UserService
   ) {
     this.formDetails = this.fb.group({
-      // industry_partner: [null, Validators.required],
-      // assigned_position: [null, [Validators.required, Validators.maxLength(256)]],
-      // assigned_department: [null, [Validators.required, Validators.maxLength(256)]],
-      // brief_job_description: [null, [Validators.required, Validators.maxLength(256)]],
-      // binary_question: this.fb.array([
-      // ]),
       knowledge: this.fb.array([
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
