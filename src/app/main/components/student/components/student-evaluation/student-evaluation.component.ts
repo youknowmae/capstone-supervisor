@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { DataService } from '../../../../../services/data.service';
 import { GeneralService } from '../../../../../services/general.service';
 import { UserService } from '../../../../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -10,6 +11,12 @@ import { UserService } from '../../../../../services/user.service';
   styleUrl: './student-evaluation.component.scss'
 })
 export class StudentEvaluationComponent {
+  id: any 
+  totalRating: number = 0
+  overallPerformance: any = {
+    average: '', 
+    remarks: ''
+  } 
   isSubmitting: boolean = false
   exitPollDetails: any = {
     user: '',
@@ -28,7 +35,8 @@ export class StudentEvaluationComponent {
     private fb: FormBuilder,
     private ds: DataService,
     private gs: GeneralService,
-    private us: UserService
+    private us: UserService,
+    private router: Router,
   ) {
     this.formDetails = this.fb.group({
       knowledge: this.fb.array([
@@ -81,35 +89,98 @@ export class StudentEvaluationComponent {
           this.fb.control(null), 
           this.fb.control(null),
         ])
-      })
+      }),
+      total_rating: [null, Validators.required],
+      remarks: [null, Validators.required],
+      average: [null, Validators.required],
+
     })
   }
 
   ngOnInit() {
-    // this.exitPollDetails.user = this.us.getUser()
 
-    // this.getExitpollSupportingDetails()
 
-    // console.log(this.exitPollDetails)
+    this.id = this.us.getStudentEvaluation()
+
+    if(!this.id) {
+      this.router.navigate(['main/student/list'])
+    }
+
+    this.formDetails.get('knowledge')?.valueChanges.subscribe(values => {
+      this.calculateTotal(); 
+    });
+    
+    this.formDetails.get('skills')?.valueChanges.subscribe(values => {
+      this.calculateTotal();
+    });
+    
+    this.formDetails.get('attitude')?.valueChanges.subscribe(values => {
+      this.calculateTotal();
+    });
+
   }
 
-  getExitpollSupportingDetails() {
-    // return
-    this.ds.get('student/exit-poll/details').subscribe(
-      response => {
-        response.industry_partner.full_address = response.industry_partner.street + ' ' + response.industry_partner.barangay + ' ' + response.industry_partner.municipality + ', ' + response.industry_partner.province
+  getKnowledgeControls() {
+    return (this.formDetails.get('knowledge') as FormArray).controls;
+  }
 
-        this.exitPollDetails.industry_partner = response.industry_partner
-        this.exitPollDetails.total_hours_completed = response.total_hours_completed
+  // Helper to get form array controls for skills
+  getSkillsControls() {
+    return (this.formDetails.get('skills') as FormArray).controls;
+  }
 
-        this.formDetails.patchValue({
-          industry_partner: response.industry_partner.id
-        })
-      },
-      error => {
-        console.error(error)
-      }
-    )
+  // Helper to get form array controls for attitude
+  getAttitudeControls() {
+    return (this.formDetails.get('attitude') as FormArray).controls;
+  }
+
+  // Calculate the total rating
+  calculateTotal() {
+    const knowledgeTotal = this.getKnowledgeControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
+    const skillsTotal = this.getSkillsControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
+    const attitudeTotal = this.getAttitudeControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
+    
+    this.totalRating = knowledgeTotal + skillsTotal + attitudeTotal;
+
+    this.calculateAverage(this.totalRating)
+  }
+  
+  calculateAverage(totalRating: number) {
+    const isKnowledgeInvalid = this.formDetails?.get('knowledge')?.invalid;
+    const isSkillsInvalid = this.formDetails?.get('skills')?.invalid;
+    const isAttitudeInvalid = this.formDetails?.get('attitude')?.invalid;
+
+    if (isKnowledgeInvalid || isSkillsInvalid || isAttitudeInvalid) {
+      return
+    }
+
+    
+
+    let totalRatingAverage = totalRating/130;
+
+    let baseScore = 75 
+    let variable = 25
+
+    this.overallPerformance.average = Math.round((variable * totalRatingAverage) + baseScore)
+
+    let score = this.overallPerformance.average
+    if (score >= 96 && score <= 100) {
+      this.overallPerformance.remarks = "Excellent";
+    } else if (score >= 91 && score <= 95) {
+      this.overallPerformance.remarks = "Very Good";
+    } else if (score >= 86 && score <= 90) {
+      this.overallPerformance.remarks = "Good";
+    } else if (score >= 81 && score <= 85) {
+      this.overallPerformance.remarks = "Fair";
+    } else if (score >= 75 && score <= 80) {
+      this.overallPerformance.remarks = "Poor";
+    } 
+
+    this.formDetails.patchValue({
+      total_rating: this.totalRating,
+      remarks: this.overallPerformance.remarks,
+      average: this.overallPerformance.average,
+    })
   }
 
   submit() {
@@ -131,9 +202,10 @@ export class StudentEvaluationComponent {
 
     this.isSubmitting = true
 
-    this.ds.post('supervisor/students/evaluate/', 4, this.formDetails.value).subscribe(
+    this.ds.post('supervisor/students/evaluate/', this.id, this.formDetails.value).subscribe(
       response => {
         console.log('response');
+        this.router.navigate(['main/student/list'])
         this.gs.successAlert('Submitted!', response.message)
         this.isSubmitting = false
       },

@@ -132,4 +132,10 @@ export class ListComponent {
       }
     )
   }
+
+  evaluateStudent(id: number) {
+    this.us.setStudentEvaluation(id)
+
+    this.router.navigate(['main/student/evaluation'])
+  }
 }

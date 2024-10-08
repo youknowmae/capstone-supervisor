@@ -15,6 +15,7 @@ interface User {
 export class UserService {
     studentProfile: string = 'studentProfile'
     studentApplication: string = 'studentApplication'
+    studentEvaluation: string = 'studentEvalutation'
     // industryPartner: string = 'industryPartner'
 
     constructor(
@@ -57,6 +58,24 @@ export class UserService {
         return JSON.parse(studentProfile)
     }
 
+    setStudentEvaluation(studentEvaluation: any) {
+        sessionStorage.setItem(this.studentEvaluation, JSON.stringify(studentEvaluation))
+    }
+
+    getStudentEvaluation() {
+        if (!isPlatformBrowser(this.platformId)){
+            return null
+        }
+        
+        let studentEvaluation = sessionStorage.getItem(this.studentEvaluation)
+
+        if(!studentEvaluation) {
+            return null
+        }
+
+        return JSON.parse(studentEvaluation)
+    }
+
     setStudentApplication(studentApplication: any) {
         sessionStorage.setItem(this.studentApplication, JSON.stringify(studentApplication))
     }
@@ -76,18 +95,4 @@ export class UserService {
     }
 
 
-    // getIndustryPartner() {
-    //     if (!isPlatformBrowser(this.platformId)){
-    //         return null
-    //     }
-        
-    //     let industryPartner = sessionStorage.getItem(this.industryPartner)
-
-    //     if(!industryPartner) {
-    //         return null
-    //     }
-
-    //     return JSON.parse(industryPartner)
-
-    // }
 }

@@ -76,7 +76,7 @@
             </thead>
             <tbody formArrayName="knowledge">
                 <tr>
-                    <td colspan="6" style="text-align: left;">B. Knowledge</td>
+                    <td colspan="6">B. Knowledge</td>
                 </tr>
                 <tr>
                     <td>
@@ -482,7 +482,7 @@
                         <b>TOTAL RATING:</b>
                     </td>
                     <td colspan="5">
-                        / 130
+                        {{ totalRating }} / 130
                     </td>
                 </tr>
             </tbody>
@@ -495,7 +495,7 @@
                 <p style="width: 210px; font-weight: 600;">OVER-ALL PERFORMACE:</p>
             </div>
             <div> 
-                <p>97 - Excellent</p>
+                <p *ngIf="overallPerformance.average">{{ overallPerformance.average }} - {{ overallPerformance.remarks }} </p>
             </div>
             
         </div>
