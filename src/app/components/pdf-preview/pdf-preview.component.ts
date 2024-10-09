@@ -26,7 +26,8 @@ export class PdfPreviewComponent {
 
     if(this.data.pdf) {
       this.viewerType = 'pdf'
-      this.docSource = this.data.pdf + '#toolbar=0&navpanes=0&scrollbar=0'
+      this.docSource = this.data.pdf 
+      //  + '#toolbar=0&navpanes=0&scrollbar=0'
     }
   }
   closepopup() {

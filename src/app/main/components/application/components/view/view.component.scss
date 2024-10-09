@@ -4,12 +4,13 @@
     width: 100%;
 }
 
-.left-content {
+.right-container {
     flex: 0 0 auto;
     width: 41.66666667%;
     display: flex;
     padding: 0 15px;
     flex-direction: column;
+    margin-bottom: 30px;
 
     .comment {
         display: flex;
@@ -34,11 +35,6 @@
         border-radius: 15px;
         margin-bottom: 20px;
     
-        .back-btn { 
-            color: #898121;
-            padding-bottom: 15px;
-            cursor: pointer;
-        }
     
         h4 {
             color: #898121;
@@ -96,10 +92,12 @@
     }
 }
 
-.right-content {
+.left-container {
     flex: 0 0 auto;
     width: 58.3333333%;
     padding: 0 15px;
+    margin-bottom: 30px;
+
     .container {
         display: flex;
         flex-direction: column;
@@ -132,7 +130,8 @@
             flex-direction: column;
           
             .table-row {
-              height: 40px;
+              min-height: 40px;
+              height: fit-content;
               display: flex;
               border-bottom: 1px solid black;
           
@@ -237,11 +236,9 @@
     }
 }
 
-//general
-.content {
+.skill-area {
     margin-top: 25px;
     margin-bottom: 10px;
-
 }
 
 .profile-content {
@@ -262,6 +259,9 @@
 
         p {
             width: 50%;
+            word-wrap: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 }
@@ -289,12 +289,54 @@
         background-color: white;
     }
 }
+
+.back-btn { 
+    width: fit-content;
+    color: #898121;
+    padding-bottom: 15px;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 1120px) {
     .container {
         flex-direction: column;
     }
-    .left-content, .right-content {
+    .right-container, .left-container {
         width: 100%;
     }
+
+    .profile-content {
+        padding: 0;
+        font-size: 14px;
+    }
+
+    .skill-area {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+
+    .profile-content {
+        font-size: 12px;
+    }
+
+    .skill-area {
+        font-size: 12px;
+    } 
+
+    .upload {
+        h4 {
+            font-size: 18px !important;
+        }
+
+        .items i {
+            font-size: 16px !important;
+        }
+
+        span {
+            font-size: 28px !important;
+        }
+    } 
 }
 

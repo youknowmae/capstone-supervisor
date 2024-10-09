@@ -1,15 +1,77 @@
 <div class="container">
-    <div class="left-content">
+    <div class="left-container">
+        <div class="container">
+            <div class="back-btn" [routerLink]="['../list']">
+                <span class="back-icon">
+                    <i class="fa-solid fa-arrow-left-container"></i>
+                </span>
+                <span>
+                    Back
+                </span>
+            </div>
+            <div class="image-container">
+                <div class="image">
+                    <img src="/assets/images/LOGO.png">
+                </div>
+            </div>
+                <div class="profile-content">
+                    <div class="profile-row">
+                        <p>Name: </p>
+                        <p>Raven Andre D. Legarde</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Program/Year: </p>
+                        <p>BSIT 3</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Domain Email: </p>
+                        <p>{{ '202110187@gordoncollege.edu.ph' }}</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Contact Number: </p>
+                        <p>{{ '09955838183' }}</p>
+                    </div>
+                    <div class="profile-row">
+                        <p>Required Ojt Hours: </p>
+                        <p> 6000 Hrs</p>
+                    </div>
+                </div>
+                <div class="skill-area">
+                    <div class="table">
+                        <div class="table-row">
+                            <div class="col-md-6">
+                            <h4>Strong Skills Area</h4>
+                            </div>
+                            <div class="col-md-6">  
+                            <h4>Weak Skills Area</h4>
+                            </div>
+                        </div>
+                        <div class="table-row" *ngFor="let skill of applicationDetails.student.skills">
+                            <div class="col-md-6">
+                            <p> {{ skill.strong_skill }} </p>
+                            </div>
+                            <div class="col-md-6">
+                            <p> {{ skill.weak_skill }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="button-container" *ngIf="applicationDetails.status == 3">
+                    <button (click)="approveApplication()">Approve</button>
+                    <!-- <button (click)="approveApplication()" style="margin-left-container: 10px;">Reject</button> -->
+                </div>
+
+                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 3">
+                    <button (click)="generateEndorsement()" style="margin-right: 10px; width: fit-content;">Generate Endorsement</button>
+                </div> -->
+            
+        </div>
+    </div>
+    <div class="right-container">
         <div class="upload">
             <div class="upload-content">
-                <div class="back-btn" [routerLink]="['../list']">
-                    <span class="back-icon">
-                        <i class="fa-solid fa-arrow-left"></i>
-                    </span>
-                    <span>
-                        Back
-                    </span>
-                </div>
 
                 <h4>Documents</h4>
                  
@@ -58,67 +120,4 @@
 
     </div>
 
-    <div class="right-content">
-        <div class="container">
-            <!--  *ngIf="applicationDetails" -->
-            <div class="image-container">
-                <div class="image">
-                    <img src="/assets/images/LOGO.png">
-                </div>
-            </div>
-                <div class="profile-content">
-                    <div class="profile-row">
-                        <p>Name: </p>
-                        <p>Raven Andre D. Legarde</p>
-                    </div>
-                    <div class="profile-row">
-                        <p>Program/Year: </p>
-                        <p>BSIT 3</p>
-                    </div>
-                    <div class="profile-row">
-                        <p>Domain Email: </p>
-                        <p>{{ '202110187@gordoncollege.edu.ph' }}</p>
-                    </div>
-                    <div class="profile-row">
-                        <p>Contact Number: </p>
-                        <p>{{ '09955838183' }}</p>
-                    </div>
-                    <div class="profile-row">
-                        <p>Required Ojt Hours: </p>
-                        <p> 6000 Hrs</p>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="table">
-                        <div class="table-row">
-                            <div class="col-md-6">
-                            <h4>Strong Skills Area</h4>
-                            </div>
-                            <div class="col-md-6">  
-                            <h4>Weak Skills Area</h4>
-                            </div>
-                        </div>
-                        <div class="table-row" *ngFor="let skill of applicationDetails.student.skills">
-                            <div class="col-md-6">
-                            <p> {{ skill.strong_skill }} </p>
-                            </div>
-                            <div class="col-md-6">
-                            <p> {{ skill.weak_skill }} </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="button-container" *ngIf="applicationDetails.status == 3">
-                    <button (click)="approveApplication()">Approve</button>
-                    <!-- <button (click)="approveApplication()" style="margin-left: 10px;">Reject</button> -->
-                </div>
-
-                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 3">
-                    <button (click)="generateEndorsement()" style="margin-right: 10px; width: fit-content;">Generate Endorsement</button>
-                </div> -->
-            
-        </div>
-    </div>
 </div>

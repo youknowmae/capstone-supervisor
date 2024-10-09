@@ -31,6 +31,8 @@ export class ViewComponent {
   getApplicationDetails() {
     let application = this.us.getStudentApplication()
     
+    
+
     this.applicationDetails = {
       id: application.id, 
       status: application.status, 
@@ -38,11 +40,16 @@ export class ViewComponent {
         email: application.user.email, 
         full_name: application.user.first_name + " " + application.user.last_name,
         ...application.user.student_profile,
-        skills: application.user.student_skills.skills
+        skills: application.user.student_skills?.skills
       },
       documents: application.application_documents
     }
       
+    this.applicationDetails.student.skills = [
+      { strong_skill: '', weak_skill: '' },
+      { strong_skill: '', weak_skill: '' },
+      { strong_skill: '', weak_skill: '' }
+    ]
     console.log(this.applicationDetails)
   }
 
