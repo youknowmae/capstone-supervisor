@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import Swal from 'sweetalert2';
 import { LocationService } from '../../../services/location.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,7 +30,8 @@ export class ProfileComponent {
     private fb: FormBuilder,
     private ds: DataService,
     private gs: GeneralService,
-    private ls: LocationService
+    private ls: LocationService,
+    private us: UserService
   ) {
     this.formDetails = this.fb.group({
       company_name: [null, [Validators.required, Validators.maxLength(64)]],
@@ -40,7 +42,8 @@ export class ProfileComponent {
         first_name: [null, [Validators.required, Validators.maxLength(64)]],
         middle_name: [null, [Validators.maxLength(64)]],
         last_name: [null, [Validators.required, Validators.maxLength(64)]],
-        ext_name: [null], // Optional, no validators
+        ext_name: [null], 
+        sex: [null, Validators.required],
       }),
 
       head_position: [null, [Validators.required, Validators.maxLength(64)]],
@@ -51,7 +54,8 @@ export class ProfileComponent {
         first_name: [null, [Validators.required, Validators.maxLength(64)]],
         middle_name: [null, [Validators.maxLength(64)]],
         last_name: [null, [Validators.required, Validators.maxLength(64)]],
-        ext_name: [null], // Optional, no validators
+        ext_name: [null],
+        sex: [null, Validators.required],
       }),
       supervisor_position: [null, [Validators.required, Validators.maxLength(64)]],
   
@@ -83,8 +87,7 @@ export class ProfileComponent {
   getCompanyProfile() {
     this.ds.get('supervisor/profile').subscribe(
       profile => {
-        console.log(profile )
-        console.log(profile.company_head)
+        console.log(profile)
         this.formDetails.patchValue({...profile})
       },
       error => {
@@ -94,6 +97,17 @@ export class ProfileComponent {
   }
 
   submit() {
+    if(this.formDetails.invalid) {
+      const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
+      
+      if (firstInvalidControl) {
+        firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+  
+      this.formDetails.markAllAsTouched();
+      return;
+    }
+    
     Swal.fire({
       title: "Save?",
       text: "Your changes will be saved",
@@ -144,7 +158,14 @@ export class ProfileComponent {
     
     this.ds.post('supervisor/profile', '', payload).subscribe(
       response => {
+        console.log(response)
         this.gs.successAlert(response.title, response.message)
+
+
+        let user = this.us.getUser()
+        user.industry_partner.image = response.image
+
+        this.us.setUser(user)
       },
       error => {
         console.error(error)
@@ -174,7 +195,7 @@ export class ProfileComponent {
   // }
 
   getLocation() {
-    this.municipalities = this.ls.getMunicipality()
+    // this.municipalities = this.ls.getMunicipality()
     // this.regions = this.ls.getRegions()
   }
   

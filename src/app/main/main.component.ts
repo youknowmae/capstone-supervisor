@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { GeneralService } from '../services/general.service';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-main',
@@ -10,11 +11,20 @@ import { Router } from '@angular/router';
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  user: any
+
   constructor(
     private as: AuthService,
+    private us: UserService,
     private gs: GeneralService, 
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.user = this.us.getUser()
+    console.log(this.user)
+  }
+
   logout() {
     Swal.fire({
       icon: 'warning',
