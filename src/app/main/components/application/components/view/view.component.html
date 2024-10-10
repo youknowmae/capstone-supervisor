@@ -17,23 +17,23 @@
                 <div class="profile-content">
                     <div class="profile-row">
                         <p>Name: </p>
-                        <p>Raven Andre D. Legarde</p>
+                        <p>{{ applicationDetails.student.full_name }}</p>
                     </div>
                     <div class="profile-row">
                         <p>Program/Year: </p>
-                        <p>BSIT 3</p>
+                        <p>{{ applicationDetails.student.program }} {{ applicationDetails.student.year_level }}</p>
                     </div>
                     <div class="profile-row">
                         <p>Domain Email: </p>
-                        <p>{{ '202110187@gordoncollege.edu.ph' }}</p>
+                        <p>{{ applicationDetails.student.email  + '@gordoncollege.edu.ph' }}</p>
                     </div>
                     <div class="profile-row">
                         <p>Contact Number: </p>
-                        <p>{{ '09955838183' }}</p>
+                        <p>{{ applicationDetails.student.contact_number }}</p>
                     </div>
                     <div class="profile-row">
                         <p>Required Ojt Hours: </p>
-                        <p> 6000 Hrs</p>
+                        <p> {{ applicationDetails.student.required_hours }} Hrs</p>
                     </div>
                 </div>
                 <div class="skill-area">

@@ -40,10 +40,15 @@ export class ViewComponent {
         email: application.user.email, 
         full_name: application.user.first_name + " " + application.user.last_name,
         ...application.user.student_profile,
-        skills: application.user.student_skills?.skills
+        skills: application.user.student_skills?.skills,
+        ...application.user.active_ojt_class
       },
       documents: application.application_documents
     }
+
+    console.log(application)
+    if(application.application_endorsement)
+      this.applicationDetails.documents.unshift(application.application_endorsement)
       
     this.applicationDetails.student.skills = [
       { strong_skill: '', weak_skill: '' },
