@@ -1,4 +1,25 @@
 <main>
+    <div class="container-header">
+        <div class="col-md-2">
+            <mat-form-field>
+                <mat-label>From</mat-label>
+                <input matInput [(ngModel)]="dateFilter.from" [matDatepicker]="pickerFrom" (dateChange)="checkDateFilter()">
+                <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-md-2">
+            <mat-form-field>
+              <mat-label>To</mat-label>
+              <input matInput [(ngModel)]="dateFilter.to" [matDatepicker]="pickerTo" (dateChange)="checkDateFilter()">
+              <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+              <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
+              <mat-datepicker #pickerTo></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <button *ngIf="dateFilter.to && dateFilter.from" mat-button class="clear-button" (click)="clearDateFilter()">Clear</button>
+    </div>
     <div class="container">
         <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="date" >

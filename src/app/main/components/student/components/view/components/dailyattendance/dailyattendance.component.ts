@@ -5,15 +5,18 @@ import { UserService } from '../../../../../../../services/user.service';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { GeneralService } from '../../../../../../../services/general.service';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-dailyattendance',
   templateUrl: './dailyattendance.component.html',
-  styleUrl: './dailyattendance.component.scss'
+  styleUrl: './dailyattendance.component.scss',
+  providers: [provideNativeDateAdapter()],
 })
 export class DailyattendanceComponent {
   displayedColumns: string[] = ['date', 'arrival_time', 'departure_time', 'total_hours', 'actions'];
 
+  unfilteredData: any = []
   dataSource: any = new MatTableDataSource<any>();
   progress = {
     total_hours: 0,
@@ -23,6 +26,11 @@ export class DailyattendanceComponent {
   unverified_attendance: number = 0
   
   isVerifying: boolean = false
+
+  dateFilter: any = {
+    from: '', 
+    to: ''
+  }
 
   @ViewChild(MatPaginator, {static:true}) paginator!: MatPaginator;
 
@@ -40,6 +48,31 @@ export class DailyattendanceComponent {
     this.getStudent()
   }
 
+  checkDateFilter() {
+    if (this.dateFilter.from && this.dateFilter.to) {
+      console.log(this.dateFilter)
+
+      let data = this.unfilteredData
+
+      let from = new Date(this.dateFilter.from).toISOString();
+      let to = new Date(this.dateFilter.to).toISOString()
+
+      this.dataSource.data = data.filter(
+        (data: any) => {
+          const date = new Date(data.date).toISOString();
+          return date >= from && date <= to;
+        }
+      )
+    }
+  }
+
+  clearDateFilter() {
+    this.dateFilter.from = ''
+    this.dateFilter.to = ''
+
+    this.dataSource.data = this.unfilteredData
+  }
+
   getStudent() {
     let student = this.us.getStudentProfile()
     this.progress.required_hours = student.required_hours
@@ -54,6 +87,7 @@ export class DailyattendanceComponent {
         console.log(response)
 
         this.dataSource.data = response;
+        this.unfilteredData = response
         this.dataSource.paginator = this.paginator;
         
         this.tallyProgress()
