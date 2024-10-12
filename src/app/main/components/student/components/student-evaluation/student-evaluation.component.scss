@@ -211,26 +211,3 @@ h3 {
     flex-direction: column;
     padding: 20px 30px;
 }
-
-.mat-radio-container {
-    height: 15px !important;
-    width: 15px !important;
-}
-
-.mat-radio-outer-circle {
-    height: 15px !important;
-    width: 15px !important;
-}
-
-.mat-radio-inner-circle {
-    height: 15px !important;
-    width: 15px !important;
-}
-
-.mat-radio-button .mat-radio-ripple {
-    height: 30px !important;
-    width: 30px !important;
-    left: calc(50% - 15px) !important;
-    top: calc(50% - 15px) !important;
-    border-radius: 50%;
-}
