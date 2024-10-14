@@ -50,11 +50,12 @@ export class ViewComponent {
     if(application.application_endorsement)
       this.applicationDetails.documents.unshift(application.application_endorsement)
       
-    this.applicationDetails.student.skills = [
-      { strong_skill: '', weak_skill: '' },
-      { strong_skill: '', weak_skill: '' },
-      { strong_skill: '', weak_skill: '' }
-    ]
+    if(this.applicationDetails.student.skills.length == 0)
+      this.applicationDetails.student.skills = [
+        { strong_skill: '', weak_skill: '' },
+        { strong_skill: '', weak_skill: '' },
+        { strong_skill: '', weak_skill: '' }
+      ]
     console.log(this.applicationDetails)
   }
 
