@@ -1,4 +1,4 @@
-<div class="container">
+<div class="card">
     
     <div class="content">
         <form [formGroup]="formDetails" (submit)="submit()">
@@ -255,5 +255,40 @@
                 <button type="submit" [class.invalid]="formDetails.invalid">Save</button>
             </div>
         </form>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="content">
+      <form [formGroup]="passwordDetails" (submit)="changePassword()">
+        
+        <h3>Change Password</h3>
+        <span style="font-size: 14px; font-weight: 300; opacity: .7;">All fields are required. Password must be at least eight (8) characters or more</span>
+        <div class="row">
+          <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Current Password</mat-label>
+                <input type="password" matInput formControlName="current_password">
+              </mat-form-field>
+          </div>
+          <div class="col-md-3" >
+              <mat-form-field appearance="outline">
+                <mat-label>New Password</mat-label>
+                <input type="password" matInput formControlName="new_password">
+              </mat-form-field>
+          </div>
+          <div class="col-md-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Confirm Password</mat-label>
+                <input type="password" matInput formControlName="password_confirmation">
+              </mat-form-field>
+          </div>
+        </div>
+        
+        <div class="btn">
+          <button type="submit" [class.invalid]="formDetails.invalid">Save</button>
+        </div>
+      </form>
     </div>
   </div>
