@@ -272,22 +272,38 @@
     justify-content: flex-end;
 
     button {
-        background-color: var(--secondary-color);
-        border: 2px solid var(--secondary-color);
         padding: 8px;
-        width: 130px;
+        width: 100px;
+        font-size: 14px;
+        margin-left: 10px;
+        padding: 8px 4px;
         border-radius: 2rem;
         text-align: center;
-        font-size: 20px;
         color: #ffffff;
         cursor: pointer;
         transition: all .1s ease-in-out;
     }
 
-    button:hover {
+    .success {
+        background-color: var(--secondary-color);
+        border: 2px solid var(--secondary-color);
+    }
+    
+    .success:hover {
         color: var(--secondary-color);
         background-color: white;
     }
+
+    .warning {
+        background-color: var(--warning-color);
+        border: 2px solid var(--warning-color);
+    }
+
+    .warning:hover {
+        color: var(--warning-color);
+        background-color: white;
+    }
+
 }
 
 .back-btn { 

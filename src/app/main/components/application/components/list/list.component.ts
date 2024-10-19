@@ -23,7 +23,7 @@ export class ListComponent {
   dataSource: any = new MatTableDataSource<any>();
   
   classList: any = []
-  statusFilter: string = 'pending'
+  statusFilter: number | null = 3
   // classFilter: string = 'all'
 
   isLoading: boolean = false
@@ -50,13 +50,21 @@ export class ListComponent {
         console.log(students)
         let studentsList = students.map((student: any) => {
 
-          let status = (student.status == 3) ? 'Pending' : 'Accepted'
+          let status_label 
+
+          if (student.status == 3) 
+            status_label = 'Pending';
+          else if (student.status == 4) 
+            status_label = 'Rejected';
+          else if (student.status == 5) 
+            status_label = 'Accepted';
+          
 
           return {
             full_name: student.user.first_name + " " + student.user.last_name,
             // progress,
-            // status,
-            status: status,
+            status: student.status,
+            label: status_label,
             ...student.user,
             id: student.id, 
           } 
@@ -76,6 +84,7 @@ export class ListComponent {
   }
 
   onStatusFilterChange(event: MatSelectChange) {
+    //3 = pending, 4 = rejected, 5 = accepted
     this.statusFilter = event.value
 
     this.applyFilter()
@@ -85,11 +94,11 @@ export class ListComponent {
     //class filter
     let students = this.unfilteredStudents
     
-    if(this.statusFilter != 'all') {
+    if(this.statusFilter) {
       students = students.filter((student: any) => {
-        return student.status.toLowerCase() === this.statusFilter
+        return student.status == this.statusFilter
       })
-    }
+    } 
 
     this.dataSource.data = students
   }

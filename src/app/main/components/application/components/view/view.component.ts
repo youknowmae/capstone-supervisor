@@ -66,7 +66,7 @@ export class ViewComponent {
     })
   }
 
-  approveApplication() {
+  acceptApplication() {
     Swal.fire({
       title: "Accept?",
       text: "Are you sure you want to accept this application?",
@@ -78,10 +78,35 @@ export class ViewComponent {
       cancelButtonColor: "#777777",
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.apply()
         this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
           response => {
             this.gs.successAlert(response.title, response.message)
+            this.applicationDetails.status = 5
+          },
+          error => {
+            console.error(error)
+          }
+        )
+        console.log(this.applicationDetails)
+      }
+    });
+  }
+
+  rejectApplication() {
+    Swal.fire({
+      title: "Reject?",
+      text: "Are you sure you want to reject this application?",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: "#4f6f52",
+      cancelButtonColor: "#777777",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ds.get('supervisor/applications/reject/', this.applicationDetails.id).subscribe(
+          response => {
+            this.gs.errorAlert(response.title, response.message)
             this.applicationDetails.status = 4
           },
           error => {

@@ -3,7 +3,7 @@
         <div class="container">
             <div class="back-btn" [routerLink]="['../list']">
                 <span class="back-icon">
-                    <i class="fa-solid fa-arrow-left-container"></i>
+                    <i class="fa-solid fa-arrow-left"></i>
                 </span>
                 <span>
                     Back
@@ -59,13 +59,9 @@
                 
                 
                 <div class="button-container" *ngIf="applicationDetails.status == 3">
-                    <button (click)="approveApplication()">Accept</button>
-                    <!-- <button (click)="approveApplication()" style="margin-left-container: 10px;">Reject</button> -->
+                    <button (click)="rejectApplication()" class="warning">Reject</button>
+                    <button (click)="acceptApplication()" class="success">Accept</button>
                 </div>
-
-                <!-- <div class="approve-btn" *ngIf="applicationDetails.status == 3">
-                    <button (click)="generateEndorsement()" style="margin-right: 10px; width: fit-content;">Generate Endorsement</button>
-                </div> -->
             
         </div>
     </div>
