@@ -20,6 +20,8 @@ export class ProfileComponent {
 
   formDetails: FormGroup
   passwordDetails: FormGroup
+  showOldPassword: boolean = false
+  showPassword: boolean = false
 
   //suffixes
   titles: string[] = ['Sr', 'Jr', 'II', 'III', 'IV', 'V'];

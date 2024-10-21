@@ -26,10 +26,6 @@ mat-form-field {
     padding: 0 15px;
     text-align: justify;
   }
-
-  .content {
-    margin-bottom: 30px;
-  }
   
   h3 {
     color: var(--primary-color);
@@ -38,6 +34,13 @@ mat-form-field {
     margin-bottom: 10px;
   }
   
+  .sub-text {
+    margin-bottom: 12px;
+    font-size: 14px; 
+    font-weight: 300;
+    opacity: .7;
+  }
+
   /* Styling for the mat-form-field appearance */
   mat-form-field.appearance-outline {
     margin-bottom: 20px;
@@ -149,4 +152,8 @@ input[type="file"]::file-selector-button {
         background-color: #bbbbbb;
         color: white;
     }
+}
+
+mat-icon {
+  cursor: pointer;
 }

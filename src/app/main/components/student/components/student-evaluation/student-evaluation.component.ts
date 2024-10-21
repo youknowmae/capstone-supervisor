@@ -97,6 +97,11 @@ export class StudentEvaluationComponent {
     })
   }
 
+  get ifNotArray() {
+    return this.formDetails.get('further_employment.if_not') as FormArray;
+  }
+
+
   ngOnInit() {
 
 
@@ -118,6 +123,16 @@ export class StudentEvaluationComponent {
       this.calculateTotal();
     });
 
+    this.formDetails.get('further_employment.response')?.valueChanges.subscribe((value) => {
+      const ifNotArray = this.formDetails.get('further_employment.if_not') as FormArray;
+
+      if (value === '1') {
+        ifNotArray.disable();  
+        ifNotArray.reset()
+      } else {
+        ifNotArray.enable();  
+      }
+    });
   }
 
   getKnowledgeControls() {
