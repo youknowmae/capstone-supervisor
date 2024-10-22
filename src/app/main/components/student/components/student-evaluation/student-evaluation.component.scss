@@ -24,37 +24,12 @@ mat-form-field {
     font-size: 14px;
 }
 
-
-// .table-one {
-//     margin-bottom: 20px;
-
-//     table {
-//         width: 100%;
-//         border-collapse: collapse;
-
-//         th, td {
-//             padding: 10px;
-//             text-align: center;
-//             border: 1px solid #ccc;
-//         }
-
-//         th {
-//             background-color: #f2f2f2;
-//             font-weight: bold;
-//         }
-
-//         .content {
-//             text-align: start;
-//         }
-//     }
-// }
-
-.table-two {
+.training-objective {
     margin-top: 20px;
     margin-bottom: 20px;
 
     input {
-        width: calc(100% - 30px);
+        width: 100%;
         padding: 0px 5px;
         border: navajowhite;
     }
@@ -127,26 +102,6 @@ mat-form-field {
     }
 }
 
-// .large-textarea {
-
-//     h3 {
-//         display: block;
-//         margin-bottom: 10px;
-//     }
-
-//     textarea {
-//         width: 100%;
-//         height: 200px;
-//         border: 1px solid #ccc;
-//         border-radius: 5px;
-//         padding: 10px;
-//         font-size: 14px;
-//         resize: none;
-//         outline: none;
-//         box-shadow: none;
-//     }
-// }
-
 h3 {
     margin-top: 10px;
     padding: 20px 0;
@@ -210,4 +165,8 @@ h3 {
     display: flex;
     flex-direction: column;
     padding: 20px 30px;
+}
+
+p {
+    padding: 10px 0;
 }
