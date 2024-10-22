@@ -4,6 +4,8 @@ import { DataService } from '../../../../../services/data.service';
 import { GeneralService } from '../../../../../services/general.service';
 import { UserService } from '../../../../../services/user.service';
 import { Router } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -17,6 +19,7 @@ export class StudentEvaluationComponent {
     average: '', 
     remarks: ''
   } 
+
   isSubmitting: boolean = false
   exitPollDetails: any = {
     user: '',
@@ -29,6 +32,9 @@ export class StudentEvaluationComponent {
     total_hours_completed: ''
   }
 
+  file: any = null
+  isImage: boolean = false
+  fileSrc: any = null;
   formDetails: FormGroup 
 
   constructor(
@@ -37,6 +43,7 @@ export class StudentEvaluationComponent {
     private gs: GeneralService,
     private us: UserService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.formDetails = this.fb.group({
       knowledge: this.fb.array([
@@ -149,6 +156,37 @@ export class StudentEvaluationComponent {
     return (this.formDetails.get('attitude') as FormArray).controls;
   }
 
+  uploadFile(event: any) {
+    this.file = event.target.files[0];
+    
+    let file = this.file
+    if (file) {
+      const fileType = file.type;
+
+      // Check if the file is an image
+      if (fileType.startsWith('image/')) {
+        this.isImage = true;
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.fileSrc = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } 
+      // Check if the file is a PDF
+      else if (fileType === 'application/pdf') {
+        this.isImage = false;
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.fileSrc = e.target.result+ '#toolbar=0&navpanes=0&scrollbar=0';
+        };
+        reader.readAsDataURL(file);  // Read PDF as Data URL for embedding
+      } else {
+        this.fileSrc = null;  // Reset if not image or PDF
+      }
+    }
+  }
+
+
   // Calculate the total rating
   calculateTotal() {
     const knowledgeTotal = this.getKnowledgeControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
@@ -198,26 +236,41 @@ export class StudentEvaluationComponent {
     })
   }
 
+  formCheck() {
+    const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
+      
+    if (firstInvalidControl) {
+      firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    this.formDetails.markAllAsTouched();
+  }
+
   submit() {
     if(this.isSubmitting) {
       return
     }
 
-    console.log(this.formDetails.value)
-    if(this.formDetails.invalid) {
-      const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
-      
-      if (firstInvalidControl) {
-        firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-  
-      this.formDetails.markAllAsTouched(); // Mark all fields as touched to show validation errors
-      return;
+    if(!this.file) {
+      this.gs.errorAlert('Certificate Required!', 'Please upload the student\'s completion certificate.')
+      return
     }
+
+    console.log(this.formDetails.value)
+
+    var payload = new FormData();
+
+    payload.append('evaluation', JSON.stringify(this.formDetails.value))
+    if(this.file)
+      payload.append('file', this.file)
 
     this.isSubmitting = true
 
-    this.ds.post('supervisor/students/evaluate/', this.id, this.formDetails.value).subscribe(
+    payload.forEach((value, key) => {
+      console.log(key + ': ' + value);
+    });
+    
+    this.ds.post('supervisor/students/evaluate/', this.id, payload).subscribe(
       response => {
         console.log('response');
         this.router.navigate(['main/student/list'])
@@ -235,5 +288,22 @@ export class StudentEvaluationComponent {
         this.isSubmitting = false
       }
     )
+  }
+
+  confirmation() {
+    Swal.fire({
+      title: "Submit?",
+      text: "Are you sure you want to submit this evaluation?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: "#4f6f52",
+      cancelButtonColor: "#777777",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.submit()
+      }
+    });
   }
 }

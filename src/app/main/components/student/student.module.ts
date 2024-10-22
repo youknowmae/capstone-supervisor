@@ -8,6 +8,7 @@ import { ViewComponent } from './components/view/view.component';
 import { MaterialsModules } from '../../../modules/materials.module';
 import { StudentEvaluationComponent } from './components/student-evaluation/student-evaluation.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     StudentRoutingModule,
     MaterialsModules,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxDocViewerModule
   ]
 })
 export class StudentModule { }
