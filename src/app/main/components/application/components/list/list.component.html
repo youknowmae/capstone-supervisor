@@ -21,7 +21,7 @@
                 <mat-form-field>
                     <mat-label>Status Filter</mat-label>
                     <mat-select disableRipple (selectionChange)="onStatusFilterChange($event)" [(value)]="statusFilter">
-                        <mat-option [value]="null"> All Applications</mat-option>
+                        <mat-option [value]="''"> All Applications</mat-option>
                         <mat-option [value]="3"> Pending</mat-option>
                         <mat-option [value]="4"> Rejected</mat-option>
                         <mat-option [value]="5"> Accepted</mat-option>

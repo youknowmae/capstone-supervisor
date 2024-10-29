@@ -23,7 +23,7 @@ export class ListComponent {
   dataSource: any = new MatTableDataSource<any>();
   
   classList: any = []
-  statusFilter: number | null = 3
+  statusFilter: any = ''
   // classFilter: string = 'all'
 
   isLoading: boolean = false

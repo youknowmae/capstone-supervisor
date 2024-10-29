@@ -1,167 +1,169 @@
-<div class="info-header">
-    <i class="fa-regular fa-circle-user"></i>
+<div class="container">
+  <div class="info-header">
+    <div class="info-image">
+      <i class="fa-regular fa-circle-user"></i>
+    </div>
 
     <div class="info-content">
-        <div class="left-table">
-            <p>Student Number</p>
-            <p>Full Name</p>
-            <p>College/Program</p>
-            <p>Domain Email</p>
-            <p>Mobile Number</p>
-        </div>
-        <div class="right-table">
-            <p>{{ student.student_profile.student_number }}</p>
-            <p>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }} {{ student.ext_name }}</p>
-            <p>CCS/{{ student.student_profile.program }}</p>
-            <p>{{ student.student_profile.student_number }}&#64;gordoncollege.edu.ph</p>
-            <p>{{ student.student_profile.contact_number }}</p>
-        </div>
+      <table>
+        <tbody>
+          <tr>
+            <td><p>Student Number</p></td>
+            <td><p>{{ student.student_profile.student_number }}</p></td>
+          </tr>
+          <tr>
+            <td><p>Full Name</p></td>
+            <td><p>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }} {{ student.ext_name }}</p></td>
+          </tr>
+          <tr>
+            <td><p>College/Program</p></td>
+            <td><p>CCS/{{ student.student_profile.program }}</p></td>
+          </tr>
+          <tr>
+            <td><p>Domain Email</p></td>
+            <td><p>{{ student.student_profile.student_number }}&#64;gordoncollege.edu.ph</p></td>
+          </tr>
+          <tr>
+            <td><p>Mobile Number</p></td>
+            <td><p>{{ student.student_profile.contact_number }}</p></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-</div>
-
-<div class="info-container">
-    <div class="content">
-        <h3>Personal Information</h3>
-        <div class="row">
-            <div class="col-md-3">
+  </div>
+  
+  <div class="info-container">
+      <div class="content">
+          <h3>Personal Information</h3>
+          <div class="row">
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [(ngModel)]="student.birth_date" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Civil Status</mat-label>
+                    <input matInput [(ngModel)]="student.student_profile.civil_status" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Gender</mat-label>
+                    <input matInput [(ngModel)]="student.gender" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Citizenship</mat-label>
+                    <input matInput [(ngModel)]="student.citizenship" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Religion</mat-label>
+                    <input matInput  [(ngModel)]="student.religion" readonly>
+                  </mat-form-field>
+              </div>
+          </div>
+  
+          <div class="row">
+              <div class="col-md-4">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Father's name</mat-label>
+                    <input matInput [(ngModel)]="student.student_profile.father_name" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Employment</mat-label>
+                    <input matInput [(ngModel)]="student.student_profile.father_employment" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-4">
                 <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Date of Birth</mat-label>
-                  <input matInput [(ngModel)]="student.birth_date" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Civil Status</mat-label>
-                  <input matInput [(ngModel)]="student.student_profile.civil_status" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Gender</mat-label>
-                  <input matInput [(ngModel)]="student.gender" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Citizenship</mat-label>
-                  <input matInput [(ngModel)]="student.citizenship" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Religion</mat-label>
-                  <input matInput  [(ngModel)]="student.religion" readonly>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Father's name</mat-label>
-                  <input matInput [(ngModel)]="student.student_profile.father_name" readonly>
+                  <mat-label>Mother's name</mat-label>
+                  <input matInput  [(ngModel)]="student.student_profile.mother_name" readonly>
                 </mat-form-field>
             </div>
             <div class="col-md-2">
                 <mat-form-field appearance="outline" floatLabel='always'>
                   <mat-label>Employment</mat-label>
-                  <input matInput [(ngModel)]="student.student_profile.father_employment" readonly>
+                  <input matInput [(ngModel)]="student.student_profile.mother_employment" readonly>
                 </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" floatLabel='always'>
-                <mat-label>Mother's name</mat-label>
-                <input matInput  [(ngModel)]="student.student_profile.mother_name" readonly>
-              </mat-form-field>
-          </div>
-          <div class="col-md-2">
-              <mat-form-field appearance="outline" floatLabel='always'>
-                <mat-label>Employment</mat-label>
-                <input matInput [(ngModel)]="student.student_profile.mother_employment" readonly>
-              </mat-form-field>
-          </div>
-        </div>
-    </div>
-
-    <div class="content">
-        <h3>Address</h3>
-        <div class="row">
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Region</mat-label>
-                  <input matInput [(ngModel)]="student.region" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Province</mat-label>
-                  <input matInput [(ngModel)]="student.province" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Municipality</mat-label>
-                  <input matInput [(ngModel)]="student.municipality" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Barangay</mat-label>
-                  <input matInput [(ngModel)]="student.barangay" readonly>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Address</mat-label>
-                  <input matInput [(ngModel)]="student.address" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-2">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Zip Code</mat-label>
-                  <input matInput [(ngModel)]="student.zip_code" readonly>
-                </mat-form-field>
-            </div>
-        </div>
-    </div>
-
-    <!-- skill areas -->
-    <div class="content" *ngIf="student.student_skills">
-      <h3>Skill Areas</h3>
-      <div class="table-container">
-        <div class="table">
-          <div class="table-row">
-            <div class="col-md-6">
-              <h4>Strong Skills Area</h4>
-            </div>
-            <div class="col-md-6">
-              <h4>Weak Skills Area</h4>
             </div>
           </div>
-          <div class="table-row" *ngFor="let skill of student.student_skills.skills">
-            <div class="col-md-6">
-              <p> {{ skill.strong_skill }} </p>
+      </div>
+  
+      <div class="content">
+          <h3>Address</h3>
+          <div class="row">
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Region</mat-label>
+                    <input matInput [(ngModel)]="student.region" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Province</mat-label>
+                    <input matInput [(ngModel)]="student.province" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Municipality</mat-label>
+                    <input matInput [(ngModel)]="student.municipality" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Barangay</mat-label>
+                    <input matInput [(ngModel)]="student.barangay" readonly>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-6">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Address</mat-label>
+                    <input matInput [(ngModel)]="student.address" readonly>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                  <mat-form-field appearance="outline" floatLabel='always'>
+                    <mat-label>Zip Code</mat-label>
+                    <input matInput [(ngModel)]="student.zip_code" readonly>
+                  </mat-form-field>
+              </div>
+          </div>
+      </div>
+  
+      <!-- skills -->
+      <div class="content">
+        <p class="text">I have done a self-evaluation of my abilities  based on my past experiences. Listed below is what I consider my strong and weak skill areas. If i work in your company, I would like an opportunity to increase my proficiency in weak areas.</p>
+        <div class="table-container">
+          <div class="table">
+            <div class="table-row">
+              <div class="col-md-6">
+                <h4>Strong Skills Area</h4>
+              </div>
+              <div class="col-md-6">
+                <h4>Weak Skills Area</h4>
+              </div>
             </div>
-            <div class="col-md-6">
-              <p> {{ skill.weak_skill }} </p>
+            <div class="table-row" *ngFor="let skill of student.student_skills.skills">
+              <div class="col-md-6">
+                <p> {{ skill.strong_skill }} </p>
+              </div>
+              <div class="col-md-6">
+                <p> {{ skill.weak_skill }} </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- skills end -->
     </div>
-
-    <!-- personality test? -->
-   <!-- <div class="content" style="margin-top: 20px;">
-    <h3>Personality Test</h3>
-    <div class="row">
-      <div class="col-md-4">
-          <div class="file-input-container">
-              <button>View</button>
-              <div class="label"> Personality Test Result </div>
-              <div class="text">text</div>
-          </div>
-      </div>
-    </div> -->
 </div>
