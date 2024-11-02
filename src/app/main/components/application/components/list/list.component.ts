@@ -17,7 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class ListComponent {
 
-  displayedColumns: string[] = ['name', 'email', 'mobile', 'course', 'program', 'required_hours', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'mobile', 'program', 'required_hours', 'status', 'actions'];
 
   unfilteredStudents: any
   dataSource: any = new MatTableDataSource<any>();
@@ -38,10 +38,30 @@ export class ListComponent {
     private us: UserService
   ) {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
+    
+    const nameFilterPredicate = (data: any, search: string): boolean => {
+      return data.full_name.toLowerCase().includes(search);
+    } 
+    
+    const emailFilterPredicate = (data: any, search: string): boolean => {
+      // return data.student_profile.student_number.toLowerCase().includes(search);
+      return data.email.toLowerCase().includes(search);
+    } 
+
+    const filterPredicate = (data: any, search: string): boolean => {
+      return (
+        nameFilterPredicate(data, search) ||
+        emailFilterPredicate(data, search)
+      );
+    };
   }
 
   ngOnInit() {
     this.getApplications()
+  }
+
+  search(search: string) {
+    this.dataSource.filter = search.trim().toLowerCase()
   }
 
   getApplications() {
@@ -59,6 +79,7 @@ export class ListComponent {
           else if (student.status == 5) 
             status_label = 'Accepted';
           
+          student.user.email = student.user.email + '@gordoncollege.edu.ph' 
 
           return {
             full_name: student.user.first_name + " " + student.user.last_name,

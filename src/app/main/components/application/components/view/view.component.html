@@ -36,7 +36,7 @@
                         <p> {{ applicationDetails.student.required_hours }} Hrs</p>
                     </div>
                 </div>
-                <div class="skill-area">
+                <div class="skill-area" *ngIf="applicationDetails.student.skills">
                     <div class="table">
                         <div class="table-row">
                             <div class="col-md-6">

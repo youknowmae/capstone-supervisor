@@ -258,7 +258,7 @@ h1 {
   .filter::before {
       content: '';
       position: absolute; 
-      transform: translateY(30px);
+      transform: translateY(45px);
       width: 0px;
       height: 2px;
       background: var(--primary-color);
@@ -273,7 +273,7 @@ h1 {
       display: flex;
 
       .class-filter {
-          width: 160px;
+          width: 180px;
           margin-left: 20px;
       }
 

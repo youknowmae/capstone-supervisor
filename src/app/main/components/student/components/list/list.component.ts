@@ -20,7 +20,6 @@ export class ListComponent {
   unfilteredStudents: any
   dataSource: any = new MatTableDataSource<any>();
   
-  classList: any = []
   statusFilter: string = 'all'
   classFilter: string = 'all'
 
@@ -36,10 +35,32 @@ export class ListComponent {
     private us: UserService
   ) {
     this.paginator = new MatPaginator(this.paginatorIntl, this.changeDetectorRef);
+
+    const nameFilterPredicate = (data: any, search: string): boolean => {
+      return data.full_name.toLowerCase().includes(search);
+    } 
+    
+    const studentNumberFilterPredicate = (data: any, search: string): boolean => {
+      // return data.student_profile.student_number.toLowerCase().includes(search);
+      return data.email.toLowerCase().includes(search);
+    } 
+
+    const filterPredicate = (data: any, search: string): boolean => {
+      return (
+        nameFilterPredicate(data, search) ||
+        studentNumberFilterPredicate(data, search)
+      );
+    };
+
+    this.dataSource.filterPredicate = filterPredicate
   }
 
   ngOnInit() {
     this.getStudents()
+  }
+
+  search(search: string) {
+    this.dataSource.filter = search.trim().toLowerCase()
   }
 
   getStudents() {
@@ -47,6 +68,7 @@ export class ListComponent {
       students => {
         console.log(students)
         let studentsList = students.map((student: any) => {
+          student.email = student.email + '@gordoncollege.edu.ph' 
 
           // if(student.ojt_exit_poll) {
           //   student.ojt_exit_poll = "Answered"

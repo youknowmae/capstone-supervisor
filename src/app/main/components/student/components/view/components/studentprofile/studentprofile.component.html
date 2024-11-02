@@ -131,17 +131,17 @@
                     <input matInput [(ngModel)]="student.address" readonly>
                   </mat-form-field>
               </div>
-              <div class="col-md-2">
+              <!-- <div class="col-md-2">
                   <mat-form-field appearance="outline" floatLabel='always'>
                     <mat-label>Zip Code</mat-label>
                     <input matInput [(ngModel)]="student.zip_code" readonly>
                   </mat-form-field>
-              </div>
+              </div> -->
           </div>
       </div>
   
       <!-- skills -->
-      <div class="content">
+      <div class="content" *ngIf="student.student_skills">
         <p class="text">I have done a self-evaluation of my abilities  based on my past experiences. Listed below is what I consider my strong and weak skill areas. If i work in your company, I would like an opportunity to increase my proficiency in weak areas.</p>
         <div class="table-container">
           <div class="table">
