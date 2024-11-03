@@ -31,13 +31,12 @@ export class ViewComponent {
   getApplicationDetails() {
     let application = this.us.getStudentApplication()
     
-    this.comments = application.application_comments.map((element: any) => {
+    application.application_comments.forEach((element: any) => {
 
-      if(element.supervisor) 
+      if(element.supervisor) {
         element.supervisor = JSON.parse(element.supervisor.immediate_supervisor)
-
-      console.log(element.supervisor.first_name)
-      return element
+        this.comments.push(element)
+      }
     });
 
 
