@@ -1,19 +1,20 @@
 <div class="container">
     <div class="left-container">
-        <div class="container">
-            <div class="back-btn" [routerLink]="['../list']">
-                <span class="back-icon">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </span>
-                <span>
-                    Back
-                </span>
-            </div>
-            <div class="image-container">
-                <div class="image">
-                    <img src="/assets/images/LOGO.png">
+        <div class="card">
+            <div class="student-details">
+                <div class="back-btn" [routerLink]="['../list']">
+                    <span class="back-icon">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </span>
+                    <span>
+                        Back
+                    </span>
                 </div>
-            </div>
+                <div class="image-container">
+                    <div class="image">
+                        <img src="/assets/images/LOGO.png">
+                    </div>
+                </div>
                 <div class="profile-content">
                     <div class="profile-row">
                         <p>Name: </p>
@@ -62,58 +63,49 @@
                     <button (click)="rejectApplication()" class="warning">Reject</button>
                     <button (click)="acceptApplication()" class="success">Accept</button>
                 </div>
-            
+            </div>
         </div>
     </div>
+    
     <div class="right-container">
-        <div class="upload">
-            <div class="upload-content">
-
-                <h4>Documents</h4>
-                 
-                <div class="files" *ngIf="applicationDetails">
-                    <div class="items" *ngFor="let item of applicationDetails.documents">
-                        <div class="name">
-                            <span class="material-symbols-outlined">
-                                picture_as_pdf
-                            </span>
-                            <p>{{ item.file_name }}</p>
+        <div class="card">
+            <div class="upload">
+                <div class="upload-content">
+    
+                    <h4>Documents</h4>
+                     
+                    <div class="files" *ngIf="applicationDetails">
+                        <div class="items" *ngFor="let item of applicationDetails.documents">
+                            <div class="name">
+                                <span class="material-symbols-outlined">
+                                    picture_as_pdf
+                                </span>
+                                <p>{{ item.file_name }}</p>
+                            </div>
+                            <button
+                            class="delete" 
+                            mat-raised-button
+                            matTooltip="View"
+                            [matTooltipShowDelay] = "400"
+                            (click)="previewDocument(item)">
+                                <i class="fa-solid fa-magnifying-glass" ></i>
+                            </button>
                         </div>
-                        <button
-                        class="delete" 
-                        mat-raised-button
-                        matTooltip="View"
-                        [matTooltipShowDelay] = "400"
-                        (click)="previewDocument(item)">
-                            <i class="fa-solid fa-magnifying-glass" ></i>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- <div class="comment">
-            <i class="fa-regular fa-circle-user"></i>
-            <form>
-                <input type="text" [(ngModel)]="commentValue" [ngModelOptions]="{standalone: true}" placeholder="Write a comment...">
-            </form>
-            <span class="material-symbols-outlined" (click)="comment()">
-                send
-            </span>
-        </div>
-
-        <div class="comment-log-container" *ngIf="comments.length > 0">
+        <div class="card" *ngIf="comments.length > 0">
             <div class="comment-log">
                 <div class="message-container" *ngFor="let comment of comments">
                     <i class="fa-regular fa-circle-user"></i>
                     <div class="message">
-                        <h5> {{ comment.user.first_name }} {{ comment.user.last_name }}</h5>
+                        <h5 *ngIf="comment.user"> {{ comment.user.first_name }} {{ comment.user.last_name }}</h5>
+                        <h5 *ngIf="comment.supervisor"> {{ comment.supervisor.first_name }} {{ comment.supervisor.last_name }}</h5>
                         <p> {{ comment.message }}</p>  
                     </div>
                 </div>
             </div>
-        </div> -->
-
+        </div>
     </div>
-
 </div>

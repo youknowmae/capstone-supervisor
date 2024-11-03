@@ -31,7 +31,22 @@ export class ViewComponent {
   getApplicationDetails() {
     let application = this.us.getStudentApplication()
     
-    
+    this.comments = application.application_comments.map((element: any) => {
+
+      if(element.supervisor) 
+        element.supervisor = JSON.parse(element.supervisor.immediate_supervisor)
+
+      console.log(element.supervisor.first_name)
+      return element
+    });
+
+
+    console.log(this.comments)
+    // this.comments = application.application_comments.map(
+    //   (item: any) => {
+    //     console.log(item)
+    //   }
+    // )
 
     this.applicationDetails = {
       id: application.id, 
@@ -56,7 +71,6 @@ export class ViewComponent {
         { strong_skill: '', weak_skill: '' },
         { strong_skill: '', weak_skill: '' }
       ]
-    console.log(this.applicationDetails)
   }
 
   previewDocument(file: any) {
@@ -94,23 +108,34 @@ export class ViewComponent {
 
   rejectApplication() {
     Swal.fire({
-      title: "Reject?",
-      text: "Are you sure you want to reject this application?",
-      icon: "info",
+      title: "Please state the reason for rejection?",
+      // text: "Are you sure you want to reject this application?",
+      // icon: "info",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off"
+      },
       showCancelButton: true,
-      confirmButtonText: 'Yes',
+      confirmButtonText: 'Reject',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: "#4f6f52",
+      confirmButtonColor: "#ff4141",
       cancelButtonColor: "#777777",
     }).then((result) => {
+      console.log(result)
       if (result.isConfirmed) {
-        this.ds.get('supervisor/applications/reject/', this.applicationDetails.id).subscribe(
+        const formData = new FormData
+        formData.append('message', result.value)
+        this.ds.post('supervisor/applications/reject/', this.applicationDetails.id, formData).subscribe(
           response => {
             this.gs.errorAlert(response.title, response.message)
             this.applicationDetails.status = 4
           },
           error => {
             console.error(error)
+            if(error.status = 422) {
+              
+              this.gs.errorAlert(error.error.title, error.error.message)
+            }
           }
         )
         console.log(this.applicationDetails)
