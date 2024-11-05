@@ -126,7 +126,7 @@ export class ViewComponent {
         formData.append('message', result.value)
         this.ds.post('supervisor/applications/reject/', this.applicationDetails.id, formData).subscribe(
           response => {
-            this.gs.errorAlert(response.title, response.message)
+            this.gs.successAlert(response.title, response.message)
             this.applicationDetails.status = 4
           },
           error => {

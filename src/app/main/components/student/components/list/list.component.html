@@ -71,7 +71,7 @@
             <!-- inactive -->
             <ng-container matColumnDef="mobile" >
                 <th mat-header-cell *matHeaderCellDef class="col-md-1"> Mobile Number </th>
-                <td mat-cell *matCellDef="let element" class="col-md-1"> {{ element.student_profile.contact_number }} </td>
+                <td mat-cell *matCellDef="let element" class="col-md-1"> <p style="white-space: nowrap;">{{ element.student_profile.contact_number }} </p></td>
             </ng-container>
         
             <ng-container matColumnDef="program">
