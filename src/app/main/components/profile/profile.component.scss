@@ -153,7 +153,9 @@ input[type="file"]::file-selector-button {
         color: white;
     }
 }
-
-mat-icon {
-  cursor: pointer;
+.change-password {
+  mat-icon {
+    cursor: pointer;
+  }
 }
+

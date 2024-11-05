@@ -22,6 +22,11 @@ export class MainComponent {
 
   ngOnInit(): void {
     this.user = this.us.getUser()
+
+    let supervisor = this.user.industry_partner.immediate_supervisor
+    let supervisorFullName = `${supervisor?.first_name || ''} ${supervisor?.last_name || ''} ${supervisor?.ext_name || ''}`.trim();
+    this.user.industry_partner.immediate_supervisor.full_name = supervisorFullName;
+    
     console.log(this.user)
     this.updateDateTime();
   }
