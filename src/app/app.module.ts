@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
+import { MaterialsModules } from './modules/materials.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.compon
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgxDocViewerModule
+    NgxDocViewerModule,
+    MaterialsModules
   ],
   providers: [
     provideClientHydration(),

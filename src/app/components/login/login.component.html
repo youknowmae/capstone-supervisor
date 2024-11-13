@@ -2,7 +2,7 @@
     <div class="content">
         <div class="left-content">
             <div class="upper">
-                <img src="assets/images/logo.png" alt="Logo">
+                <img src="assets/images/LOGO.png" alt="Logo">
   
                 <div class="titles">
                     <p class="app-name">ITrack</p>
@@ -27,10 +27,16 @@
 
                 <h1>Welcome Supervisor</h1>
 
-                <form  (submit)="login()" [formGroup]="loginForm" ngNativeValidate autocomplete="on">
+                <form (submit)="login()" [formGroup]="loginForm" ngNativeValidate autocomplete="on">
                     <div class="input">
-                        <input type="text" placeholder="Username" formControlName="email">
-                        <input type="password" placeholder="Password" formControlName="password">
+                        <div class="input-container">
+                            <mat-icon matPrefix>account_circle</mat-icon>
+                            <input type="text" placeholder="Username" formControlName="email" required>
+                        </div>
+                        <div class="input-container">
+                            <mat-icon matPrefix>lock</mat-icon>
+                            <input type="password" placeholder="Password" formControlName="password" required>
+                        </div>
                     </div>
 
                     <div class="btn">

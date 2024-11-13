@@ -10,7 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class PdfPreviewComponent {
   fileName: string = '';
-  // pdfSource: SafeResourceUrl
+  pdfSource: SafeResourceUrl
 
   docSource: string = ''
   viewerType: any
@@ -21,14 +21,14 @@ export class PdfPreviewComponent {
     private sanitizer: DomSanitizer
   ) { 
     this.fileName = this.data.name
-    // this.pdfSource = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.pdf);
+    this.pdfSource = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.pdf);
     // console.log(this.pdfSource)
 
-    if(this.data.pdf) {
-      this.viewerType = 'pdf'
-      this.docSource = this.data.pdf 
-      //  + '#toolbar=0&navpanes=0&scrollbar=0'
-    }
+    // if(this.data.pdf) {
+    //   this.viewerType = 'pdf'
+    //   this.docSource = this.data.pdf 
+    //   //  + '#toolbar=0&navpanes=0&scrollbar=0'
+    // }
   }
   closepopup() {
     this.ref.close(null);

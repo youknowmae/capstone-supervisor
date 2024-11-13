@@ -5,10 +5,11 @@
     </div>
     <div class="content">
         <!-- <iframe [src]="pdfSource "></iframe> -->
-        <ngx-doc-viewer
+        <object [data]="pdfSource" width="100%" height="100%"></object>
+        <!-- <ngx-doc-viewer
             [url]="docSource"
             [viewer]="viewerType"
             style="width:100%;height:100%;"
-      ></ngx-doc-viewer>
+      ></ngx-doc-viewer> -->
     </div>
 </div>
