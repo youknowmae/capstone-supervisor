@@ -23,6 +23,13 @@ export class StudentprofileComponent {
 
   getStudent() {
     this.student = this.us.getStudentProfile()
+
+    if(this.student.gender === 1) {
+      this.student.gender = 'Male'
+    }
+    else if(this.student.gender === 2) {
+      this.student.gender = 'Female'
+    }
     console.log(this.student)
   }
 }
