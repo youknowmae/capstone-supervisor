@@ -14,6 +14,7 @@ import { DataService } from '../../../../../services/data.service';
 export class ViewComponent {
   applicationDetails: any = null
   comments: any = []
+  logo: any = null
 
   constructor(
     private ds: DataService,
@@ -34,11 +35,11 @@ export class ViewComponent {
     application.application_comments.forEach((element: any) => {
 
       if(element.supervisor) {
-        element.supervisor = JSON.parse(element.supervisor.immediate_supervisor)
-        this.comments.push(element)
+        let name = JSON.parse(element.supervisor.immediate_supervisor)
+
+        this.comments.push({...name, image: element.supervisor.image, message: element.message})
       }
     });
-
 
     console.log(this.comments)
     // this.comments = application.application_comments.map(
@@ -55,7 +56,8 @@ export class ViewComponent {
         full_name: application.user.first_name + " " + application.user.last_name,
         ...application.user.student_profile,
         skills: application.user.student_skills?.skills,
-        ...application.user.active_ojt_class
+        ...application.user.active_ojt_class,
+        image: application.user.image
       },
       documents: application.application_documents
     }

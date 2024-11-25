@@ -12,7 +12,7 @@
                 </div>
                 <div class="image-container">
                     <div class="image">
-                        <img src="assets/images/profile.png">
+                        <img [src]="(applicationDetails.student.image) ? applicationDetails.student.image : 'assets/images/profile.png'">
                     </div>
                 </div>
                 <div class="profile-content">
@@ -98,10 +98,12 @@
         <div class="card" *ngIf="comments.length > 0">
             <div class="comment-log">
                 <div class="message-container" *ngFor="let comment of comments">
-                    <i class="fa-regular fa-circle-user"></i>
+                    <div class="profile-container">
+                        <img [src]="(comment.image) ? comment.image : 'assets/images/profile.png'">
+                    </div>
                     <div class="message">
-                        <h5 *ngIf="comment.user"> {{ comment.user.first_name }} {{ comment.user.last_name }}</h5>
-                        <h5 *ngIf="comment.supervisor"> {{ comment.supervisor.first_name }} {{ comment.supervisor.last_name }}</h5>
+                        <!-- <h5 *ngIf="comment.user"> {{ comment.user.first_name }} {{ comment.user.last_name }}</h5> -->
+                        <h5 *ngIf="comment"> {{ comment.first_name }} {{ comment.last_name }}</h5>
                         <p> {{ comment.message }}</p>  
                     </div>
                 </div>
