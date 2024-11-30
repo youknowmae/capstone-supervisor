@@ -10,13 +10,6 @@
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-mat-form-field {
-    width: 100%;
-    mat-label {
-        font-size: 14px;
-    }
-}
-
   .row {
     display: flex;
     flex-wrap: wrap;
@@ -90,72 +83,44 @@ input[type="file"]::file-selector-button {
     transition: background-color 200ms;
     left: 10px;
 }
-  
-  .btn {
-    display: flex;
-    justify-content: end;
-    margin-top: 10px;
-  
-    button {
-      font-size: 18px;
+
+.btn {
+  display: flex;
+  justify-content: end;
+  margin-top: 20px;
+  padding: 5px;
+
+  button {
+      font-size: 15px;
       border: none;
-      background-color: var(--tertiary-color);
-      padding: 10px 30px 10px 30px;
-      border-radius: 10px;
-      color: var(--primary-font-color);
+      background-color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      color: #ffffff;
+      padding: 6px;
+      width: 100px;
+      border-radius: 20px;
       cursor: pointer;
-      margin-left: 15px;
-      border: 1px solid  var(--tertiary-color);;
-      transition: background-color 0.3s, color 0.3s, border 0.3s;
-  
-      &:hover {
-        background-color: #ffffff;
-        color:  var(--tertiary-color);;
-      }
-    }
+      font-weight: 500;
+      transition: all .3s ease-in-out;
   }
 
-  .btn {
-    display: flex;
-    justify-content: end;
-    margin-top: 20px;
-    padding: 5px;
+  button:hover {
+      color: var(--primary-color);
+      background-color: #ffffff;
+  }
 
-    button {
-        font-size: 15px;
-        border: none;
-        background-color: var(--primary-color);
-        border: 2px solid var(--primary-color);
-        color: #ffffff;
-        padding: 6px;
-        width: 100px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all .3s ease-in-out;
-    }
+  .invalid {
+      // border: 1px solid #999999;
+      border-color: #eeeeee;
+      background-color: #bbbbbb;
+      color: white;
+  }
 
-    button:hover {
-        color: var(--primary-color);
-        background-color: #ffffff;
-    }
-
-    .invalid {
-        // border: 1px solid #999999;
-        border-color: #eeeeee;
-        background-color: #bbbbbb;
-        color: white;
-    }
-
-    .invalid:hover {
-        border-color: #eeeeee;
-        background-color: #bbbbbb;
-        color: white;
-    }
-}
-.change-password {
-  mat-icon {
-    cursor: pointer;
+  .invalid:hover {
+      border-color: #eeeeee;
+      background-color: #bbbbbb;
+      color: white;
   }
 }
+
 

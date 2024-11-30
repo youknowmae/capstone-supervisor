@@ -1,0 +1,72 @@
+.card {
+    margin: 40px 10px;
+    padding: 20px 30px;
+    background-color: white;
+    overflow-y: auto;
+    border: 1px solid var(--primary-color);
+    height: fit-content;
+    border-radius: 30px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+.text {
+padding: 0 15px;
+text-align: justify;
+}
+
+h3 {
+    color: var(--primary-color);
+    font-size: 22px;
+    transform: translateX(-5px);
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    padding: 5px;
+
+    button {
+        font-size: 15px;
+        border: none;
+        background-color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        color: #ffffff;
+        padding: 6px;
+        width: 100px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all .3s ease-in-out;
+    }
+
+    button:hover {
+        color: var(--primary-color);
+        background-color: #ffffff;
+    }
+
+    .invalid {
+        // border: 1px solid #999999;
+        border-color: #eeeeee;
+        background-color: #bbbbbb;
+        color: white;
+    }
+
+    .invalid:hover {
+        border-color: #eeeeee;
+        background-color: #bbbbbb;
+        color: white;
+    }
+}
+
+.change-password {
+    mat-icon {
+      cursor: pointer;
+    }
+  }

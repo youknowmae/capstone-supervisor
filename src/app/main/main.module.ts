@@ -7,13 +7,15 @@ import { StudentComponent } from './components/student/student.component';
 import { ApplicationComponent } from './components/application/application.component';
 import { MaterialsModules } from '../modules/materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SettingsComponent } from './components/settings/settings.component';
 
 
 @NgModule({
   declarations: [
     ApplicationComponent,
     ProfileComponent,
-    StudentComponent
+    StudentComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,
