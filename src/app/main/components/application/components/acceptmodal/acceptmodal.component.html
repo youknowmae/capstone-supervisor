@@ -1,0 +1,13 @@
+<div class="close" (click)="closeDialog()">
+    <i class="fa-solid fa-x"></i>
+</div>
+<h2 mat-dialog-title>Select an Option</h2>
+<mat-dialog-content>
+  <p>What action would you like to take for this application?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="selectOption('interview')">For Interview</button>
+  <button mat-button (click)="selectOption('accepted')">Accepted</button>
+  <!-- <button mat-button mat-dialog-close>Cancel</button> -->
+</mat-dialog-actions>
+

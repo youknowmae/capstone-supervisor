@@ -5,6 +5,8 @@ import { PdfPreviewComponent } from '../../../../../components/pdf-preview/pdf-p
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DataService } from '../../../../../services/data.service';
+import { AcceptmodalComponent } from '../acceptmodal/acceptmodal.component';
+
 
 @Component({
   selector: 'app-view',
@@ -12,136 +14,160 @@ import { DataService } from '../../../../../services/data.service';
   styleUrl: './view.component.scss'
 })
 export class ViewComponent {
-  applicationDetails: any = null
-  comments: any = []
-  logo: any = null
+  applicationDetails: any = null;
+  comments: any = [];
+  logo: any = null;
 
   constructor(
     private ds: DataService,
-    // private route: ActivatedRoute,
     private dialogRef: MatDialog,
     private gs: GeneralService,
     private us: UserService
-  ) { 
-  }
+  ) {}
 
   ngOnInit() {
-    this.getApplicationDetails()
+    this.getApplicationDetails();
   }
 
   getApplicationDetails() {
-    let application = this.us.getStudentApplication()
-    
+    let application = this.us.getStudentApplication();
+
     application.application_comments.forEach((element: any) => {
+      if (element.supervisor) {
+        let name = JSON.parse(element.supervisor.immediate_supervisor);
 
-      if(element.supervisor) {
-        let name = JSON.parse(element.supervisor.immediate_supervisor)
-
-        this.comments.push({...name, image: element.supervisor.image, message: element.message})
+        this.comments.push({
+          ...name,
+          image: element.supervisor.image,
+          message: element.message,
+        });
       }
     });
 
-    console.log(this.comments)
-    // this.comments = application.application_comments.map(
-    //   (item: any) => {
-    //     console.log(item)
-    //   }
-    // )
+    console.log(this.comments);
 
     this.applicationDetails = {
-      id: application.id, 
-      status: application.status, 
+      id: application.id,
+      status: application.status,
       student: {
-        email: application.user.email, 
-        full_name: application.user.first_name + " " + application.user.last_name,
+        email: application.user.email,
+        full_name:
+          application.user.first_name + ' ' + application.user.last_name,
         ...application.user.student_profile,
         skills: application.user.student_skills?.skills,
         ...application.user.active_ojt_class,
-        image: application.user.image
+        image: application.user.image,
       },
-      documents: application.application_documents
-    }
+      documents: application.application_documents,
+    };
 
-    console.log(application)
-    if(application.application_endorsement)
-      this.applicationDetails.documents.unshift(application.application_endorsement)
-      
-    if(this.applicationDetails.student.skills.length == 0)
+    console.log(application);
+    if (application.application_endorsement)
+      this.applicationDetails.documents.unshift(
+        application.application_endorsement
+      );
+
+    if (this.applicationDetails.student.skills.length == 0)
       this.applicationDetails.student.skills = [
         { strong_skill: '', weak_skill: '' },
         { strong_skill: '', weak_skill: '' },
-        { strong_skill: '', weak_skill: '' }
-      ]
+        { strong_skill: '', weak_skill: '' },
+      ];
   }
 
   previewDocument(file: any) {
     this.dialogRef.open(PdfPreviewComponent, {
-      data: { name: file.file_name, pdf: file.file_location},
-      disableClose: true
-    })
+      data: { name: file.file_name, pdf: file.file_location },
+      disableClose: true,
+    });
   }
 
   acceptApplication() {
     Swal.fire({
-      title: "Accept?",
-      text: "Are you sure you want to accept this application?",
-      icon: "info",
+      title: 'Accept?',
+      text: 'Are you sure you want to accept this application?',
+      icon: 'info',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: "#4f6f52",
-      cancelButtonColor: "#777777",
+      confirmButtonColor: '#4f6f52',
+      cancelButtonColor: '#777777',
     }).then((result) => {
       if (result.isConfirmed) {
         this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
-          response => {
-            this.gs.successAlert(response.title, response.message)
-            this.applicationDetails.status = 5
+          (response) => {
+            this.gs.successAlert(response.title, response.message);
+            this.applicationDetails.status = 5;
           },
-          error => {
-            console.error(error)
+          (error) => {
+            console.error(error);
           }
-        )
-        console.log(this.applicationDetails)
+        );
+        console.log(this.applicationDetails);
       }
     });
   }
 
   rejectApplication() {
     Swal.fire({
-      title: "Please state the reason for rejection?",
-      // text: "Are you sure you want to reject this application?",
-      // icon: "info",
-      input: "text",
+      title: 'Please state the reason for rejection?',
+      input: 'text',
       inputAttributes: {
-        autocapitalize: "off"
+        autocapitalize: 'off',
       },
       showCancelButton: true,
       confirmButtonText: 'Reject',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: "#ff4141",
-      cancelButtonColor: "#777777",
+      confirmButtonColor: '#ff4141',
+      cancelButtonColor: '#777777',
     }).then((result) => {
-      console.log(result)
+      console.log(result);
       if (result.isConfirmed) {
-        const formData = new FormData
-        formData.append('message', result.value)
+        const formData = new FormData();
+        formData.append('message', result.value);
         this.ds.post('supervisor/applications/reject/', this.applicationDetails.id, formData).subscribe(
-          response => {
-            this.gs.successAlert(response.title, response.message)
-            this.applicationDetails.status = 4
+          (response) => {
+            this.gs.successAlert(response.title, response.message);
+            this.applicationDetails.status = 4;
           },
-          error => {
-            console.error(error)
-            if(error.status = 422) {
-              
-              this.gs.errorAlert(error.error.title, error.error.message)
+          (error) => {
+            console.error(error);
+            if ((error.status = 422)) {
+              this.gs.errorAlert(error.error.title, error.error.message);
             }
           }
-        )
-        console.log(this.applicationDetails)
+        );
+        console.log(this.applicationDetails);
       }
     });
   }
 
+  openAcceptModal() {
+    const dialogRef = this.dialogRef.open(AcceptmodalComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'interview') {
+        this.acceptForInterview();
+      } else if (result === 'accepted') {
+        this.acceptApplication();
+      }
+    });
+  }
+
+  acceptForInterview() {
+    Swal.fire({
+      title: 'For Interview?',
+      text: 'Are you sure you want to accept this application for an interview?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#4f6f52',
+      cancelButtonColor: '#777777',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log('Accepted for Interview');
+      }
+    });
+  }
 }

@@ -6,18 +6,22 @@ import { ApplicationComponent } from './application.component';
 import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
 import { MaterialsModules } from '../../../modules/materials.module';
+import { AcceptmodalComponent } from './components/acceptmodal/acceptmodal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     // ApplicationComponent,
     ListComponent,
-    ViewComponent
+    ViewComponent,
+    AcceptmodalComponent
   ],
   imports: [
     CommonModule,
     ApplicationRoutingModule,
-    MaterialsModules
+    MaterialsModules,
+    MatDialogModule
   ]
 })
 export class ApplicationModule { }
