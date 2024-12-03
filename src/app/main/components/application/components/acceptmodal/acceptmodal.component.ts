@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component';
 
 @Component({
@@ -8,23 +8,20 @@ import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component
   styleUrls: ['./acceptmodal.component.scss']
 })
 export class AcceptmodalComponent {
-  constructor(
-    private dialogRef: MatDialogRef<AcceptmodalComponent>,
-    private dialog: MatDialog
-  ) {}
+  constructor(private dialog: MatDialog) {}
 
   selectOption(option: string) {
     if (option === 'interview') {
       this.dialog.open(SchedulemodalComponent, {
-        width: '400px',
+        width: '400px', 
+        disableClose: true,
       });
     } else if (option === 'accepted') {
       console.log('Application Accepted');
     }
-    this.dialogRef.close(option);
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialog.closeAll(); 
   }
 }

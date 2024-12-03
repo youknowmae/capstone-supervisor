@@ -1,18 +1,33 @@
+<div class="close" (click)="closeDialog()">
+  <i class="fa-solid fa-x"></i>
+</div>
 <h2 mat-dialog-title>Schedule Interview</h2>
 <mat-dialog-content>
-  <p>Please select a date and time for the interview:</p>
-  <mat-form-field appearance="fill">
+  <p>Please provide the details for the interview:</p>
+  
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Date</mat-label>
     <input matInput [matDatepicker]="picker" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <mat-form-field appearance="fill">
+
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Time</mat-label>
     <input matInput type="time" required>
   </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Location</mat-label>
+    <input matInput type="text" required placeholder="Enter location">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Reminder (Optional)</mat-label>
+    <textarea matInput placeholder="Add a note or reminder"></textarea>
+  </mat-form-field>
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button>Schedule</button>
+  <button mat-button (click)="schedule()">Schedule</button>
 </mat-dialog-actions>

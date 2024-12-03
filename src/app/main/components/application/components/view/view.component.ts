@@ -143,8 +143,10 @@ export class ViewComponent {
   }
 
   openAcceptModal() {
-    const dialogRef = this.dialogRef.open(AcceptmodalComponent);
-
+    const dialogRef = this.dialogRef.open(AcceptmodalComponent, {
+      disableClose: true, // Prevents closing on outside click
+    });
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'interview') {
         this.acceptForInterview();
@@ -153,6 +155,7 @@ export class ViewComponent {
       }
     });
   }
+  
 
   acceptForInterview() {
     console.log('Accepted for Interview');

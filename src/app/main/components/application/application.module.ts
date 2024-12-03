@@ -9,7 +9,9 @@ import { MaterialsModules } from '../../../modules/materials.module';
 import { AcceptmodalComponent } from './components/acceptmodal/acceptmodal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SchedulemodalComponent } from './components/schedulemodal/schedulemodal.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; // Import this module
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ApplicationRoutingModule,
     MaterialsModules,
     MatDialogModule,
-    BrowserAnimationsModule
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class ApplicationModule { }
