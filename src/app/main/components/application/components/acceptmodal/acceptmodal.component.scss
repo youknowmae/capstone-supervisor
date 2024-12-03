@@ -16,7 +16,7 @@
         font-size: 18px;
         display: flex;
         justify-content: end;
-        margin: 10px;
+        margin: 15px;
         cursor: pointer;
     }
 }
@@ -27,6 +27,7 @@ h2[mat-dialog-title] {
     color: #000000;
     display: flex;
     justify-content: center;
+    margin-bottom: -15px;
 }
   
 mat-dialog-content {

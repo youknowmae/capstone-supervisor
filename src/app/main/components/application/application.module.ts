@@ -8,6 +8,8 @@ import { ViewComponent } from './components/view/view.component';
 import { MaterialsModules } from '../../../modules/materials.module';
 import { AcceptmodalComponent } from './components/acceptmodal/acceptmodal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SchedulemodalComponent } from './components/schedulemodal/schedulemodal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -15,13 +17,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     // ApplicationComponent,
     ListComponent,
     ViewComponent,
-    AcceptmodalComponent
+    AcceptmodalComponent,
+    SchedulemodalComponent
   ],
   imports: [
     CommonModule,
     ApplicationRoutingModule,
     MaterialsModules,
-    MatDialogModule
+    MatDialogModule,
+    BrowserAnimationsModule
   ]
 })
 export class ApplicationModule { }

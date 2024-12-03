@@ -155,19 +155,6 @@ export class ViewComponent {
   }
 
   acceptForInterview() {
-    Swal.fire({
-      title: 'For Interview?',
-      text: 'Are you sure you want to accept this application for an interview?',
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: '#4f6f52',
-      cancelButtonColor: '#777777',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log('Accepted for Interview');
-      }
-    });
+    console.log('Accepted for Interview');
   }
 }
