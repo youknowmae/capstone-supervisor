@@ -20,22 +20,22 @@
         padding: 0;
         width: 100%;
         margin: 0;
-        border-bottom: 3.5px solid #000000;
+        border-bottom: 3.5px solid var(--primary-color);
     }
     
     .tab {
-    width: 50%; /* Make tabs take equal space */
+    width: 50%;
     }
     
     .tab > label {
-        color: #000000;
+        color: var(--main-orange);
         display: block;
         font-size: 17px;
         font-weight: bold;
         line-height: 15px;
         padding: 15px 10px;
         text-align: center;
-        background: #ffffff;
+        background: none;
         font-weight: bold;
         cursor: pointer;
         transition: all 0.3s;
@@ -43,7 +43,7 @@
     
     .tab:hover label {
     color: #ffffff;
-    background-color: var(--primary-color);
+    background-color: var(--main-orange);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     }
@@ -54,7 +54,7 @@
         border-bottom-color: var(--primary-color);
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        background: var(--primary-color);
+        background: var(--main-orange);
         color: #ffffff;
     }
     
