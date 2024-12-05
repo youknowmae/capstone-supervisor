@@ -67,7 +67,7 @@ export class ViewComponent {
         application.application_endorsement
       );
 
-    if (this.applicationDetails.student.skills.length == 0)
+    if (this.applicationDetails.student.skills == null)
       this.applicationDetails.student.skills = [
         { strong_skill: '', weak_skill: '' },
         { strong_skill: '', weak_skill: '' },
