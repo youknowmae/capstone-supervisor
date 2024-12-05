@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { GeneralService } from '../../../../../services/general.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';import { GeneralService } from '../../../../../services/general.service';
 import { UserService } from '../../../../../services/user.service';
 import { PdfPreviewComponent } from '../../../../../components/pdf-preview/pdf-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { DataService } from '../../../../../services/data.service';
 import { AcceptmodalComponent } from '../acceptmodal/acceptmodal.component';
+import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component';
 
 
 @Component({
@@ -159,5 +159,22 @@ export class ViewComponent {
 
   acceptForInterview() {
     console.log('Accepted for Interview');
+  }
+
+  @Input() interviewDetails: {
+    date: string;
+    time: string;
+    location: string;
+    reminder?: string;
+  } = { date: '', time: '', location: '' };
+
+  @Output() onEdit = new EventEmitter<void>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  openScheduleModal() {
+    this.dialogRef.open(SchedulemodalComponent, {
+      width: '400px',        // Adjust modal width as needed
+      disableClose: true,    // Prevent closing when clicking outside
+    });
   }
 }

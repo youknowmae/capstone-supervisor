@@ -330,3 +330,59 @@
     } 
 }
 
+.scheduledinterview{
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    padding: 15px 20px;
+    background-color: var(--semi-transparent-main-orange);
+    box-shadow: var(--shadow);
+
+    h4 {
+        font-size: 20px;
+        color: #898121;
+    }
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .details-table th,
+  .details-table td {
+    border: 1.5px solid var(--primary-color);
+    text-align: center;
+    padding: 8px;
+  }
+  
+  .details-table th {
+    background-color: var(--primary-color);
+    font-weight: bold;
+    color: white;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    button {
+        padding: 10px;
+        background-color: var(--secondary-color);
+        color: white;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: white;
+        border: 2px solid var(--secondary-color);
+        color: var(--secondary-color);
+    }
+  }
+  
+  
+  
+
