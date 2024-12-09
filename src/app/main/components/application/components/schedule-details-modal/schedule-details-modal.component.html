@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>
+    Interview Details 
+    <div class="close" (click)="closeDialog()">
+      <i class="fa-solid fa-x"></i>
+    </div>
+  </h2>
+  
+<mat-dialog-content>
+    <p><strong>Schedule:</strong> {{ data.date | date: 'MMMM d, y' }} {{ formatTime(data.time) }} </p>
+    <p><strong>Mode:</strong> {{ data.mode || 'Not Selected' }}</p>
+    <p>
+    <strong>{{ data.mode === 'virtual' ? 'Meeting Link' : 'Location' }}:</strong>
+    {{ data.location || 'Not Provided' }}
+    </p>
+    <p><strong>Reminder:</strong> {{ data.message || 'No Reminder Set' }}</p>
+    <p *ngIf="data.remarks"><strong>Rechedule Reason:</strong> {{ data.remarks }}</p>
+</mat-dialog-content>

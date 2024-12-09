@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { DataService } from '../../../../../services/data.service';
 import { AcceptmodalComponent } from '../acceptmodal/acceptmodal.component';
 import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component';
+import { ScheduleDetailsModalComponent } from '../schedule-details-modal/schedule-details-modal.component';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ViewComponent {
 
   constructor(
     private ds: DataService,
-    private dialogRef: MatDialog,
+    private dialog: MatDialog,
     private gs: GeneralService,
     private us: UserService
   ) {}
@@ -59,6 +60,7 @@ export class ViewComponent {
         image: application.user.image,
       },
       documents: application.application_documents,
+      interview_schedules: application.interview_schedules
     };
 
     console.log(application);
@@ -76,7 +78,7 @@ export class ViewComponent {
   }
 
   previewDocument(file: any) {
-    this.dialogRef.open(PdfPreviewComponent, {
+    this.dialog.open(PdfPreviewComponent, {
       data: { name: file.file_name, pdf: file.file_location },
       disableClose: true,
     });
@@ -110,7 +112,7 @@ export class ViewComponent {
 
   rejectApplication() {
     Swal.fire({
-      title: 'Please state the reason for rejection?',
+      title: 'Please state the reason for rejection.',
       input: 'text',
       inputAttributes: {
         autocapitalize: 'off',
@@ -143,38 +145,51 @@ export class ViewComponent {
   }
 
   openAcceptModal() {
-    const dialogRef = this.dialogRef.open(AcceptmodalComponent, {
+    const dialogRef = this.dialog.open(AcceptmodalComponent, {
       disableClose: true, // Prevents closing on outside click
     });
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'interview') {
-        this.acceptForInterview();
+        this.forInterview();
       } else if (result === 'accepted') {
         this.acceptApplication();
       }
     });
   }
   
+  forInterview() {
+    let dialog = this.dialog.open(SchedulemodalComponent, {
+      width: '400px', 
+      disableClose: true,
+      data: { id: this.applicationDetails.id}
+    });
 
-  acceptForInterview() {
-    console.log('Accepted for Interview');
+    dialog.afterClosed().subscribe((result) => {
+      if(!result) {
+        return
+      }
+      if (result.action === 'scheduled') {
+        this.applicationDetails.status = 4;
+        this.applicationDetails.interview_schedules.unshift(result.data)
+      } 
+    });
+    
   }
 
-  @Input() interviewDetails: {
-    date: string;
-    time: string;
-    location: string;
-    reminder?: string;
-  } = { date: '', time: '', location: '' };
 
-  @Output() onEdit = new EventEmitter<void>();
-  @Output() onCancel = new EventEmitter<void>();
+  formatTime(time: string): string {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds);
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  }
 
-  openScheduleModal() {
-    this.dialogRef.open(SchedulemodalComponent, {
-      width: '400px',        // Adjust modal width as needed
-      disableClose: true,    // Prevent closing when clicking outside
+  openScheduleDetailsModal(data: any) {
+    this.dialog.open(ScheduleDetailsModalComponent, {
+      width: '400px',        
+      disableClose: true,  
+      data: data
     });
   }
 }

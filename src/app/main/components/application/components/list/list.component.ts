@@ -77,6 +77,12 @@ export class ListComponent {
           else if (student.status == 4) 
             status_label = 'Rejected';
           else if (student.status == 5) 
+            status_label = 'For Schedule';
+          else if (student.status == 6) 
+            status_label = 'Reschedule';
+          else if (student.status == 7) 
+            status_label = 'For Interview';
+          else if (student.status == 8) 
             status_label = 'Accepted';
           
           student.user.email = student.user.email + '@gordoncollege.edu.ph' 

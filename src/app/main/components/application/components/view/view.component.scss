@@ -232,10 +232,17 @@
         }
 
         p {
-            width: 50%;
             word-wrap: break-word;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        p:nth-child(1) {
+            width: 40%;
+        }
+
+        p:nth-child(2) {
+            width: 60%;
         }
     }
 }

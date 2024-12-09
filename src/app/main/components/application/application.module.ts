@@ -12,15 +12,18 @@ import { SchedulemodalComponent } from './components/schedulemodal/schedulemodal
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'; // Import this module
+import { ReactiveFormsModule } from '@angular/forms';
+import { ScheduleDetailsModalComponent } from './components/schedule-details-modal/schedule-details-modal.component';
 
 
 @NgModule({
   declarations: [
     // ApplicationComponent,
-    ListComponent,
+    ListComponent,  
     ViewComponent,
     AcceptmodalComponent,
-    SchedulemodalComponent
+    SchedulemodalComponent,
+    ScheduleDetailsModalComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import { MatNativeDateModule } from '@angular/material/core'; // Import this mod
     MaterialsModules,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule
   ]
 })
 export class ApplicationModule { }

@@ -1,33 +1,52 @@
-<div class="close" (click)="closeDialog()">
-  <i class="fa-solid fa-x"></i>
-</div>
-<h2 mat-dialog-title>Schedule Interview</h2>
+<h2 mat-dialog-title>
+  Interview Details 
+  <div class="close" (click)="closeDialog()">
+    <i class="fa-solid fa-x"></i>
+  </div>
+</h2>
+
 <mat-dialog-content>
   <p>Please provide the details for the interview:</p>
   
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" required>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Time</mat-label>
-    <input matInput type="time" required>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Location</mat-label>
-    <input matInput type="text" required placeholder="Enter location">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Reminder (Optional)</mat-label>
-    <textarea matInput placeholder="Add a note or reminder"></textarea>
-  </mat-form-field>
+  <form [formGroup]="scheduleForm" (ngSubmit)="schedule()" #scheduleFormRef="ngForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" readonly required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Time</mat-label>
+      <input matInput type="time" formControlName="time" required>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Mode</mat-label>
+      <mat-select formControlName="mode" required>
+        <mat-option value="on-site">On-Site</mat-option>
+        <mat-option value="virtual">Virtual</mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ scheduleForm.get('mode')?.value === 'virtual' ? 'Meeting Link' : 'Location' }}</mat-label>
+      <input 
+        matInput  
+        formControlName="location" 
+        required 
+        [placeholder]="scheduleForm.get('mode')?.value === 'virtual' ? 'Enter meeting link' : 'Enter location'">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Reminder (Optional)</mat-label>
+      <textarea matInput formControlName="message" placeholder="Add a note or reminder"></textarea>
+    </mat-form-field>
+  
+    <!-- <button mat-raised-button color="primary" type="submit" [disabled]="appointmentForm.invalid">Submit</button> -->
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click)="schedule()">Schedule</button>
+  <button mat-button form="" (click)="submitForm()">Schedule</button>
 </mat-dialog-actions>
