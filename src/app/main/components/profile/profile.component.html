@@ -226,14 +226,16 @@
               <div class="col-md-4">
                   <mat-form-field appearance="outline">
                     <mat-label>Email Address</mat-label>
-                    <input matInput formControlName="email" readonly>
-                    <mat-icon matIconSuffix>lock</mat-icon>
+                    <input matInput formControlName="email">
+                    <mat-hint>*This will not change your account credentials</mat-hint>
+                    <!-- <mat-icon matIconSuffix>lock</mat-icon> -->
                   </mat-form-field>
               </div>
               <div class="col-md-4">
                   <mat-form-field appearance="outline">
                     <mat-label>URL/Website</mat-label>
                     <input matInput formControlName="website">
+                    <mat-hint>*This can be any social media pages</mat-hint>
                   </mat-form-field>
               </div>
           </div>

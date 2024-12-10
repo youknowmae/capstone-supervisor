@@ -176,6 +176,9 @@ export class ProfileComponent {
             icon: "error",
           });
         }
+        else if (error.status == 409) {
+          this.gs.errorAlert(error.error.title, error.error.message)
+        }
         else {
           Swal.fire({
             title: "error!",

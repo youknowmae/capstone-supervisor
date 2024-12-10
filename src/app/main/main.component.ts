@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { GeneralService } from '../services/general.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-main',
@@ -11,14 +13,27 @@ import { UserService } from '../services/user.service';
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  mobileQuery: MediaQueryList;
   user: any
 
   constructor(
     private as: AuthService,
     private us: UserService,
     private gs: GeneralService, 
-    private router: Router
-  ) {}
+    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef,  
+    private media: MediaMatcher,
+  ) {
+    this.mobileQuery = this.media.matchMedia('(max-width: 680px)');
+    this._mobileQueryListener = () => this.changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+  
+  @ViewChild('sidenav') sidenav!: MatSidenav; // Use @ViewChild to get #sidenav
+  private _mobileQueryListener: () => void;
+
+  //shortcut~~
+  @HostListener('document:keydown', ['$event'])
 
   ngOnInit(): void {
     this.user = this.us.getUser()
@@ -29,6 +44,26 @@ export class MainComponent {
     
     console.log(this.user)
     this.updateDateTime();
+  }
+
+  currentScrollLevel: number = 0
+  hideHeader: boolean = false
+
+  @ViewChild('bodyContent', { static: true }) bodyContent!: ElementRef;
+
+  onScroll(event: any) {
+    const scrollTop = event.target.scrollTop;
+
+    if(scrollTop <= 50) {
+      this.currentScrollLevel = scrollTop
+      this.hideHeader = false
+      return
+    }
+
+    if (Math.abs(this.currentScrollLevel - scrollTop) >= 70) {
+      this.hideHeader = this.currentScrollLevel < scrollTop;
+      this.currentScrollLevel = scrollTop;
+    }
   }
 
   logout() {

@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import  { MatStepperModule } from '@angular/material/stepper';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 
 
@@ -32,7 +33,8 @@ const var_modules = [
     MatRadioModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule,    
 ]
 
 @NgModule({
