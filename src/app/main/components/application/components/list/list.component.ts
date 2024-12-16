@@ -73,9 +73,9 @@ export class ListComponent {
           let status_label 
 
           if (student.status == 3) 
-            status_label = 'Pending';
+            status_label = 'For Approval';
           else if (student.status == 4) 
-            status_label = 'Rejected';
+            status_label = 'Not Approved';
           else if (student.status == 5) 
             status_label = 'For Schedule';
           else if (student.status == 6) 

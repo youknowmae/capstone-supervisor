@@ -118,7 +118,7 @@ export class ViewComponent {
         autocapitalize: 'off',
       },
       showCancelButton: true,
-      confirmButtonText: 'Reject',
+      confirmButtonText: 'Not Approved',
       cancelButtonText: 'Cancel',
       confirmButtonColor: '#ff4141',
       cancelButtonColor: '#777777',

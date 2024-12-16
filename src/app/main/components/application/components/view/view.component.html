@@ -60,7 +60,7 @@
                 
                 
                 <div class="button-container">
-                    <button (click)="rejectApplication()" *ngIf="applicationDetails.status == 3 || applicationDetails.status == 6 ||  applicationDetails.status == 7" class="warning">Reject</button>
+                    <button (click)="rejectApplication()" *ngIf="applicationDetails.status == 3 || applicationDetails.status == 6 ||  applicationDetails.status == 7" class="warning">Not Approved</button>
                     <button (click)="openAcceptModal()" *ngIf="applicationDetails.status == 3" class="success">Accept</button>
                     <button (click)="acceptApplication()" *ngIf="applicationDetails.status == 7" class="success">Accept</button>
                     <button mat-button class="success" (click)="forInterview()" *ngIf="applicationDetails.status == 6">Reschedule</button>
