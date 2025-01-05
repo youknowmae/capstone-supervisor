@@ -32,8 +32,6 @@ export class MainComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav; // Use @ViewChild to get #sidenav
   private _mobileQueryListener: () => void;
 
-  //shortcut~~
-  @HostListener('document:keydown', ['$event'])
 
   ngOnInit(): void {
     this.user = this.us.getUser()
