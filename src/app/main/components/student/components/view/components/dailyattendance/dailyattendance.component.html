@@ -18,7 +18,7 @@
               <mat-datepicker #pickerTo></mat-datepicker>
             </mat-form-field>
         </div>
-        <button *ngIf="dateFilter.to && dateFilter.from" mat-button class="clear-button" (click)="clearDateFilter()">Clear</button>
+        <button mat-ripple *ngIf="dateFilter.to && dateFilter.from" mat-button class="clear-button" (click)="clearDateFilter()">Clear</button>
     </div>
     <div class="container">
         <table mat-table [dataSource]="dataSource">

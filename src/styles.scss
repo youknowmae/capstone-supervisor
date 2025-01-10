@@ -185,8 +185,15 @@ mat-form-field {
     }
 }
 
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-typography p {
+    margin: 0;
+}
+
+.sub-text {
+    margin: 0;
+    color: grey;
+    font-size: 12px;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

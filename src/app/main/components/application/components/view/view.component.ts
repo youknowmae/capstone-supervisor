@@ -7,6 +7,7 @@ import { DataService } from '../../../../../services/data.service';
 import { AcceptmodalComponent } from '../acceptmodal/acceptmodal.component';
 import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component';
 import { ScheduleDetailsModalComponent } from '../schedule-details-modal/schedule-details-modal.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { ScheduleDetailsModalComponent } from '../schedule-details-modal/schedul
   styleUrl: './view.component.scss'
 })
 export class ViewComponent {
+  isLoading: boolean = true
   applicationDetails: any = null;
   comments: any = [];
   logo: any = null;
@@ -23,7 +25,8 @@ export class ViewComponent {
     private ds: DataService,
     private dialog: MatDialog,
     private gs: GeneralService,
-    private us: UserService
+    private us: UserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -31,50 +34,70 @@ export class ViewComponent {
   }
 
   getApplicationDetails() {
-    let application = this.us.getStudentApplication();
+    let id = this.us.getStudentApplication();
 
-    application.application_comments.forEach((element: any) => {
-      if (element.supervisor) {
-        let name = JSON.parse(element.supervisor.immediate_supervisor);
+    this.ds.get('supervisor/applications/', id).subscribe(
+      application => {
+        console.log(application)
 
-        this.comments.push({
-          ...name,
-          image: element.supervisor.image,
-          message: element.message,
+        application.application_comments.forEach((element: any) => {
+          if (element.supervisor) {
+            let name = JSON.parse(element.supervisor.immediate_supervisor);
+    
+            this.comments.push({
+              ...name,
+              image: element.supervisor.image,
+              message: element.message,
+            });
+          }
         });
-      }
-    });
-
-    console.log(this.comments);
-
-    this.applicationDetails = {
-      id: application.id,
-      status: application.status,
-      student: {
-        email: application.user.email,
-        full_name:
-          application.user.first_name + ' ' + application.user.last_name,
-        ...application.user.student_profile,
-        skills: application.user.student_skills?.skills,
-        ...application.user.active_ojt_class,
-        image: application.user.image,
+    
+        console.log(this.comments);
+    
+        this.applicationDetails = {
+          id: application.id,
+          status: application.status,
+          student: {
+            email: application.user.email,
+            full_name:
+              application.user.first_name + ' ' + application.user.last_name,
+            ...application.user.student_profile,
+            skills: application.user.student_skills?.skills,
+            ...application.user.active_ojt_class,
+            image: application.user.image,
+          },
+          documents: application.application_documents,
+          interview_schedules: application.interview_schedules
+        };
+    
+        console.log(application);
+        if (application.application_endorsement)
+          this.applicationDetails.documents.unshift(
+            application.application_endorsement
+          );
+    
+        if (this.applicationDetails.student.skills == null)
+          this.applicationDetails.student.skills = [
+            { strong_skill: '', weak_skill: '' },
+            { strong_skill: '', weak_skill: '' },
+            { strong_skill: '', weak_skill: '' },
+          ];
+        
+        this.isLoading = false
       },
-      documents: application.application_documents,
-      interview_schedules: application.interview_schedules
-    };
+      error => {
+        this.isLoading = false
+        console.error(error)
+        if(error.status === 404) {
+          this.router.navigate(['main/applications/list'])
+          this.gs.errorAlert('Not Found!', 'Application not found.')
+        }
+        else {
+          this.gs.errorAlert('Oops!', 'Something went wrong. Please try again later.')
+        }
+      }
+    )
 
-    console.log(application);
-    if (application.application_endorsement)
-      this.applicationDetails.documents.unshift(
-        application.application_endorsement
-      );
-
-    if (this.applicationDetails.student.skills == null)
-      this.applicationDetails.student.skills = [
-        { strong_skill: '', weak_skill: '' },
-        { strong_skill: '', weak_skill: '' },
-        { strong_skill: '', weak_skill: '' },
-      ];
   }
 
   previewDocument(file: any) {

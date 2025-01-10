@@ -1,5 +1,5 @@
 <div class="card">
-    <form [formGroup]="passwordDetails" (submit)="changePassword()" class="change-password">
+    <form [formGroup]="passwordDetails" (submit)="changePasswordConfirmation()" class="change-password">
       
       <h3>Change Password</h3>
       <p class="sub-text">All fields are required. Password must be at least eight (8) characters or more</p>
@@ -34,7 +34,7 @@
         </div>
       
       <div class="btn">
-        <button type="submit" [class.invalid]="passwordDetails.invalid">Save</button>
+        <button mat-ripple type="submit" [class.invalid]="passwordDetails.invalid">Save</button>
       </div>
     </form>
   </div>

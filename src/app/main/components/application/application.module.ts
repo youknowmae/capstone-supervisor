@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'; // Import this module
 import { ReactiveFormsModule } from '@angular/forms';
 import { ScheduleDetailsModalComponent } from './components/schedule-details-modal/schedule-details-modal.component';
+import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ScheduleDetailsModalComponent } from './components/schedule-details-mod
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoadingSpinnerComponent
   ]
 })
 export class ApplicationModule { }

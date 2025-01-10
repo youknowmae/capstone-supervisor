@@ -14,6 +14,9 @@ export class SettingsComponent {
   showOldPassword: boolean = false
   showPassword: boolean = false
 
+
+  isSubmitting: boolean = false
+
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
@@ -24,6 +27,15 @@ export class SettingsComponent {
       new_password: [null, [Validators.required, Validators.minLength(8)]],
       password_confirmation: [null, [Validators.required, Validators.minLength(8)]]
     })
+  }
+
+  changePasswordConfirmation() {
+    let alert = this.gs.promptConfirmationAlert('Submit?', 'you want to change your password?', 'question')
+    alert.fire().then((result) => {
+      if (result.isConfirmed) {
+        this.changePassword()
+      }
+    });
   }
 
   changePassword() {
@@ -38,6 +50,12 @@ export class SettingsComponent {
       return;
     }
 
+    if(this.isSubmitting) {
+      return
+    }
+
+    this.isSubmitting = true
+
     const new_password = this.passwordDetails.get('new_password')?.value
     const confirm_password = this.passwordDetails.get('password_confirmation')?.value
 
@@ -51,8 +69,10 @@ export class SettingsComponent {
       response => {
         this.gs.successAlert(response.title, response.message)
         this.passwordDetails.reset(this.passwordDetails.value)
+        this.isSubmitting = false
       },
       error => {
+        this.isSubmitting = false
         if(error.status === 422) {
           this.gs.errorAlert("Invalid Input!", "Please double check you inputs.")
         }

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { GeneralService } from '../../../services/general.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
-import Swal from 'sweetalert2';
 import { LocationService } from '../../../services/location.service';
 import { UserService } from '../../../services/user.service';
 import { firstValueFrom } from 'rxjs';
@@ -126,16 +125,9 @@ export class ProfileComponent {
       return;
     }
     
-    Swal.fire({
-      title: "Save?",
-      text: "Your changes will be saved",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: "#4f6f52",
-      cancelButtonColor: "#777777",
-    }).then((result) => {
+    let alert = this.gs.promptConfirmationAlert("Save?", "Your changes will be saved", 'question')
+    
+    alert.fire().then((result) => {
       if (result.isConfirmed) {
         this.create()
       }
