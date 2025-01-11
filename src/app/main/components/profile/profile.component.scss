@@ -13,6 +13,16 @@
   .row {
     display: flex;
     flex-wrap: wrap;
+
+    .job {
+      display: flex;
+
+      i {
+        font-size: 20px;
+        cursor: pointer;
+        margin: 18px 0 0 10px;
+      }
+    }
   }
   
   .text {
@@ -51,6 +61,7 @@
     height: 62.5px;
     display: block;
     position: relative;
+    margin-bottom: 40px;
 }
 
 .file-input{
