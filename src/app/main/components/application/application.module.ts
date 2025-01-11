@@ -15,6 +15,7 @@ import { MatNativeDateModule } from '@angular/material/core'; // Import this mod
 import { ReactiveFormsModule } from '@angular/forms';
 import { ScheduleDetailsModalComponent } from './components/schedule-details-modal/schedule-details-modal.component';
 import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loading-spinner.component';
+import { OJTInfoComponent } from './components/ojtinfo/ojtinfo.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loa
     ViewComponent,
     AcceptmodalComponent,
     SchedulemodalComponent,
-    ScheduleDetailsModalComponent
+    ScheduleDetailsModalComponent,
+    OJTInfoComponent
   ],
   imports: [
     CommonModule,

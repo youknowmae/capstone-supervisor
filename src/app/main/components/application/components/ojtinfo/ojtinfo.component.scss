@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  i {
+    margin-right: 23px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  i:hover {
+    color: red;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+  
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end; 
+
+  button {
+    background-color: var(--primary-color); 
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--secondary-color); 
+    }
+
+    &:first-of-type {
+      margin-right: 10px; 
+    }
+  }
+}

@@ -5,13 +5,15 @@ import { ListComponent } from './components/list/list.component';
 import { ViewComponent } from './components/view/view.component';
 import { AcceptmodalComponent } from './components/acceptmodal/acceptmodal.component';
 import { SchedulemodalComponent } from './components/schedulemodal/schedulemodal.component';
+import { OJTInfoComponent } from './components/ojtinfo/ojtinfo.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
   { path: 'list', component: ListComponent },
   { path: 'view', component: ViewComponent },
   { path: 'acceptmodal', component: AcceptmodalComponent },
-  { path: 'schedulemodal', component: SchedulemodalComponent }
+  { path: 'schedulemodal', component: SchedulemodalComponent },
+  { path: 'ojtinfo', component: OJTInfoComponent }
 ];
 
 @NgModule({
