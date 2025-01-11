@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { GeneralService } from '../../../services/general.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { LocationService } from '../../../services/location.service';
 import { UserService } from '../../../services/user.service';
@@ -72,6 +72,10 @@ export class ProfileComponent {
       fax_number: ['', [Validators.pattern('^[0-9 ()-]+$')]],
       email: [null, [Validators.required, Validators.email]],
       website: ['', [Validators.maxLength(128)]],
+
+      job_requirements: this.fb.array([
+        this.fb.control(null, [Validators.required, Validators.maxLength(32)])
+      ])
     })
   }
 
@@ -80,7 +84,6 @@ export class ProfileComponent {
 
     this.regions = await this.ls.getRegions()
     let regionFormValue =  this.regions.find((data: any) => data.regDesc == this.formDetails.value.region)
-    console.log(regionFormValue)
     
     this.provinces = await this.ls.getProvinces(regionFormValue.regCode)
     let provinceFormValue = this.provinces.find((data: any) => data.provDesc === this.formDetails.value.province)
@@ -88,7 +91,6 @@ export class ProfileComponent {
     this.municipalities = await this.ls.getMunicipalities(provinceFormValue.provCode)
     let municipalityFormValue = this.municipalities.find((data: any) => data.citymunDesc === this.formDetails.value.municipality)
     
-    console.log(this.municipalities)
     this.barangays = await this.ls.getBarangays(municipalityFormValue.citymunCode)
     let barangayFormValue = this.barangays.find((data: any) => data.brgyDesc === this.formDetails.value.barangay)
 
@@ -100,6 +102,24 @@ export class ProfileComponent {
     })
   }
 
+  get requirementsForm(): FormArray {
+    return this.formDetails.get('job_requirements') as FormArray;
+  }
+  
+  addSkillRequirement() {
+    if(this.requirementsForm.length >= 7) {
+      return
+    }
+
+    const requirementsForm: FormControl = this.fb.control(null, [Validators.required, Validators.maxLength(32)])
+
+    this.requirementsForm.push(requirementsForm)
+  }
+
+  removeSkills(Index: number) {
+    this.requirementsForm.removeAt(Index);
+  }
+
   uploadFile(event: any) {
     this.file = event.target.files[0];
   }
@@ -108,6 +128,13 @@ export class ProfileComponent {
     try {
       const profile = await firstValueFrom(this.ds.get('supervisor/profile'));
       this.formDetails.patchValue({ ...profile });
+
+      this.requirementsForm.clear();
+
+      profile.job_requirements.forEach((value: any) => {
+        this.requirementsForm.push(this.fb.control(value, [Validators.required, Validators.maxLength(32)]));
+      });
+
     } catch (error) {
       console.error(error);
     }
@@ -126,7 +153,7 @@ export class ProfileComponent {
     }
     
     let alert = this.gs.promptConfirmationAlert("Save?", "Your changes will be saved", 'question')
-    
+
     alert.fire().then((result) => {
       if (result.isConfirmed) {
         this.create()
@@ -177,6 +204,13 @@ export class ProfileComponent {
 
     formData.append('supervisor_position', this.formDetails.get('supervisor_position')?.value);
     
+    this.requirementsForm.controls.forEach((control, index) => {
+      if (control.value) {
+        formData.append(`job_requirements[${index}]`, control.value);
+      }
+    });
+
+
     if(this.file)
       formData.append('image', this.file);
 
@@ -208,7 +242,6 @@ export class ProfileComponent {
 
   async onRegionChange(region: any) {
     let regCode = region.regCode
-    // console.log(region)
     this.provinces = []
     this.municipalities = []
     this.barangays = []
@@ -219,13 +252,10 @@ export class ProfileComponent {
       barangay: null,
     })
 
-    console.log(this.formDetails.value)
     this.provinces = await this.ls.getProvinces(regCode)
   }
 
   async onProvinceChange(province: any) {
-    // console.log(province)
-    
     this.municipalities = []
     this.barangays = []
 
@@ -238,8 +268,6 @@ export class ProfileComponent {
   }
 
   async onMunicipalityChange(municipality: any) {
-    // console.log(municipality)
-    
     this.barangays = []
 
     this.formDetails.patchValue({
