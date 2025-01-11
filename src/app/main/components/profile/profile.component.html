@@ -229,17 +229,21 @@
       
           <h3>Job/Skills Requirements</h3>
 
-          <div class="row">
-              <div class="col-md-4 job">
-                <mat-form-field appearance="outline">
-                  <mat-label>Requirement</mat-label>
-                  <input matInput formControlName="telephone_number">
-                </mat-form-field>
-
-                <div class="icon">
-                  <i class="fa-solid fa-plus"></i>
-                </div>
+          <div formArrayName="job_requirements">
+            <ng-container *ngFor="let skill of requirementsForm.controls; index as i; last as last">
+              <div class="row">
+                  <div class="col-md-4">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Requirement</mat-label>
+                      <input matInput [formControlName]="i">
+                    </mat-form-field>
+                  </div>
+                  <div class="actions">
+                    <mat-icon class="delete" *ngIf="i >= 1" (click)="removeSkills(i)" matTooltip="Remove">delete</mat-icon>
+                    <mat-icon class="add" *ngIf="last && requirementsForm.length < 7" (click)="addSkillRequirement()"  matTooltip="Add Skills">add</mat-icon>
+                  </div>
               </div>
+            </ng-container>
           </div>
       </div>
       

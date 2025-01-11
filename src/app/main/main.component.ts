@@ -15,6 +15,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 export class MainComponent {
   mobileQuery: MediaQueryList;
   user: any
+  private dateTimeInterval: any;
 
   constructor(
     private as: AuthService,
@@ -42,6 +43,12 @@ export class MainComponent {
     
     console.log(this.user)
     this.updateDateTime();
+    this.dateTimeInterval = setInterval(() => this.updateDateTime(), 30000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.dateTimeInterval);
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
   currentScrollLevel: number = 0

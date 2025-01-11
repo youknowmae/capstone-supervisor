@@ -1,16 +1,19 @@
 <ng-container *ngIf="!isLoading; else loading">
+    <div class="back-btn">
+        <button mat-button mat-ripple class="back-btn" [routerLink]="['../list']">
+            <span class="icon">
+                <i class="fa-solid fa-arrow-left"></i>
+            </span>
+            <p>
+                Back
+            </p>
+        </button>
+    </div>
     <div class="container">
+
         <div class="left-container">
-            <div class="card">
+            <div class="card card-accent">
                 <div class="student-details">
-                    <div class="back-btn" [routerLink]="['../list']">
-                        <span class="back-icon">
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </span>
-                        <span>
-                            Back
-                        </span>
-                    </div>
                     <div class="image-container">
                         <div class="image">
                             <img [src]="(applicationDetails.student.image) ? applicationDetails.student.image : 'assets/images/profile.png'">
@@ -59,6 +62,20 @@
                         </div>
                     </div>
                     
+                    <div class="remarks-section" *ngIf="applicationDetails.status_text">
+                        <div class="remarks">
+                            <p
+                            [class.warning-text]="applicationDetails.status == 1 || applicationDetails.status == 2 || applicationDetails.status == 4"
+                            [class.pending-text]="applicationDetails.status == 0 || applicationDetails.status == 5 || applicationDetails.status == 6 || applicationDetails.status == 7"
+                            [class.success-text]="applicationDetails.status == 3 ||applicationDetails.status == 8"
+                            >
+                                {{ applicationDetails.status_text }}
+                                <br>
+                                <span *ngIf="applicationDetails.rejection_remarks"> Reason: {{ applicationDetails.rejection_remarks }}</span>
+                            </p>
+
+                        </div>
+                    </div>
                     
                     <div class="button-container">
                         <button mat-ripple mat-button (click)="rejectApplication()" *ngIf="applicationDetails.status == 3 || applicationDetails.status == 6 ||  applicationDetails.status == 7" class="warning">Not Accepted</button>
@@ -113,7 +130,7 @@
                 </div>
             </div>
     
-            <div class="schedule" *ngIf="applicationDetails.interview_schedules?.length > 0">
+            <div class="card" *ngIf="applicationDetails.interview_schedules?.length > 0">
                 <div class="scheduledinterview">
                     <h4 class="header">
                       <i class="fa fa-calendar"></i> Interview Details
