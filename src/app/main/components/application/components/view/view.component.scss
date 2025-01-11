@@ -1,17 +1,54 @@
+.back-btn {
+    button {
+        background: none;
+        border: none;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        color: #898121;
+        cursor: pointer;
+
+        .icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        &:hover {
+            background: rgba(0,0,0,.08);
+            transition: all .1s ease-in-out;
+        }
+    }
+}
+
 .container {
     display: flex;
     flex-direction: row;
     width: 100%;
+    animation: fade-in 1s forwards;
 }
 
 .card {
-    width: 100%;
     margin-bottom: 20px;
-    border-radius: 15px;
-    padding: 15px 20px;
-    background-color: var(--semi-transparent-main-orange);
+    padding: 20px;
+    width: 100%;
+    background-color: white;
+    height: fit-content;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    flex-direction: row;
     box-shadow: var(--shadow);
 }
+
+.card-accent {
+    border-left: 4px solid var(--primary-color);
+}
+
 
 .right-container {
     flex: 0 0 auto;
@@ -23,6 +60,7 @@
 }
 
 .upload {
+    width: 100%;
     
     h4 {
         color: #898121;
@@ -91,11 +129,13 @@
 //student details
 .student-details {
     display: flex;
+    padding: 20px;
     flex-direction: column;
     width: 100%;
     min-height: 450px;
 
     .image-container {
+        margin-top: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -212,7 +252,7 @@
 
 .skill-area {
     margin-top: 25px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .profile-content {
@@ -247,8 +287,34 @@
     }
 }
 
+.remarks-section {
+    padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: flex-end;
+
+    .remarks {
+        font-size: 16px;
+        font-weight: 500    ;
+        text-align: right;
+    }
+
+    .warning-text {
+        color: var(--warning-color);
+    }
+
+    .pending-text {
+        color: orange;
+    }
+
+    .success-text {
+        color: var(--primary-color);
+    }
+}
+
 .button-container {
-    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 
@@ -287,12 +353,6 @@
 
 }
 
-.back-btn { 
-    width: fit-content;
-    color: #898121;
-    padding-bottom: 15px;
-    cursor: pointer;
-}
 
 @media only screen and (max-width: 1120px) {
     .container {
@@ -338,13 +398,6 @@
 }
 
 .scheduledinterview{
-    width: 100%;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    padding: 15px 20px;
-    background-color: var(--semi-transparent-main-orange);
-    box-shadow: var(--shadow);
-
     h4 {
         font-size: 20px;
         color: #898121;

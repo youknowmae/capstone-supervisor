@@ -17,7 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class ListComponent {
 
-  displayedColumns: string[] = ['name', 'email', 'mobile', 'program', 'required_hours', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'email', 'mobile', 'required_hours', 'application_date', 'status', 'actions'  ];
 
   unfilteredStudents: any
   dataSource: any = new MatTableDataSource<any>();
@@ -93,6 +93,7 @@ export class ListComponent {
             status: student.status,
             label: status_label,
             ...student.user,
+            created_at: student.created_at,
             id: student.id, 
           } 
         })  

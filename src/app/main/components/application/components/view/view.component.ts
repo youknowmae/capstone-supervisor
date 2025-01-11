@@ -36,6 +36,7 @@ export class ViewComponent {
   getApplicationDetails() {
     let id = this.us.getStudentApplication();
 
+
     this.ds.get('supervisor/applications/', id).subscribe(
       application => {
         console.log(application)
@@ -54,6 +55,16 @@ export class ViewComponent {
     
         console.log(this.comments);
     
+        if(application.status == 4) {
+          application.status_text = 'Not Approved'
+        }
+        else if (application.status == 5) {
+          application.status_text = 'For Schedule';
+        }
+        else if (application.status == 8) {
+          application.status_text = 'Accepted';
+        }
+
         this.applicationDetails = {
           id: application.id,
           status: application.status,
@@ -67,7 +78,9 @@ export class ViewComponent {
             image: application.user.image,
           },
           documents: application.application_documents,
-          interview_schedules: application.interview_schedules
+          interview_schedules: application.interview_schedules,
+          status_text: application.status_text,
+          rejection_remarks: application.rejection_remarks
         };
     
         console.log(application);
@@ -82,6 +95,8 @@ export class ViewComponent {
             { strong_skill: '', weak_skill: '' },
             { strong_skill: '', weak_skill: '' },
           ];
+
+        
         
         this.isLoading = false
       },
@@ -122,7 +137,8 @@ export class ViewComponent {
         this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
           (response) => {
             this.gs.successAlert(response.title, response.message);
-            this.applicationDetails.status = 5;
+            this.applicationDetails.status = 8;
+            this.applicationDetails.status_text = 'Accepted';
           },
           (error) => {
             console.error(error);
