@@ -8,6 +8,7 @@ import { AcceptmodalComponent } from '../acceptmodal/acceptmodal.component';
 import { SchedulemodalComponent } from '../schedulemodal/schedulemodal.component';
 import { ScheduleDetailsModalComponent } from '../schedule-details-modal/schedule-details-modal.component';
 import { Router } from '@angular/router';
+import { OJTInfoComponent } from '../ojtinfo/ojtinfo.component';
 
 
 @Component({
@@ -80,7 +81,10 @@ export class ViewComponent {
           documents: application.application_documents,
           interview_schedules: application.interview_schedules,
           status_text: application.status_text,
-          rejection_remarks: application.rejection_remarks
+          rejection_remarks: application.rejection_remarks,
+          start_date: application.start_date,
+          department: application.department,
+
         };
     
         console.log(application);
@@ -123,30 +127,45 @@ export class ViewComponent {
   }
 
   acceptApplication() {
-    Swal.fire({
-      title: 'Accept?',
-      text: 'Are you sure you want to accept this application?',
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonText: 'Yes',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: '#4f6f52',
-      cancelButtonColor: '#777777',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
-          (response) => {
-            this.gs.successAlert(response.title, response.message);
-            this.applicationDetails.status = 8;
-            this.applicationDetails.status_text = 'Accepted';
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
-        console.log(this.applicationDetails);
+    const dialogRef = this.dialog.open(OJTInfoComponent, {
+      width: '400px',
+      disableClose: true, 
+      data: { id: this.applicationDetails.id }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.applicationDetails.start_date =  result.start_date,
+        this.applicationDetails.department = result.department,
+        this.applicationDetails.status = 8;
+        this.applicationDetails.status_text = 'Accepted';
       }
     });
+    
+    // Swal.fire({
+    //   title: 'Accept?',
+    //   text: 'Are you sure you want to accept this application?',
+    //   icon: 'info',
+    //   showCancelButton: true,
+    //   confirmButtonText: 'Yes',
+    //   cancelButtonText: 'Cancel',
+    //   confirmButtonColor: '#4f6f52',
+    //   cancelButtonColor: '#777777',
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+        // this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
+        //   (response) => {
+        //     this.gs.successAlert(response.title, response.message);
+        //     this.applicationDetails.status = 8;
+        //     this.applicationDetails.status_text = 'Accepted';
+        //   },
+        //   (error) => {
+        //     console.error(error);
+        //   }
+        // );
+    //     console.log(this.applicationDetails);
+    //   }
+    // });
   }
 
   rejectApplication() {

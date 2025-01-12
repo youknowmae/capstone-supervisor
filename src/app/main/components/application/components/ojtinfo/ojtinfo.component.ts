@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import moment from 'moment';
+import { DataService } from '../../../../../services/data.service';
+import { GeneralService } from '../../../../../services/general.service';
 
 @Component({
   selector: 'app-ojtinfo',
@@ -7,20 +11,57 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./ojtinfo.component.scss'],
 })
 export class OJTInfoComponent {
-  ojtInfo = {
-    startDate: '',
-    department: '',
-    task: '',
-  };
+  ojtInfo: FormGroup
+  today: Date
 
-  constructor(private dialogRef: MatDialogRef<OJTInfoComponent>) {}
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<OJTInfoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private ds: DataService,
+    private gs: GeneralService
+  ) {
+    this.today = new Date()
+
+    this.ojtInfo = this.fb.group({
+      start_date: [null, [Validators.required]],
+      department: [null, [Validators.required, Validators.maxLength(64)]],
+      task: [null, [Validators.required, Validators.maxLength(516)]],
+    })
+  }
 
   closeDialog(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   submit(): void {
-    console.log('OJT Information:', this.ojtInfo);
-    this.dialogRef.close(this.ojtInfo);
+    if(this.ojtInfo.invalid) {
+      const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
+      
+      if (firstInvalidControl) {
+        firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+  
+      this.ojtInfo.markAllAsTouched();
+      return;
+    }
+
+    var payload = new FormData();
+
+    payload.append('department', this.ojtInfo.value.department)
+    payload.append('task', this.ojtInfo.value.task)
+    payload.append('start_date', moment.tz(this.ojtInfo.value.start_date, 'Asia/Manila').format('YYYY-MM-DD'))
+
+    console.log('OJT Information:', this.ojtInfo.value);
+    
+    this.ds.post('supervisor/applications/accept/', this.data.id, payload).subscribe(
+      (response) => {
+        this.gs.successAlert(response.title, response.message);
+        this.dialogRef.close(response.data);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 }

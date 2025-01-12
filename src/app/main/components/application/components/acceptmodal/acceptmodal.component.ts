@@ -17,7 +17,7 @@ export class AcceptmodalComponent {
     if (option === 'interview') {
       this.dialogRef.close('interview');
     } else if (option === 'accepted') {
-      this.openOJTInfoModal();
+      this.dialogRef.close('accepted')
     }
   }
 
@@ -25,17 +25,5 @@ export class AcceptmodalComponent {
     this.dialogRef.close();
   }
 
-  openOJTInfoModal(): void {
-    const dialogRef = this.dialog.open(OJTInfoComponent, {
-      width: '400px',
-      disableClose: true, // Prevent closing without submitting or canceling
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('OJT Information:', result); // Log the submitted OJT info
-        this.dialogRef.close('accepted');
-      }
-    });
-  }
+  
 }

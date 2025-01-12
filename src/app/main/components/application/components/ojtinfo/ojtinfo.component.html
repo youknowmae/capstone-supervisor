@@ -4,24 +4,27 @@
 </div>
 
 <mat-dialog-content>
-  <form>
+  <form id='ojtform' (submit)="submit()" [formGroup]="ojtInfo">
     <mat-form-field appearance="fill">
       <mat-label>Start Date</mat-label>
-      <input matInput type="date" [(ngModel)]="ojtInfo.startDate" name="startDate">
+      <input matInput [matDatepicker]="pickers" formControlName="start_date" [min]="today" readonly>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="pickers"></mat-datepicker-toggle>
+      <mat-datepicker #pickers></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Department</mat-label>
-      <input matInput placeholder="Enter Department" [(ngModel)]="ojtInfo.department" name="department">
+      <input matInput placeholder="Enter Department" formControlName="department" name="department">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Task</mat-label>
-      <textarea matInput placeholder="Enter Task" [(ngModel)]="ojtInfo.task" name="task"></textarea>
+      <textarea matInput placeholder="Enter Task" formControlName="task" name="task"></textarea>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button color="primary" (click)="submit()">Submit</button>
+  <button mat-button mat-ripple color="primary" form="ojtform" type="submit">Submit</button>
 </mat-dialog-actions>

@@ -70,8 +70,9 @@
                             [class.success-text]="applicationDetails.status == 3 ||applicationDetails.status == 8"
                             >
                                 {{ applicationDetails.status_text }}
-                                <br>
-                                <span *ngIf="applicationDetails.rejection_remarks"> Reason: {{ applicationDetails.rejection_remarks }}</span>
+                                <span class="sub-text" *ngIf="applicationDetails.rejection_remarks"><br> Reason: {{ applicationDetails.rejection_remarks }}</span>
+                                <span class="sub-text" *ngIf="applicationDetails.department"><br> Department: {{ applicationDetails.department }} </span>
+                                <span class="sub-text" *ngIf="applicationDetails.start_date"><br> Start Date: {{ applicationDetails.start_date }}</span>
                             </p>
 
                         </div>
