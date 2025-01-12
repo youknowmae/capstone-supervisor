@@ -129,11 +129,14 @@ export class ProfileComponent {
       const profile = await firstValueFrom(this.ds.get('supervisor/profile'));
       this.formDetails.patchValue({ ...profile });
 
-      this.requirementsForm.clear();
+      if(profile.job_requirements.length() > 0) {
+        this.requirementsForm.clear();
 
-      profile.job_requirements.forEach((value: any) => {
-        this.requirementsForm.push(this.fb.control(value, [Validators.required, Validators.maxLength(32)]));
-      });
+        profile.job_requirements.forEach((value: any) => {
+          this.requirementsForm.push(this.fb.control(value, [Validators.required, Validators.maxLength(32)]));
+        });
+      }
+
 
     } catch (error) {
       console.error(error);
