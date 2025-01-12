@@ -84,7 +84,7 @@ export class ViewComponent {
           rejection_remarks: application.rejection_remarks,
           start_date: application.start_date,
           department: application.department,
-
+          task: application.task,
         };
     
         console.log(application);
@@ -137,6 +137,7 @@ export class ViewComponent {
       if (result) {
         this.applicationDetails.start_date =  result.start_date,
         this.applicationDetails.department = result.department,
+        this.applicationDetails.task = result.task,
         this.applicationDetails.status = 8;
         this.applicationDetails.status_text = 'Accepted';
       }
