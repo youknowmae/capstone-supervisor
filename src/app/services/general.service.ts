@@ -93,6 +93,5 @@ export class GeneralService {
         cancelButtonColor: "#777777",
       })
       return swalInstance
-
     }    
 }

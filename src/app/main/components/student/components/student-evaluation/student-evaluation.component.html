@@ -1,5 +1,5 @@
 <div class="container">
-    <mat-stepper [linear]="true" #stepper>
+    <mat-stepper [linear]="false" #stepper>
         <mat-step [stepControl]="formDetails">
             <ng-template matStepLabel>Performance Evaluation</ng-template>
             
@@ -567,21 +567,33 @@
         </mat-step>
         <mat-step [stepControl]="formDetails">
             <ng-template matStepLabel>Completion Certificate</ng-template>
+            <div class="preview-container">
+                <!-- Image Preview -->
+                <img #image src="./assets/images/certificate_template.png" style="display: none;">
+                <!-- <img src="./assets/images/certificate_template.png" id="image" class="cert-preview" style="display: none;" /> -->
 
+                <!-- Canvas where the image will be drawn -->
+                <canvas #canvas class="cert-preview" style="display: none;"></canvas>
+            </div>
             <div class="stepper-content">
-                <div class="row">
+
+                <div class="row" style="display: flex; justify-content: space-between; ">
                     <div class="col-md-4">
                         <div class="file-input-container"> 
                             <div class="label"> Upload Completion Certificate </div>
                             <input class="file-input" type="file" accept=".jpeg, .png, .jpg, .svg, .pdf" (change)="uploadFile($event)"> 
                         </div>
                     </div>
+
+                    <div class="download" matTooltip="Download Certificate">
+                        <div class="icon" (click)="downloadDocx()"> <!--(click)="toggleDownloadOptions($event)"-->
+                        <i class='bx bxs-download' title="Download"></i>
+                        </div>
+                    </div>
                 </div>
                 <div class="preview-container" *ngIf="fileSrc">
-                    <!-- Image Preview -->
                     <img *ngIf="isImage" [src]="fileSrc" alt="File Preview" class="cert-preview">
                     
-                    <!-- PDF Preview -->
                     <ngx-doc-viewer
                         *ngIf="!isImage"
                         [url]="fileSrc"

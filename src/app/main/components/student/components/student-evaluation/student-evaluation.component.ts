@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { DataService } from '../../../../../services/data.service';
 import { GeneralService } from '../../../../../services/general.service';
@@ -6,6 +6,7 @@ import { UserService } from '../../../../../services/user.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -13,7 +14,9 @@ import Swal from 'sweetalert2';
   styleUrl: './student-evaluation.component.scss'
 })
 export class StudentEvaluationComponent {
-  id: any 
+
+
+  data: any 
   totalRating: number = 0
   overallPerformance: any = {
     average: '', 
@@ -112,9 +115,9 @@ export class StudentEvaluationComponent {
   ngOnInit() {
 
 
-    this.id = this.us.getStudentEvaluation()
+    this.data = this.us.getStudentEvaluation()
 
-    if(!this.id) {
+    if(!this.data.id) {
       this.router.navigate(['main/student/list'])
     }
 
@@ -270,7 +273,7 @@ export class StudentEvaluationComponent {
       console.log(key + ': ' + value);
     });
     
-    this.ds.post('supervisor/students/evaluate/', this.id, payload).subscribe(
+    this.ds.post('supervisor/students/evaluate/', this.data.id, payload).subscribe(
       response => {
         console.log('response');
         this.router.navigate(['main/student/list'])
@@ -305,5 +308,72 @@ export class StudentEvaluationComponent {
         this.submit()
       }
     });
+  }
+
+  @ViewChild('image') image!: any;
+  @ViewChild('canvas') canvas!: any;
+  canvasBlob: any
+
+  ngAfterViewInit() {
+    this.drawImageWithText();
+  }
+
+  drawImageWithText() {
+    const canvas = this.canvas.nativeElement
+
+    if(!canvas) {
+      console.log(1)
+      return
+    }
+    const ctx = canvas.getContext('2d');
+    const image = this.image.nativeElement
+    // console.log(image)
+
+    if(ctx) {
+      image.onload = () => {
+        canvas.width = image.width;
+        canvas.height = image.height;
+  
+        const center = canvas.width / 2;
+
+        ctx.drawImage(image, 0, 0);
+  
+        ctx.font = '88px Lucida Handwriting';
+        ctx.textAlign = "center"
+        ctx.fillStyle = 'black';
+        ctx.fillText(this.data.name, center, 700); 
+
+        ctx.font = '31.5px Poppins';
+        let text = `During the training, ${this.data.name} showcased dedication and professionalism, successfully`
+        ctx.fillText(text, center, 835); 
+
+        text = 'completing assigned tasks under proper supervision.'
+        ctx.fillText(text, center, 875); 
+        
+        text = `${this.data.supervisor_name.first_name} ${this.data.supervisor_name.last_name}`
+        ctx.fillText(text, 1410, 1190); 
+
+        let date = new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        text = `Issued on ${date}`
+        ctx.fillText(text, center, 1060); 
+
+        canvas.toBlob((blob: Blob) => {
+          if (blob) {
+            this.canvasBlob = blob
+            console.log(this.file)
+          }
+        }, 'image/png'); // 'image/png' is the MIME type, change if needed
+      };
+    }
+  }
+
+  downloadDocx() {
+    saveAs(this.canvasBlob, `${this.data.name}_CERTIFICATE_OF_COMPLETION.png`);
+    this.isSubmitting = false
   }
 }

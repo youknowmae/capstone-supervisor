@@ -158,8 +158,12 @@ export class ListComponent {
     )
   }
 
-  evaluateStudent(id: number) {
-    this.us.setStudentEvaluation(id)
+  evaluateStudent(student: any) {
+    this.us.setStudentEvaluation({ 
+      id: student.id,
+      name: student.full_name,
+      supervisor_name: student.accepted_application.industry_partner.immediate_supervisor
+    })
 
     this.router.navigate(['main/student/evaluation'])
   }
