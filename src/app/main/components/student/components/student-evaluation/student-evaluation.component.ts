@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { jsPDF } from "jspdf";
 
 import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -48,7 +50,8 @@ export class StudentEvaluationComponent {
     private gs: GeneralService,
     private us: UserService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private http: HttpClient
   ) {
     this.formDetails = this.fb.group({
       knowledge: this.fb.array([
@@ -359,8 +362,9 @@ export class StudentEvaluationComponent {
         ctx.fillText(text, center, 1060); 
 
         
-        // const logoImg = await this.loadImage('http://localhost:8000/storage/industryPartners/1737179907-FOR%20BANNER%20%20(1).png');
-        // ctx.drawImage(logoImg, 0, 0, 200, 200);
+        const logoImg = await this.loadLogo();
+        if(logoImg)
+          ctx.drawImage(logoImg, 590, 1140, 120, 120);
 
 
         this.canvasBase64 = canvas.toDataURL('image/png')
@@ -368,13 +372,22 @@ export class StudentEvaluationComponent {
     }
   }
 
-  async loadImage(url: string) {
+  async loadLogo() {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      // img.crossOrigin = 'Anonymous';  
-      img.onload = () => resolve(img); 
-      img.onerror = reject;  
-      img.src = url;
+      this.ds.download('supervisor/profile/get-logo').subscribe(
+        response => {
+          const imageUrl = URL.createObjectURL(response);
+          console.log(imageUrl)
+
+          img.src = imageUrl;
+
+          img.onload = () => resolve(img); 
+        },
+        error => {
+          resolve(null);
+        }
+      );
     });
   }
 
