@@ -8,9 +8,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { jsPDF } from "jspdf";
 
-import { saveAs } from 'file-saver';
-import { HttpClient } from '@angular/common/http';
-import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -50,8 +47,6 @@ export class StudentEvaluationComponent {
     private gs: GeneralService,
     private us: UserService,
     private router: Router,
-    private sanitizer: DomSanitizer,
-    private http: HttpClient
   ) {
     this.formDetails = this.fb.group({
       knowledge: this.fb.array([
