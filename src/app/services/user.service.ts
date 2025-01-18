@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Inject,  PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { GeneralService } from './general.service';
 
 interface User {
     name: string, 
@@ -16,83 +17,77 @@ export class UserService {
     studentProfile: string = 'studentProfile'
     studentApplication: string = 'studentApplication'
     studentEvaluation: string = 'studentEvalutation'
-    // industryPartner: string = 'industryPartner'
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: any,
+        private gs: GeneralService
     ) {}
 
     setUser(user: User) {
-        sessionStorage.setItem('user', JSON.stringify(user))
+        let encryptedData = this.gs.encrypt(user)
+        sessionStorage.setItem('user', encryptedData)
     }
 
     getUser() {
-        if (!isPlatformBrowser(this.platformId)){
-            return null
-        }
-        
         let user = sessionStorage.getItem('user')
 
         if(!user) {
             return null
         }
 
-        return JSON.parse(user)
+        let plainTextData = this.gs.decrypt(user)
+
+        return plainTextData
     }
 
-    setStudentProfile(studentProfile: any) {
-        sessionStorage.setItem(this.studentProfile, JSON.stringify(studentProfile))
+    setStudentProfile(data: any) {
+        let encryptedData = this.gs.encrypt(data)
+        sessionStorage.setItem(this.studentProfile, encryptedData)
     }
 
     getStudentProfile() {
-        if (!isPlatformBrowser(this.platformId)){
-            return null
-        }
-        
         let studentProfile = sessionStorage.getItem(this.studentProfile)
 
         if(!studentProfile) {
             return null
         }
+        
+        let plainTextData = this.gs.decrypt(studentProfile)
 
-        return JSON.parse(studentProfile)
+        return plainTextData
     }
 
-    setStudentEvaluation(studentEvaluation: any) {
-        sessionStorage.setItem(this.studentEvaluation, JSON.stringify(studentEvaluation))
+    setStudentEvaluation(data: any) {
+        let encryptedData = this.gs.encrypt(data)
+        sessionStorage.setItem(this.studentEvaluation, encryptedData)
     }
 
     getStudentEvaluation() {
-        if (!isPlatformBrowser(this.platformId)){
-            return null
-        }
-        
         let studentEvaluation = sessionStorage.getItem(this.studentEvaluation)
 
         if(!studentEvaluation) {
             return null
         }
 
-        return JSON.parse(studentEvaluation)
+        let plainTextData = this.gs.decrypt(studentEvaluation)
+
+        return plainTextData
     }
 
-    setStudentApplication(studentApplication: any) {
-        sessionStorage.setItem(this.studentApplication, JSON.stringify(studentApplication))
+    setStudentApplication(data: any) {
+        let encryptedData = this.gs.encrypt(data)
+        sessionStorage.setItem(this.studentApplication, encryptedData)
     }
 
     getStudentApplication() {
-        if (!isPlatformBrowser(this.platformId)){
-            return null
-        }
-        
         let studentApplication = sessionStorage.getItem(this.studentApplication)
 
         if(!studentApplication) {
             return null
         }
 
-        return JSON.parse(studentApplication)
+        let plainTextData = this.gs.decrypt(studentApplication)
+
+        return plainTextData
     }
-
-
 }

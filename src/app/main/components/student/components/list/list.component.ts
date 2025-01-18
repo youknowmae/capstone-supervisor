@@ -70,10 +70,6 @@ export class ListComponent {
         let studentsList = students.map((student: any) => {
           student.email = student.email + '@gordoncollege.edu.ph' 
 
-          // if(student.ojt_exit_poll) {
-          //   student.ojt_exit_poll = "Answered"
-          // }
-
           if(student.student_evaluation) {
             student.student_evaluation = student.student_evaluation.average
           }
@@ -159,10 +155,26 @@ export class ListComponent {
   }
 
   evaluateStudent(student: any) {
+    let gender = ''
+    let pronoun = ''
+    if(student.gender == 0) {
+      gender = 'Ms.'
+      pronoun = 'her'
+    } 
+    else if (student.gender == 1) {
+      gender = 'Mr.'
+      pronoun = 'his'
+    }
+    
     this.us.setStudentEvaluation({ 
       id: student.id,
       name: student.full_name,
-      supervisor_name: student.accepted_application.industry_partner.immediate_supervisor
+      gender,
+      pronoun,
+      supervisor_name: student.accepted_application.industry_partner.immediate_supervisor,
+      start_date: student.accepted_application.start_date,
+      end_date: student.last_verified_attendance.date,
+      ojt_hours: student.progress
     })
 
     this.router.navigate(['main/student/evaluation'])

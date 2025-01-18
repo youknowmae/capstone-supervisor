@@ -6,6 +6,8 @@ import { UserService } from '../../../../../services/user.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
+import { jsPDF } from "jspdf";
+
 import { saveAs } from 'file-saver';
 
 @Component({
@@ -312,7 +314,7 @@ export class StudentEvaluationComponent {
 
   @ViewChild('image') image!: any;
   @ViewChild('canvas') canvas!: any;
-  canvasBlob: any
+  canvasBase64: any
 
   ngAfterViewInit() {
     this.drawImageWithText();
@@ -320,17 +322,11 @@ export class StudentEvaluationComponent {
 
   drawImageWithText() {
     const canvas = this.canvas.nativeElement
-
-    if(!canvas) {
-      console.log(1)
-      return
-    }
     const ctx = canvas.getContext('2d');
     const image = this.image.nativeElement
-    // console.log(image)
 
     if(ctx) {
-      image.onload = () => {
+      image.onload = async () => {
         canvas.width = image.width;
         canvas.height = image.height;
   
@@ -338,17 +334,17 @@ export class StudentEvaluationComponent {
 
         ctx.drawImage(image, 0, 0);
   
-        ctx.font = '88px Lucida Handwriting';
+        ctx.font = '96px Lucida Handwriting';
         ctx.textAlign = "center"
         ctx.fillStyle = 'black';
         ctx.fillText(this.data.name, center, 700); 
 
-        ctx.font = '31.5px Poppins';
-        let text = `During the training, ${this.data.name} showcased dedication and professionalism, successfully`
-        ctx.fillText(text, center, 835); 
+        ctx.font = '30px Poppins';
+        let text = `This is to certify that ${this.data.gender} ${this.data.name}, a student of Gordon College has completed ${this.data.pronoun} ${this.data.ojt_hours} hours `
+        ctx.fillText(text, center, 825); 
 
-        text = 'completing assigned tasks under proper supervision.'
-        ctx.fillText(text, center, 875); 
+        text =  `On-the-Job Training (OJT) academic requirement in our company from ${this.data.start_date} to ${this.data.end_date}.`
+        ctx.fillText(text, center, 865); 
         
         text = `${this.data.supervisor_name.first_name} ${this.data.supervisor_name.last_name}`
         ctx.fillText(text, 1410, 1190); 
@@ -362,18 +358,31 @@ export class StudentEvaluationComponent {
         text = `Issued on ${date}`
         ctx.fillText(text, center, 1060); 
 
-        canvas.toBlob((blob: Blob) => {
-          if (blob) {
-            this.canvasBlob = blob
-            console.log(this.file)
-          }
-        }, 'image/png'); // 'image/png' is the MIME type, change if needed
+        
+        // const logoImg = await this.loadImage('http://localhost:8000/storage/industryPartners/1737179907-FOR%20BANNER%20%20(1).png');
+        // ctx.drawImage(logoImg, 0, 0, 200, 200);
+
+
+        this.canvasBase64 = canvas.toDataURL('image/png')
       };
     }
   }
 
+  async loadImage(url: string) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      // img.crossOrigin = 'Anonymous';  
+      img.onload = () => resolve(img); 
+      img.onerror = reject;  
+      img.src = url;
+    });
+  }
+
+  
   downloadDocx() {
-    saveAs(this.canvasBlob, `${this.data.name}_CERTIFICATE_OF_COMPLETION.png`);
-    this.isSubmitting = false
+    let size = [210, 297] //a4
+    var pdf = new jsPDF('l', 'mm', size);
+    pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0]);
+    pdf.save(`${this.data.name}_CERTIFICATE_OF_COMPLETION.pdf`);
   }
 }
