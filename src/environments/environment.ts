@@ -6,7 +6,7 @@ export const environment = {
 };
 
 export const appSettings = {
-    apiUrl: "http://127.0.0.1:8000/api/",
+    apiUrl: 'https://gordoncollege.edu.ph/ccsprojects/TechIt0rLeaveIt/itrackapi/public/api/',
     note: "rqVV8FLa4NCz04pYAyI4/F0AmGQYbbiSesfWLoFIRjw=",
     tech: "AES-256-CBC",
 } 
