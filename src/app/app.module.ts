@@ -13,6 +13,7 @@ import { AuthInterceptor } from './interceptors/auth';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
 import { MaterialsModules } from './modules/materials.module';
+import { ResponseInterceptor } from './interceptors/response.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { MaterialsModules } from './modules/materials.module';
     ),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

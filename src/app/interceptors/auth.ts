@@ -1,5 +1,4 @@
-import { Injectable, Inject,  PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -8,24 +7,17 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 
-import { Observable, tap } from 'rxjs';
 import { GeneralService } from '../services/general.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: any,
         private gs: GeneralService
     ) {}
   
     intercept(request: HttpRequest<any>, next: HttpHandler) {
-        //prevent ssr from reading the token
-        if (!isPlatformBrowser(this.platformId)) {
-            return next.handle(request);
-        }
-
-        let token = sessionStorage.getItem('token')
+        let token = sessionStorage.getItem(btoa('token'))
         
         if(!token){
             return next.handle(request);

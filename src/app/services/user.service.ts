@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Inject,  PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';``
 import { GeneralService } from './general.service';
 
 interface User {
@@ -14,6 +14,7 @@ interface User {
 })
 
 export class UserService {
+    user: string = 'user'
     studentProfile: string = 'studentProfile'
     studentApplication: string = 'studentApplication'
     studentEvaluation: string = 'studentEvalutation'
@@ -25,11 +26,11 @@ export class UserService {
 
     setUser(user: User) {
         let encryptedData = this.gs.encrypt(user)
-        sessionStorage.setItem('user', encryptedData)
+        sessionStorage.setItem(btoa(this.user), encryptedData)
     }
 
     getUser() {
-        let user = sessionStorage.getItem('user')
+        let user = sessionStorage.getItem(btoa(this.user))
 
         if(!user) {
             return null
@@ -42,11 +43,11 @@ export class UserService {
 
     setStudentProfile(data: any) {
         let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(this.studentProfile, encryptedData)
+        sessionStorage.setItem(btoa(this.studentProfile), encryptedData)
     }
 
     getStudentProfile() {
-        let studentProfile = sessionStorage.getItem(this.studentProfile)
+        let studentProfile = sessionStorage.getItem(btoa(this.studentProfile))
 
         if(!studentProfile) {
             return null
@@ -59,11 +60,11 @@ export class UserService {
 
     setStudentEvaluation(data: any) {
         let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(this.studentEvaluation, encryptedData)
+        sessionStorage.setItem(btoa(this.studentEvaluation), encryptedData)
     }
 
     getStudentEvaluation() {
-        let studentEvaluation = sessionStorage.getItem(this.studentEvaluation)
+        let studentEvaluation = sessionStorage.getItem(btoa(this.studentEvaluation))
 
         if(!studentEvaluation) {
             return null
@@ -76,11 +77,11 @@ export class UserService {
 
     setStudentApplication(data: any) {
         let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(this.studentApplication, encryptedData)
+        sessionStorage.setItem(btoa(this.studentApplication), encryptedData)
     }
 
     getStudentApplication() {
-        let studentApplication = sessionStorage.getItem(this.studentApplication)
+        let studentApplication = sessionStorage.getItem(btoa(this.studentApplication))
 
         if(!studentApplication) {
             return null

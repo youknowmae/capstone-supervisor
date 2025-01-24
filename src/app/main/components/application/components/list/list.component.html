@@ -29,8 +29,11 @@
                     <mat-select disableRipple (selectionChange)="onStatusFilterChange($event)" [(value)]="statusFilter">
                         <mat-option [value]="''"> All </mat-option>
                         <mat-option [value]="3"> For Approval</mat-option>
-                        <mat-option [value]="4"> Not Approved   </mat-option>
-                        <mat-option [value]="5"> Accepted</mat-option>
+                        <mat-option [value]="4"> Not Approved </mat-option>
+                        <mat-option [value]="5"> For Schedule </mat-option>
+                        <mat-option [value]="6"> Reschedule </mat-option>
+                        <mat-option [value]="7"> For Interview </mat-option>
+                        <mat-option [value]="8"> Accepted</mat-option>
                         <!-- <mat-option *ngFor="let option of classList" [value]="option"> {{ option }} </mat-option> -->
                     </mat-select>
                 </mat-form-field>

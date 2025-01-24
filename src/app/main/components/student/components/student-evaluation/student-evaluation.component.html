@@ -1,5 +1,5 @@
 <div class="container">
-    <mat-stepper [linear]="false" #stepper>
+    <mat-stepper [linear]="true" #stepper>
         <mat-step [stepControl]="formDetails">
             <ng-template matStepLabel>Performance Evaluation</ng-template>
             
@@ -533,7 +533,7 @@
 
                 <div formGroupName="further_employment">
                     <div class="row" style="flex-direction: column;">
-                        <p>WOULD YOU RECOMMENTD HIM/HER FOR FURTHER EMPLOYMENT IN YOUR OWN FIRM?</p>
+                        <p>WOULD YOU RECOMMEND HIM/HER FOR FURTHER EMPLOYMENT IN YOUR OWN FIRM?</p>
             
                         <mat-radio-group formControlName="response">
                             <mat-radio-button value="1">Yes</mat-radio-button>
