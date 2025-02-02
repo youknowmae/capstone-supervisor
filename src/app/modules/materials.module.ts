@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import  { MatStepperModule } from '@angular/material/stepper';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSortModule } from "@angular/material/sort";
 
 
 const var_modules = [
@@ -35,7 +36,8 @@ const var_modules = [
     MatStepperModule,
     MatTabsModule,
     MatSidenavModule,    
-    MatRippleModule
+    MatRippleModule,
+    MatSortModule
 ]
 
 @NgModule({

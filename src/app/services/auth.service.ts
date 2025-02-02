@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, Subject, catchError, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { UserService } from './user.service';
-import { GeneralService } from './general.service';
 import { appSettings } from '../../environments/environment';
 
 @Injectable({
@@ -13,8 +12,7 @@ export class AuthService {
     constructor(
         private router: Router, 
         private http: HttpClient,
-        private userService: UserService,
-        private gs: GeneralService
+        private us: UserService
     ) { }
 
     apiUrl = appSettings.apiUrl
@@ -25,14 +23,9 @@ export class AuthService {
             tap((response => {
                 console.log(response)
                 if(response.token){
-                    sessionStorage.setItem('userLogState', 'true')
-
-                    let encryptedToken = this.gs.encrypt(response.token)
-                    sessionStorage.setItem(btoa('token'), encryptedToken)
-
-
-                    this.userService.setUser(response.user)
-
+                    this.us.setUserLogState()
+                    this.us.setToken(response.token)
+                    this.us.setUser(response.user)
                     this.router.navigate(['/main'])
                 }
             }))

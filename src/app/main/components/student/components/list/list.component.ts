@@ -7,6 +7,7 @@ import { DataService } from '../../../../../services/data.service';
 import { UserService } from '../../../../../services/user.service';
 
 import { Router } from '@angular/router';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-list',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  displayedColumns: string[] = ['name', 'email', 'mobile', 'time_completion', 'student_evaluation', 'status', 'actions'];
+  displayedColumns: string[] = ['full_name', 'email', 'mobile', 'progress', 'student_evaluation', 'status', 'actions'];
   // displayedColumns: string[] = ['name', 'course', 'program', 'required_hours', 'time_completion', 'student_evaluation', 'status', 'actions'];
 
   unfilteredStudents: any
@@ -26,6 +27,11 @@ export class ListComponent {
   isLoading: boolean = false
   
   @ViewChild(MatPaginator, {static:true}) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
 
   constructor(
     private paginatorIntl: MatPaginatorIntl, 

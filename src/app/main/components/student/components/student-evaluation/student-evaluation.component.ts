@@ -165,7 +165,7 @@ export class StudentEvaluationComponent {
     let file = this.file
     if (file) {
       const fileType = file.type;
-
+      console.log(file.size)
       // Check if the file is an image
       if (fileType.startsWith('image/')) {
         this.isImage = true;
@@ -387,10 +387,10 @@ export class StudentEvaluationComponent {
   }
 
   
-  downloadDocx() {
+  generateCertificate() {
     let size = [210, 297] //a4
     var pdf = new jsPDF('l', 'mm', size);
-    pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0]);
+    pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0], undefined, 'FAST');
     pdf.save(`${this.data.name}_CERTIFICATE_OF_COMPLETION.pdf`);
   }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Inject,  PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';``
+import { appSettings } from '../../environments/environment';
 import { GeneralService } from './general.service';
+import * as CryptoJS from 'crypto-js';
 
 interface User {
     name: string, 
@@ -15,6 +16,7 @@ interface User {
 
 export class UserService {
     user: string = 'user'
+    token: string = btoa('token')
     studentProfile: string = 'studentProfile'
     studentApplication: string = 'studentApplication'
     studentEvaluation: string = 'studentEvalutation'
@@ -24,71 +26,84 @@ export class UserService {
         private gs: GeneralService
     ) {}
 
-    setUser(user: User) {
-        let encryptedData = this.gs.encrypt(user)
-        sessionStorage.setItem(btoa(this.user), encryptedData)
+    private setData(label: string, data: any) {
+        sessionStorage.setItem(label, this.encrypt(data))
     }
 
-    getUser() {
-        let user = sessionStorage.getItem(btoa(this.user))
+    private extractData(label: string){
+        return this.decrypt(sessionStorage.getItem(label))
+    }
 
-        if(!user) {
-            return null
+    setUserLogState() { sessionStorage.setItem('userLogState', 'true') }
+
+    setToken(data: any) { this.setData(this.token, data) }
+    getToken() { return this.extractData(this.token) }
+    
+    setUser(data: any) { this.setData(this.user, data) }
+    getUser() { return this.extractData(this.user) }
+
+
+    setStudentProfile(data: any) { this.setData(this.studentProfile, data) }
+    getStudentProfile() { return this.extractData(this.studentProfile) }
+
+    setStudentEvaluation(data: any) { this.setData(this.studentEvaluation, data) }
+    getStudentEvaluation() { return this.extractData(this.studentEvaluation) }
+
+    setStudentApplication(data: any) { this.setData(this.studentApplication, data) }
+    getStudentApplication() { return this.extractData(this.studentApplication) }
+    
+    encrypt(data: any): string {
+        const note = appSettings.frontNote
+
+        try {
+        return CryptoJS.AES.encrypt(JSON.stringify(data), note).toString();
+        } catch (error) {
+        console.error('Encryption error:', error);
+        return '';
+        }
+    }
+
+    decrypt(cipherText: string | null): any {
+        const note = appSettings.frontNote
+
+        if(!cipherText) {
+        return null
         }
 
-        let plainTextData = this.gs.decrypt(user)
-
-        return plainTextData
-    }
-
-    setStudentProfile(data: any) {
-        let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(btoa(this.studentProfile), encryptedData)
-    }
-
-    getStudentProfile() {
-        let studentProfile = sessionStorage.getItem(btoa(this.studentProfile))
-
-        if(!studentProfile) {
-            return null
+        try {
+        const bytes = CryptoJS.AES.decrypt(cipherText, note);
+        if (bytes.toString()) {
+            return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
         }
-        
-        let plainTextData = this.gs.decrypt(studentProfile)
-
-        return plainTextData
-    }
-
-    setStudentEvaluation(data: any) {
-        let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(btoa(this.studentEvaluation), encryptedData)
-    }
-
-    getStudentEvaluation() {
-        let studentEvaluation = sessionStorage.getItem(btoa(this.studentEvaluation))
-
-        if(!studentEvaluation) {
-            return null
+        return null;
+        } catch (error) {
+        console.error('Decryption error:', error);
+        return null;
         }
-
-        let plainTextData = this.gs.decrypt(studentEvaluation)
-
-        return plainTextData
     }
 
-    setStudentApplication(data: any) {
-        let encryptedData = this.gs.encrypt(data)
-        sessionStorage.setItem(btoa(this.studentApplication), encryptedData)
-    }
+    recover(data: any) {
+        const decodedData = JSON.parse(CryptoJS.enc.Base64.parse(data).toString(CryptoJS.enc.Utf8));
 
-    getStudentApplication() {
-        let studentApplication = sessionStorage.getItem(btoa(this.studentApplication))
+        const key = appSettings.note
+        const iv = CryptoJS.enc.Base64.parse(decodedData.iv)
+        const salt = CryptoJS.enc.Base64.parse(decodedData.salt)
+        const iterations = CryptoJS.enc.Base64.parse(decodedData.iterations).toString(CryptoJS.enc.Utf8)
+        const ciphertext = decodedData.encryptedValue
 
-        if(!studentApplication) {
-            return null
-        }
+        const hashKey = CryptoJS.PBKDF2(key, salt, {
+            hasher: CryptoJS.algo.SHA256,
+            keySize: 8,
+            iterations: parseInt(iterations),
+        });
 
-        let plainTextData = this.gs.decrypt(studentApplication)
+        const bytes = CryptoJS.AES.decrypt(ciphertext, hashKey, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+        });
 
-        return plainTextData
+        data = bytes.toString(CryptoJS.enc.Utf8);
+        return JSON.parse(data)
     }
 }
