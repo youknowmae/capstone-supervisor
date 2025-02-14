@@ -184,6 +184,11 @@ export class ViewComponent {
     }).then((result) => {
       console.log(result);
       if (result.isConfirmed) {
+        if(result.value.trim().length === 0) {
+          this.gs.errorAlert('Invalid input!', 'Please give the reason for not accepting.');
+          return
+        }
+
         const formData = new FormData();
         formData.append('message', result.value);
         this.ds.post('supervisor/applications/reject/', this.applicationDetails.id, formData).subscribe(

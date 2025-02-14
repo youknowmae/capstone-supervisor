@@ -14,6 +14,8 @@ export class OJTInfoComponent {
   ojtInfo: FormGroup
   today: Date
 
+  isSubmitting: boolean = false
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<OJTInfoComponent>,
@@ -35,6 +37,12 @@ export class OJTInfoComponent {
   }
 
   submit(): void {
+    if(this.isSubmitting) {
+      return
+    }
+    
+    this.isSubmitting = true
+
     if(this.ojtInfo.invalid) {
       const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
       
@@ -58,9 +66,17 @@ export class OJTInfoComponent {
       (response) => {
         this.gs.successAlert(response.title, response.message);
         this.dialogRef.close(response.data);
+        this.isSubmitting = false
       },
       (error) => {
         console.error(error);
+        this.isSubmitting = false
+        if(error.status === 409) {
+          this.gs.errorAlert(error.error.title, error.error.message)
+        }
+        else {
+          this.gs.errorAlert('Oops!', 'Something went wrong. Please try again later.')
+        }
       }
     );
   }
