@@ -336,6 +336,7 @@ export class StudentEvaluationComponent {
         ctx.textAlign = "center"
         ctx.fillStyle = 'black';
         ctx.fillText(this.data.name, center, 700); 
+        console.log(this.data.name)
 
         ctx.font = '30px Poppins';
         let text = `This is to certify that ${this.data.gender} ${this.data.name}, a student of Gordon College has completed ${this.data.pronoun} ${this.data.ojt_hours} hours `
@@ -373,7 +374,6 @@ export class StudentEvaluationComponent {
       this.ds.download('supervisor/profile/get-logo').subscribe(
         response => {
           const imageUrl = URL.createObjectURL(response);
-          console.log(imageUrl)
 
           img.src = imageUrl;
 
@@ -390,7 +390,7 @@ export class StudentEvaluationComponent {
   generateCertificate() {
     let size = [210, 297] //a4
     var pdf = new jsPDF('l', 'mm', size);
-    pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0], undefined, 'FAST');
+    pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0]);
     pdf.save(`${this.data.name}_CERTIFICATE_OF_COMPLETION.pdf`);
   }
 }

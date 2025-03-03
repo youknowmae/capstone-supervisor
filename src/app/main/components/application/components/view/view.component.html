@@ -80,7 +80,7 @@
                     </div>
                     
                     <div class="button-container">
-                        <button mat-ripple mat-button (click)="rejectApplication()" *ngIf="applicationDetails.status == 3 || applicationDetails.status == 6 ||  applicationDetails.status == 7" class="warning">Not Accepted</button>
+                        <button mat-ripple mat-button (click)="rejectApplication()" *ngIf="applicationDetails.status == 3 || applicationDetails.status == 6 ||  applicationDetails.status == 7" class="warning">Not Approved</button>
                         <button mat-ripple mat-button (click)="openAcceptModal()" *ngIf="applicationDetails.status == 3" class="success">Accept</button>
                         <button mat-ripple mat-button (click)="acceptApplication()" *ngIf="applicationDetails.status == 7" class="success">Accept</button>
                         <button mat-ripple mat-button class="success" (click)="forInterview()" *ngIf="applicationDetails.status == 6">Reschedule</button>
