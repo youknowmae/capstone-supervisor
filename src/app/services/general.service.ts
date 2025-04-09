@@ -55,6 +55,16 @@ export class GeneralService {
           });
     }
 
+    makeAlert(icon: SweetAlertIcon, title: string, text: string) {
+      Swal.fire({
+          title,
+          text,
+          icon,
+          timer: 3000,
+          showConfirmButton: false
+        });
+  }
+
     successAlert(title: string, text: string) {
         Swal.fire({
             title,

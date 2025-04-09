@@ -1,0 +1,56 @@
+<main class="container">
+  <div class="content">
+    <div class="header">
+      <h1>Logo</h1>
+      <div class="exit-button" mat-ripple>
+        <i class="fa-solid fa-xmark" (click)="closeDialog()"></i>
+      </div>
+    </div>
+    <div class="body">
+      <input
+        style="display: none"
+        #fileinput
+        type="file"
+        (change)="fileChangeEvent($event)"
+      />
+
+      <div class="old-image-container">
+        <ng-container *ngIf="!isUploaded; else imageCropper">
+          <img height="100%" [src]="data.logo" />
+        </ng-container>
+      </div>
+
+      <ng-template #imageCropper>
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded($event)"
+          (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()"
+          backgroundColor="#eeeeee"
+        ></image-cropper>
+      </ng-template>
+
+      <div class="upload-button">
+        <button type="button" (click)="fileinput.click()" mat-stroked-button>
+          Upload Logo
+        </button>
+      </div>
+
+      <div class="card-action-buttons">
+        <button
+          mat-ripple
+          class="button"
+          type="button"
+          [disabled]="!croppedImage"
+          (click)="saveImage()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

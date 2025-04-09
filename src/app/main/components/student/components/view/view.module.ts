@@ -7,6 +7,7 @@ import { StudentprofileComponent } from './components/studentprofile/studentprof
 import { DailyattendanceComponent } from './components/dailyattendance/dailyattendance.component';
 import { WeeklyreportComponent } from './components/weeklyreport/weeklyreport.component';
 import { MaterialsModules } from '../../../../../modules/materials.module';
+import { LoadingSpinnerComponent } from '../../../../../components/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { MaterialsModules } from '../../../../../modules/materials.module';
     CommonModule,
     ViewRoutingModule,
     MaterialsModules,
+    LoadingSpinnerComponent
   ]
 })
 export class ViewModule { }

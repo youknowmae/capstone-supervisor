@@ -5,6 +5,8 @@ import { DataService } from '../../../services/data.service';
 import { LocationService } from '../../../services/location.service';
 import { UserService } from '../../../services/user.service';
 import { firstValueFrom } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeProfileComponent } from './change-profile/change-profile.component';
 
 @Component({
   selector: 'app-profile',
@@ -12,11 +14,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-  industryPartner: any
-  dataSource: any
-  displayedColumns: any
-
-  file: any = null
+  logo: any
 
   formDetails: FormGroup
 
@@ -33,7 +31,8 @@ export class ProfileComponent {
     private ds: DataService,
     private gs: GeneralService,
     private ls: LocationService,
-    private us: UserService
+    private us: UserService,
+    private matDialog: MatDialog
   ) {
     this.formDetails = this.fb.group({
       company_name: [null, [Validators.required, Validators.maxLength(64)]],
@@ -120,13 +119,23 @@ export class ProfileComponent {
     this.requirementsForm.removeAt(Index);
   }
 
-  uploadFile(event: any) {
-    this.file = event.target.files[0];
+  openChangeProfileModal() {
+    const dialog = this.matDialog.open(ChangeProfileComponent, {
+      data: { logo: this.logo }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if(result) {
+        this.logo = result
+      }
+    })
+
   }
 
   async getCompanyProfile() {
     try {
       const profile = await firstValueFrom(this.ds.get('supervisor/profile'));
+      this.logo = profile.image
       this.formDetails.patchValue({ ...profile });
 
       if(profile.job_requirements.length > 0) {
@@ -211,9 +220,6 @@ export class ProfileComponent {
       }
     });
 
-
-    if(this.file)
-      formData.append('image', this.file);
 
     this.ds.post('supervisor/profile', '', formData).subscribe(
       response => {

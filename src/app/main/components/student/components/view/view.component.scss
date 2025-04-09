@@ -28,7 +28,7 @@
     }
     
     .tab > label {
-        color: var(--main-orange);
+        color: var(--secondary-color);
         display: block;
         font-size: 17px;
         font-weight: bold;
@@ -43,7 +43,7 @@
     
     .tab:hover label {
     color: #ffffff;
-    background-color: var(--main-orange);
+    background-color: var(--secondary-color);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     }
@@ -54,7 +54,7 @@
         border-bottom-color: var(--primary-color);
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        background: var(--main-orange);
+        background: var(--secondary-color);
         color: #ffffff;
     }
     

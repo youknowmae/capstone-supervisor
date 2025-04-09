@@ -1,15 +1,17 @@
 <div class="container">
-    <div class="header">
-        <h1> {{ fileName }} </h1>
-        <button class="exit-button" (click)="closepopup()"> &times; </button> 
-    </div>
-    <div class="content">
-        <!-- <iframe [src]="pdfSource "></iframe> -->
-        <object [data]="pdfSource" width="100%" height="100%"></object>
-        <!-- <ngx-doc-viewer
+  <div class="header">
+    <h1>{{ fileName }}</h1>
+    <button mat-icon-button class="exit-button" (click)="closepopup()">
+      <mat-icon> close </mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <!-- <iframe [src]="pdfSource "></iframe> -->
+    <object [data]="pdfSource" width="100%" height="100%"></object>
+    <!-- <ngx-doc-viewer
             [url]="docSource"
             [viewer]="viewerType"
             style="width:100%;height:100%;"
       ></ngx-doc-viewer> -->
-    </div>
+  </div>
 </div>

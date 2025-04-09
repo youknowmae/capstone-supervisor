@@ -8,6 +8,8 @@ import { ApplicationComponent } from './components/application/application.compo
 import { MaterialsModules } from '../modules/materials.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
+import { ChangeProfileComponent } from './components/profile/change-profile/change-profile.component';
+import { ImageCropperComponent } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -15,13 +17,15 @@ import { SettingsComponent } from './components/settings/settings.component';
     ApplicationComponent,
     ProfileComponent,
     StudentComponent,
-    SettingsComponent
+    SettingsComponent,
+    ChangeProfileComponent
   ],
   imports: [
     CommonModule,
     MainRoutingModule,
     MaterialsModules,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ImageCropperComponent
   ]
 })
 export class MainModule { }

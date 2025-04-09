@@ -10,6 +10,7 @@ import { UserService } from '../../../../../../../services/user.service';
 })
 export class WeeklyreportComponent {
   weekly_attendance: any = []
+  isLoading: boolean = true
 
   constructor(
     private ds: DataService,
@@ -33,6 +34,7 @@ export class WeeklyreportComponent {
     this.ds.get('supervisor/students/attendance/', id).subscribe(
       response => {
         console.log(response)
+        this.isLoading = false
 
         this.computeWeeklyAttendance(response)
         // this.weekly_attendance = response

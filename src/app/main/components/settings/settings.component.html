@@ -1,40 +1,86 @@
 <div class="card">
-    <form [formGroup]="passwordDetails" (submit)="changePasswordConfirmation()" class="change-password">
-      
-      <h3>Change Password</h3>
-      <p class="sub-text">All fields are required. Password must be at least eight (8) characters or more</p>
-      <div class="row" style="flex-direction: column;">
-        <div class="col-md-4">
-            <mat-form-field appearance="outline">
-              <mat-label>Current Password</mat-label>
-              <input [type]="(showOldPassword) ? 'text' : 'password'" matInput formControlName="current_password">
-              <mat-icon matSuffix (click)="showOldPassword = !showOldPassword">
-                {{ showOldPassword ? 'visibility' : 'visibility_off' }}
-              </mat-icon>
-            </mat-form-field>
-        </div>
-        <div class="col-md-4" >
-          <mat-form-field appearance="outline">
-            <mat-label>New Password</mat-label>
-            <input [type]="(showPassword) ? 'text' : 'password'" matInput formControlName="new_password">
-            <mat-icon matSuffix (click)="showPassword = !showPassword">
-              {{ showPassword ? 'visibility' : 'visibility_off' }}
-            </mat-icon>
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-            <mat-form-field appearance="outline">
-              <mat-label>Confirm Password</mat-label>
-              <input [type]="(showPassword) ? 'text' : 'password'" matInput formControlName="password_confirmation">
-              <mat-icon matSuffix (click)="showPassword = !showPassword">
-                {{ showPassword ? 'visibility' : 'visibility_off' }}
-              </mat-icon>
-            </mat-form-field>
-        </div>
-        </div>
-      
-      <div class="btn">
-        <button mat-ripple type="submit" [class.invalid]="passwordDetails.invalid">Save</button>
+  <form
+    [formGroup]="passwordDetails"
+    (submit)="changePasswordConfirmation()"
+    class="change-password"
+  >
+    <h3>Change Password</h3>
+    <p class="sub-text">
+      All fields are required. Password must be at least eight (8) characters or
+      more
+    </p>
+    <div class="row" style="flex-direction: column">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Current Password</mat-label>
+          <input
+            [type]="showOldPassword ? 'text' : 'password'"
+            matInput
+            formControlName="current_password"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matIconSuffix
+            (click)="showOldPassword = !showOldPassword"
+          >
+            <mat-icon>{{
+              showOldPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
       </div>
-    </form>
-  </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>New Password</mat-label>
+          <input
+            [type]="showNewPassword ? 'text' : 'password'"
+            matInput
+            formControlName="new_password"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matIconSuffix
+            (click)="showNewPassword = !showNewPassword"
+          >
+            <mat-icon>{{
+              showNewPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            matInput
+            formControlName="password_confirmation"
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matIconSuffix
+            (click)="showConfirmPassword = !showConfirmPassword"
+          >
+            <mat-icon>{{
+              showConfirmPassword ? "visibility" : "visibility_off"
+            }}</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="btn">
+      <button
+        mat-ripple
+        type="submit"
+        [disabled]="passwordDetails.invalid"
+        [class.invalid]="passwordDetails.invalid"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

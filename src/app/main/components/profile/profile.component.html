@@ -1,255 +1,313 @@
 <div class="card">
   <form [formGroup]="formDetails" (submit)="updateProfile()">
-      <div class="form-content">
-          
-          <h3>Profile</h3>
+    <div class="form-content">
+      <h3>Profile</h3>
+      <div class="company-logo">
+        <div class="logo" style="display: flex; flex-direction: column">
+          <img [src]="logo" />
+        </div>
+        <button
+          type="button"
+          (click)="openChangeProfileModal()"
+          mat-stroked-button
+        >
+          Change Logo
+        </button>
+      </div>
 
+      <div class="row">
+        <div class="col-md-5">
+          <mat-form-field appearance="outline">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="company_name" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="5"
+              formControlName="description"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3>Company Head</h3>
+
+      <div class="row" formGroupName="company_head">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Middle Name</mat-label>
+            <input matInput formControlName="middle_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" [floatLabel]="'always'">
+            <mat-label>Suffix</mat-label>
+            <mat-select formControlName="ext_name" placeholder="None">
+              <mat-option [value]="null">None</mat-option>
+              <mat-option *ngFor="let title of titles" [value]="title">
+                {{ title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" [floatLabel]="'always'">
+            <mat-label>Sex</mat-label>
+            <mat-select formControlName="sex" placeholder="None">
+              <mat-option [value]="'1'">Male</mat-option>
+              <mat-option [value]="'0'">Female</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Position</mat-label>
+            <input matInput formControlName="head_position" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3>
+        Immediate Supervisor
+        <span class="sub-text">*This can be the same as Company head</span>
+      </h3>
+
+      <div class="row" formGroupName="immediate_supervisor">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Middle Name</mat-label>
+            <input matInput formControlName="middle_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" [floatLabel]="'always'">
+            <mat-label>Suffix</mat-label>
+            <mat-select formControlName="ext_name" placeholder="None">
+              <mat-option [value]="null">None</mat-option>
+              <mat-option *ngFor="let title of titles" [value]="title">
+                {{ title }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="outline" [floatLabel]="'always'">
+            <mat-label>Sex</mat-label>
+            <mat-select formControlName="sex" placeholder="None">
+              <mat-option [value]="'1'">Male</mat-option>
+              <mat-option [value]="'0'">Female</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Position</mat-label>
+            <input matInput formControlName="supervisor_position" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3>Address</h3>
+
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select
+              #region
+              formControlName="region"
+              (selectionChange)="onRegionChange(region.value)"
+            >
+              <mat-option [value]="region" *ngFor="let region of regions">
+                {{ region.regDesc }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Province</mat-label>
+            <mat-select
+              #province
+              formControlName="province"
+              (selectionChange)="onProvinceChange(province.value)"
+            >
+              <mat-option [value]="province" *ngFor="let province of provinces">
+                {{ province.provDesc }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Municipality</mat-label>
+            <mat-select
+              #municipality
+              formControlName="municipality"
+              (selectionChange)="onMunicipalityChange(municipality.value)"
+            >
+              <mat-option
+                [value]="municipality"
+                *ngFor="let municipality of municipalities"
+              >
+                {{ municipality.citymunDesc }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Barangay</mat-label>
+            <mat-select #barangay formControlName="barangay">
+              <mat-option [value]="barangay" *ngFor="let barangay of barangays">
+                {{ barangay.brgyDesc }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <mat-form-field appearance="outline">
+            <mat-label>House No./Lot No./Street Name</mat-label>
+            <input matInput formControlName="street" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3>Contact Information</h3>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Telephone Number</mat-label>
+            <input matInput formControlName="telephone_number" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile Number</mat-label>
+            <input matInput formControlName="mobile_number" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Fax Number</mat-label>
+            <input matInput formControlName="fax_number" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Email Address</mat-label>
+            <input matInput formControlName="email" />
+            <mat-hint>*This will not change your account credentials</mat-hint>
+            <!-- <mat-icon matIconSuffix>lock</mat-icon> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>URL/Website</mat-label>
+            <input matInput formControlName="website" />
+            <mat-hint>*This can be any social media pages</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <h3>Job/Skills Requirements</h3>
+
+      <div formArrayName="job_requirements">
+        <ng-container
+          *ngFor="
+            let skill of requirementsForm.controls;
+            index as i;
+            last as last
+          "
+        >
           <div class="row">
             <div class="col-md-4">
-                <div class="file-input-container"> 
-                    <div class="label"> Upload Image </div>
-                    <input class="file-input" type="file" accept=".jpeg, .png, .jpg, .svg" (change)="uploadFile($event)"> 
-                </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Requirement</mat-label>
+                <input matInput [formControlName]="i" />
+              </mat-form-field>
+            </div>
+            <div class="skill-requirement-actions">
+              <button
+                type="button"
+                *ngIf="i >= 1"
+                mat-icon-button
+                (click)="removeSkills(i)"
+                matTooltip="Remove"
+              >
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                *ngIf="last && requirementsForm.length < 7"
+                (click)="addSkillRequirement()"
+                matTooltip="Add Skills"
+              >
+                <mat-icon color="primary">add</mat-icon>
+              </button>
             </div>
           </div>
-
-          <div class="row">
-            <div class="col-md-5">
-                <mat-form-field appearance="outline">
-                  <mat-label>Company Name</mat-label>
-                  <input matInput formControlName="company_name">
-                </mat-form-field>
-            </div>
-          </div>
-          
-          <div class="row">
-              <div class="col-md-10">
-                  <mat-form-field appearance="outline">
-                      <mat-label>Description</mat-label>
-                      <textarea matInput
-                              cdkTextareaAutosize
-                              #autosize="cdkTextareaAutosize"
-                              cdkAutosizeMinRows="5"
-                              cdkAutosizeMaxRows="5"
-                              formControlName="description"></textarea>
-                  </mat-form-field>
-              </div>
-          </div>
-          
-          <h3>Company Head</h3>
-
-          <div class="row" formGroupName="company_head">
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
-                    <input matInput formControlName="first_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Middle Name</mat-label>
-                    <input matInput formControlName="middle_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput formControlName="last_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline" [floatLabel]="'always'">
-                    <mat-label>Suffix</mat-label>
-                    <mat-select formControlName="ext_name" placeholder="None">
-                      <mat-option [value]="null">None</mat-option>
-                      <mat-option *ngFor="let title of titles" [value]="title">
-                        {{ title }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                <mat-form-field appearance="outline" [floatLabel]="'always'">
-                  <mat-label>Sex</mat-label>
-                  <mat-select formControlName="sex" placeholder="None">
-                    <mat-option [value]="'1'">Male</mat-option>
-                    <mat-option [value]="'0'">Female</mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-          </div>
-
-          <div class="row">
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Position</mat-label>
-                    <input matInput formControlName="head_position">
-                  </mat-form-field>
-              </div>
-          </div>
-
-          <h3>Immediate Supervisor <span style="font-size: 14px; font-weight: 300; opacity: .7;">*This can be the same as Company head</span></h3> 
-
-          <div class="row" formGroupName="immediate_supervisor">
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
-                    <input matInput formControlName="first_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Middle Name</mat-label>
-                    <input matInput formControlName="middle_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput formControlName="last_name">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline" [floatLabel]="'always'">
-                    <mat-label>Suffix</mat-label>
-                    <mat-select formControlName="ext_name" placeholder="None">
-                      <mat-option [value]="null">None</mat-option>
-                      <mat-option *ngFor="let title of titles" [value]="title">
-                        {{ title }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-2">
-                <mat-form-field appearance="outline" [floatLabel]="'always'">
-                  <mat-label>Sex</mat-label>
-                  <mat-select formControlName="sex" placeholder="None">
-                    <mat-option [value]="'1'">Male</mat-option>
-                    <mat-option [value]="'0'">Female</mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-          </div>
-
-          <div class="row">
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Position</mat-label>
-                    <input matInput formControlName="supervisor_position">
-                  </mat-form-field>
-              </div>
-          </div>
-          
-          <h3>Address</h3>
-
-          <div class="row">
-            <div class="col-md-3">
-                <mat-form-field appearance="outline">
-                    <mat-label>Region</mat-label>
-                    <mat-select #region formControlName="region" (selectionChange)="onRegionChange(region.value)">
-                      <mat-option [value]="region" *ngFor="let region of regions"> {{ region.regDesc }} </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline">
-                  <mat-label>Province</mat-label>
-                  <mat-select #province formControlName="province" (selectionChange)="onProvinceChange(province.value)">
-                    <mat-option [value]="province" *ngFor="let province of provinces"> {{ province.provDesc }} </mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline">
-                  <mat-label>Municipality</mat-label>
-                  <mat-select #municipality formControlName="municipality" (selectionChange)="onMunicipalityChange(municipality.value)">
-                    <mat-option [value]="municipality" *ngFor="let municipality of municipalities"> {{ municipality.citymunDesc }} </mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field appearance="outline">
-                  <mat-label>Barangay</mat-label>
-                  <mat-select #barangay formControlName="barangay">
-                    <mat-option [value]="barangay" *ngFor="let barangay of barangays"> {{ barangay.brgyDesc }} </mat-option>
-                  </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-5">
-                <mat-form-field appearance="outline">
-                  <mat-label>House No./Lot No./Street Name</mat-label>
-                  <input matInput formControlName="street">
-                </mat-form-field>
-            </div>
-        </div>
-          
-          <h3>Contact Information</h3>
-          
-          <div class="row">
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Telephone Number</mat-label>
-                    <input matInput formControlName="telephone_number">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Mobile Number</mat-label>
-                    <input matInput formControlName="mobile_number">
-                  </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Fax Number</mat-label>
-                    <input matInput formControlName="fax_number">
-                  </mat-form-field>
-              </div>
-          </div>
-          
-          <div class="row">
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Email Address</mat-label>
-                    <input matInput formControlName="email">
-                    <mat-hint>*This will not change your account credentials</mat-hint>
-                    <!-- <mat-icon matIconSuffix>lock</mat-icon> -->
-                  </mat-form-field>
-              </div>
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline">
-                    <mat-label>URL/Website</mat-label>
-                    <input matInput formControlName="website">
-                    <mat-hint>*This can be any social media pages</mat-hint>
-                  </mat-form-field>
-              </div>
-          </div>
-      
-          <h3>Job/Skills Requirements</h3>
-
-          <div formArrayName="job_requirements">
-            <ng-container *ngFor="let skill of requirementsForm.controls; index as i; last as last">
-              <div class="row">
-                  <div class="col-md-4">
-                    <mat-form-field appearance="outline">
-                      <mat-label>Requirement</mat-label>
-                      <input matInput [formControlName]="i">
-                    </mat-form-field>
-                  </div>
-                  <div class="actions">
-                    <mat-icon class="delete" *ngIf="i >= 1" (click)="removeSkills(i)" matTooltip="Remove">delete</mat-icon>
-                    <mat-icon class="add" *ngIf="last && requirementsForm.length < 7" (click)="addSkillRequirement()"  matTooltip="Add Skills">add</mat-icon>
-                  </div>
-              </div>
-            </ng-container>
-          </div>
+        </ng-container>
       </div>
-      
-      <div class="btn">
-          <button mat-ripple type="submit" [class.invalid]="formDetails.invalid">Save</button>
-      </div>
+    </div>
+
+    <div class="card-action-button">
+      <button
+        class="button"
+        mat-ripple
+        type="submit"
+        [class.invalid]="formDetails.invalid"
+      >
+        Save
+      </button>
+    </div>
   </form>
 </div>
-
