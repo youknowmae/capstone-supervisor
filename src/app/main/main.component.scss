@@ -76,17 +76,23 @@
         text-align: center;
         margin-top: 10px;
         margin-bottom: 5px;
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 600;
+        //
+        width: 90%;
+        line-height: normal;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
     }
     p {
         width: 85%;
         border-bottom: 2px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
         text-align: center;
         font-weight: 400;
         font-size: 20px;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
     }
 }
 
