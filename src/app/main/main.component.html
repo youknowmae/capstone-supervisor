@@ -1,7 +1,7 @@
 <main>
     <mat-sidenav-container class="main-container">
-        <!-- 
-            
+        <!--
+
             [fixedTopGap]="options.value.top"
             [fixedBottomGap]="options.value.bottom" -->
         <mat-sidenav #sidenav class="sidebar-container"
@@ -17,31 +17,31 @@
                     <!-- <h3>{{ user.industry_partner.immediate_supervisor.full_name }}</h3> -->
                     <!-- <p>{{ user.industry_partner.supervisor_position }}</p> -->
                 </div>
-                
+
                 <div class="navigation-links">
                     <li class="item" [routerLink]="['profile']" routerLinkActive="router-link-active">
-                        <span class="side-link"> 
+                        <span class="side-link">
                             <i class="fa-solid fa-user"></i> Profile
                         </span>
                     </li>
                     <li class="item" [routerLink]="['student']" routerLinkActive="router-link-active" >
-                        <span class="side-link"> 
-                            <i class="fa-solid fa-user-group"></i> Students
+                        <span class="side-link">
+                            <i class="fa-solid fa-user-group"></i> Interns
                         </span>
                     </li>
                     <li class="item" [routerLink]="['applications']" routerLinkActive="router-link-active" >
-                        <span class="side-link"> 
+                        <span class="side-link">
                             <i class="fa-solid fa-file"></i> Applications
                         </span>
                     </li>
                     <li class="item" [routerLink]="['settings']" routerLinkActive="router-link-active" >
-                        <span class="side-link"> 
+                        <span class="side-link">
                             <i class="fa-solid fa-gear"></i> Settings
                         </span>
                     </li>
                 </div>
             </div>
-            
+
             <div class="logout">
                 <div class="logout-icon" (click)="logout()">
                     <i class="fa-solid fa-right-from-bracket" ></i>
