@@ -45,7 +45,7 @@ export class ViewComponent {
         application.application_comments.forEach((element: any) => {
           if (element.supervisor) {
             let name = JSON.parse(element.supervisor.immediate_supervisor);
-    
+
             this.comments.push({
               ...name,
               image: element.supervisor.image,
@@ -53,9 +53,9 @@ export class ViewComponent {
             });
           }
         });
-    
+
         console.log(this.comments);
-    
+
         if(application.status == 4) {
           application.status_text = 'Not Approved'
         }
@@ -86,13 +86,13 @@ export class ViewComponent {
           department: application.department,
           task: application.task,
         };
-    
+
         console.log(application);
         if (application.application_endorsement)
           this.applicationDetails.documents.unshift(
             application.application_endorsement
           );
-    
+
         if (this.applicationDetails.student.skills == null)
           this.applicationDetails.student.skills = [
             { strong_skill: '', weak_skill: '' },
@@ -100,8 +100,8 @@ export class ViewComponent {
             { strong_skill: '', weak_skill: '' },
           ];
 
-        
-        
+
+
         this.isLoading = false
       },
       error => {
@@ -129,7 +129,7 @@ export class ViewComponent {
   acceptApplication() {
     const dialogRef = this.dialog.open(OJTInfoComponent, {
       width: '400px',
-      disableClose: true, 
+      disableClose: true,
       data: { id: this.applicationDetails.id }
     });
 
@@ -142,7 +142,7 @@ export class ViewComponent {
         this.applicationDetails.status_text = 'Accepted';
       }
     });
-    
+
     // Swal.fire({
     //   title: 'Accept?',
     //   text: 'Are you sure you want to accept this application?',
@@ -171,13 +171,13 @@ export class ViewComponent {
 
   rejectApplication() {
     Swal.fire({
-      title: 'Please state the reason for not approving.',
+      title: 'Please state the reason for declining.',
       input: 'text',
       inputAttributes: {
         autocapitalize: 'off',
       },
       showCancelButton: true,
-      confirmButtonText: 'Not Approved',
+      confirmButtonText: 'Decline',
       cancelButtonText: 'Cancel',
       confirmButtonColor: '#ff4141',
       cancelButtonColor: '#777777',
@@ -185,7 +185,7 @@ export class ViewComponent {
       console.log(result);
       if (result.isConfirmed) {
         if(result.value.trim().length === 0) {
-          this.gs.errorAlert('Invalid input!', 'Please give the reason for not accepting.');
+          this.gs.errorAlert('Invalid input!', 'Please give the reason for declining.');
           return
         }
 
@@ -212,7 +212,7 @@ export class ViewComponent {
     const dialogRef = this.dialog.open(AcceptmodalComponent, {
       disableClose: true, // Prevents closing on outside click
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'interview') {
         this.forInterview();
@@ -221,10 +221,10 @@ export class ViewComponent {
       }
     });
   }
-  
+
   forInterview() {
     let dialog = this.dialog.open(SchedulemodalComponent, {
-      width: '400px', 
+      width: '400px',
       disableClose: true,
       data: { id: this.applicationDetails.id}
     });
@@ -236,9 +236,9 @@ export class ViewComponent {
       if (result.action === 'scheduled') {
         this.applicationDetails.status = 4;
         this.applicationDetails.interview_schedules.unshift(result.data)
-      } 
+      }
     });
-    
+
   }
 
 
@@ -251,8 +251,8 @@ export class ViewComponent {
 
   openScheduleDetailsModal(data: any) {
     this.dialog.open(ScheduleDetailsModalComponent, {
-      width: '400px',        
-      disableClose: true,  
+      width: '400px',
+      disableClose: true,
       data: data
     });
   }
