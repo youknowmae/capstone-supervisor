@@ -56,15 +56,6 @@ export class ViewComponent {
 
         console.log(this.comments);
 
-        if(application.status == 4) {
-          application.status_text = 'Not Approved'
-        }
-        else if (application.status == 5) {
-          application.status_text = 'For Schedule';
-        }
-        else if (application.status == 8) {
-          application.status_text = 'Accepted';
-        }
 
         this.applicationDetails = {
           id: application.id,
@@ -80,7 +71,6 @@ export class ViewComponent {
           },
           documents: application.application_documents,
           interview_schedules: application.interview_schedules,
-          status_text: application.status_text,
           rejection_remarks: application.rejection_remarks,
           start_date: application.start_date,
           department: application.department,
@@ -139,34 +129,9 @@ export class ViewComponent {
         this.applicationDetails.department = result.department,
         this.applicationDetails.task = result.task,
         this.applicationDetails.status = 8;
-        this.applicationDetails.status_text = 'Accepted';
       }
     });
 
-    // Swal.fire({
-    //   title: 'Accept?',
-    //   text: 'Are you sure you want to accept this application?',
-    //   icon: 'info',
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Yes',
-    //   cancelButtonText: 'Cancel',
-    //   confirmButtonColor: '#4f6f52',
-    //   cancelButtonColor: '#777777',
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-        // this.ds.get('supervisor/applications/accept/', this.applicationDetails.id).subscribe(
-        //   (response) => {
-        //     this.gs.successAlert(response.title, response.message);
-        //     this.applicationDetails.status = 8;
-        //     this.applicationDetails.status_text = 'Accepted';
-        //   },
-        //   (error) => {
-        //     console.error(error);
-        //   }
-        // );
-    //     console.log(this.applicationDetails);
-    //   }
-    // });
   }
 
   rejectApplication() {

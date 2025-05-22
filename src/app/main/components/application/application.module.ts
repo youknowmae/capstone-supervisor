@@ -16,11 +16,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ScheduleDetailsModalComponent } from './components/schedule-details-modal/schedule-details-modal.component';
 import { LoadingSpinnerComponent } from '../../../components/loading-spinner/loading-spinner.component';
 import { OJTInfoComponent } from './components/ojtinfo/ojtinfo.component';
+import { SharedModule } from '../../../modules/shared.module';
 
 
 @NgModule({
   declarations: [
-    // ApplicationComponent,
     ListComponent,  
     ViewComponent,
     AcceptmodalComponent,
@@ -36,7 +36,8 @@ import { OJTInfoComponent } from './components/ojtinfo/ojtinfo.component';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    SharedModule
   ]
 })
 export class ApplicationModule { }

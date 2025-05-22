@@ -74,7 +74,7 @@
             </div>
           </div>
 
-          <div class="remarks-section" *ngIf="applicationDetails.status_text">
+          <div class="remarks-section" *ngIf="applicationDetails.status != 3">
             <div class="remarks">
               <p
                 [class.warning-text]="
@@ -93,7 +93,7 @@
                   applicationDetails.status == 8
                 "
               >
-                {{ applicationDetails.status_text }}
+                {{ applicationDetails.status | applicationStatusText }}
                 <span
                   class="sub-text"
                   *ngIf="applicationDetails.rejection_remarks"
