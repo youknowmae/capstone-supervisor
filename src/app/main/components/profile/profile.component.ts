@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeProfileComponent } from './change-profile/change-profile.component';
 
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -32,7 +33,7 @@ export class ProfileComponent {
     private gs: GeneralService,
     private ls: LocationService,
     private us: UserService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
   ) {
     this.formDetails = this.fb.group({
       company_name: [null, [Validators.required, Validators.maxLength(64)]],
