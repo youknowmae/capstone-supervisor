@@ -1,0 +1,39 @@
+<div class="modal">
+  <div class="modal-header">
+    <h2 class="modal-title">Select Five Technical Skills</h2>
+    <i class="fa-solid fa-xmark" (click)="closePopup()"></i>
+  </div>
+
+  <div class="modal-search">
+    <form>
+      <mat-form-field appearance="fill" class="search-field">
+        <input #searchValue matInput type="text" placeholder="Search..." />
+        <button
+          *ngIf="searchValue.value"
+          mat-icon-button
+          matSuffix
+          (click)="searchValue.value = ''"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="modal-skills">
+    <div class="skills-column">
+      <div
+        class="skills-item"
+        *ngFor="let skill of skills"
+        (click)="toggleSkillSelection(skill)"
+        [class.selected]="isSelected(skill)"
+      >
+        {{ skill }}
+      </div>
+    </div>
+  </div>
+
+  <div class="btn">
+    <button class="btn" (click)="submit()">Submit</button>
+  </div>
+</div>

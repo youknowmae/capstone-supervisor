@@ -274,7 +274,7 @@
                 <input matInput [formControlName]="i" />
               </mat-form-field>
             </div>
-            <div class="skill-requirement-actions">
+            <!-- <div class="skill-requirement-actions">
               <button
                 type="button"
                 *ngIf="i >= 1"
@@ -293,6 +293,26 @@
               >
                 <mat-icon color="primary">add</mat-icon>
               </button>
+            </div> -->
+
+            <div class="technical">
+              <h3>Technical Skills</h3>
+              <div class="container">
+                <p class="text">
+                  Please select your Top 5 Technical Skills from the list
+                  provided. These should be the skills you are most confident in
+                  and would like to highlight in your internship profile.
+                </p>
+
+                <div class="content">
+                  <div class="skills" *ngFor="let skill of displayedSkills">
+                    {{ skill }}
+                  </div>
+                  <button (click)="openTechnicalSkills()">
+                    {{ skillButtonLabel }}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>

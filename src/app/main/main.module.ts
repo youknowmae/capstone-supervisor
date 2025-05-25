@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ChangeProfileComponent } from './components/profile/change-profile/change-profile.component';
 import { ImageCropperComponent } from 'ngx-image-cropper';
+import { SkillsmodalComponent } from './components/profile/skillsmodal/skillsmodal.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
     ProfileComponent,
     StudentComponent,
     SettingsComponent,
-    ChangeProfileComponent
+    ChangeProfileComponent,
+    SkillsmodalComponent
   ],
   imports: [
     CommonModule,

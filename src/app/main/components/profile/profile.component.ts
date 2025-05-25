@@ -7,6 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeProfileComponent } from './change-profile/change-profile.component';
+import { SkillsmodalComponent } from './skillsmodal/skillsmodal.component';
 
 
 @Component({
@@ -18,6 +19,8 @@ export class ProfileComponent {
   logo: any
 
   formDetails: FormGroup
+
+  displayedSkills: string[] = [];
 
   //suffixes
   titles: string[] = ['Sr', 'Jr', 'II', 'III', 'IV', 'V'];
@@ -131,6 +134,43 @@ export class ProfileComponent {
       }
     })
 
+  }
+
+  get skillButtonLabel(): string {
+    return this.displayedSkills.length < 5
+      ? 'Add Technical Skills'
+      : 'Edit Technical Skills';
+  }
+
+  openTechnicalSkills(): void {
+    const dialogRef = this.matDialog.open(SkillsmodalComponent, {
+      width: '600px',
+      data: { selected: this.displayedSkills }, // pass existing skills here
+    });
+
+    dialogRef.afterClosed().subscribe((result: string[] | null) => {
+      if (result && result.length > 0) {
+        const removed = this.displayedSkills.filter(
+          (skill) => !result.includes(skill)
+        );
+        const added = result.filter(
+          (skill) => !this.displayedSkills.includes(skill)
+        );
+
+        if (
+          removed.length === 1 &&
+          added.length === 1 &&
+          this.displayedSkills.length === 5
+        ) {
+          const indexToReplace = this.displayedSkills.indexOf(removed[0]);
+          if (indexToReplace !== -1) {
+            this.displayedSkills[indexToReplace] = added[0];
+          }
+        } else {
+          this.displayedSkills = result;
+        }
+      }
+    });
   }
 
   async getCompanyProfile() {
