@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
-import moment from 'moment';
 import { Inject } from '@angular/core';
-
 
 @Component({
   selector: 'app-skillsmodal',
   templateUrl: './skillsmodal.component.html',
-  styleUrl: './skillsmodal.component.scss'
+  styleUrl: './skillsmodal.component.scss',
 })
 export class SkillsmodalComponent {
   selectedSkills: Set<string> = new Set();
