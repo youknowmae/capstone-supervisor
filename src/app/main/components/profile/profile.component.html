@@ -274,7 +274,7 @@
                 <input matInput [formControlName]="i" />
               </mat-form-field>
             </div>
-            <!-- <div class="skill-requirement-actions">
+            <div class="skill-requirement-actions">
               <button
                 type="button"
                 *ngIf="i >= 1"
@@ -293,29 +293,30 @@
               >
                 <mat-icon color="primary">add</mat-icon>
               </button>
-            </div> -->
-
-            <div class="technical">
-              <h3>Technical Skills</h3>
-              <div class="container">
-                <p class="text">
-                  Please select your Top 5 Technical Skills from the list
-                  provided. These should be the skills you are most confident in
-                  and would like to highlight in your internship profile.
-                </p>
-
-                <div class="content">
-                  <div class="skills" *ngFor="let skill of displayedSkills">
-                    {{ skill }}
-                  </div>
-                  <button (click)="openTechnicalSkills()">
-                    {{ skillButtonLabel }}
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </ng-container>
+      </div>
+
+      <h3>Technical Skills</h3>
+
+      <div class="row technical">
+        <div class="container">
+          <p class="text">
+            Please select your Top 5 Technical Skills from the list provided.
+            These should be the skills you are most confident in and would like
+            to highlight in your internship profile.
+          </p>
+
+          <div class="content">
+            <div class="skills" *ngFor="let skill of displayedSkills">
+              {{ skill }}
+            </div>
+            <button type="button" (click)="openTechnicalSkills()">
+              {{ skillButtonLabel }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -333,26 +334,38 @@
 </div>
 
 <div class="mou-content">
-  <div class="mou-card">
+  <div class="card">
     <div class="title">
       <h3>MOU Information</h3>
-      <p>This agreement shall be effective for a term of one (1) year, commencing on the date of execution by both parties.</p>
+      <p>
+        This agreement shall be effective for a term of one (1) year, commencing
+        on the date of execution by both parties.
+      </p>
     </div>
 
     <div class="date">
-      <div class="start">
-        <p><b>Start Date: </b></p>
+      <div>
+        <p><b>Start Date: </b> {{ mou.start_date | date : "MMM d, YYYY" }}</p>
       </div>
 
-      <div class="end">
-        <p><b>End Date: </b></p>
+      <div>
+        <p>
+          <b>End Date: </b> {{ mou.expiration_date | date : "MMM d, YYYY" }}
+        </p>
       </div>
     </div>
-  </div>
-
-  <div class="mou-card">
-    <div class="upload">
-      <h3>Uploaded MOU</h3>
+    <div style="margin-top: 2rem">
+      <object
+        [data]="mou.file_location"
+        type="application/pdf"
+        width="100%"
+        height="550px"
+      >
+        <p>
+          Your browser does not support PDFs.
+          <a [href]="mou.file_location" target="_blank">Download the PDF</a>.
+        </p>
+      </object>
     </div>
   </div>
 </div>

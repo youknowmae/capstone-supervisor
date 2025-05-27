@@ -1,5 +1,4 @@
-.card,
-.mou-card {
+.card {
   margin: 20px 10px;
   padding: 20px 30px;
   background-color: white;
@@ -45,7 +44,6 @@ h3 {
   }
 }
 
-
 .skill-requirement-actions {
   display: flex;
   flex-wrap: wrap;
@@ -67,7 +65,6 @@ h3 {
   justify-content: end;
   margin-top: 20px;
   padding: 5px;
-
 }
 
 .button {
@@ -103,62 +100,24 @@ h3 {
 }
 
 .mou-content {
-  display: flex;
-
-}
-.mou-card {
-  width: 50%;
-
-  p {
-    margin-bottom: 13px;
-  }
-
   .date {
-    width: 60%;
+    padding: 10px 0;
     display: flex;
-    justify-content: space-between;
-  }
+    flex-wrap: wrap;
+    gap: 1rem;
 
-  .note {
-    font-size: 12px;
-    color: red;
-  }
-
-  .mou-btn {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 15px;
-
-    button {
-      font-size: 15px;
-      border: none;
-      background-color: var(--secondary-color);
-      border: 2px solid var(--secondary-color);
-      color: #ffffff;
-      padding: 6px 20px;
-      width: fit-content;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.3s ease-in-out;
-    }
-
-    button:hover {
-      background-color: transparent;
-      color: var(--secondary-color);
+    & > * {
+      flex: 1 1 300px;
+      max-width: 400px;
     }
   }
 }
 
-// technical skills
 .technical {
-  margin-bottom: 50px;
-  width: 100%;
-
   .container {
     border: 1px solid var(--primary-color);
     padding: 20px 15px;
+    width: 100%;
   }
 
   button {
@@ -180,6 +139,7 @@ h3 {
 
   .content {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     align-items: center;
     padding: 0 20px;
@@ -189,7 +149,6 @@ h3 {
       border: 2px solid var(--secondary-color);
       padding: 8px 20px;
       border-radius: 10px;
-
     }
   }
 }

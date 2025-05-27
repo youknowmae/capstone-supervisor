@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { GeneralService } from '../../../services/general.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { LocationService } from '../../../services/location.service';
 import { UserService } from '../../../services/user.service';
@@ -8,27 +14,33 @@ import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangeProfileComponent } from './change-profile/change-profile.component';
 import { SkillsmodalComponent } from './skillsmodal/skillsmodal.component';
-
+import { MOU } from '../../../models/mou.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  logo: any
+  logo: any;
 
-  formDetails: FormGroup
+  formDetails: FormGroup;
+  mou: MOU = {
+    expiration_date: null,
+    start_date: null,
+    file_location: '',
+  };
 
   displayedSkills: string[] = [];
 
   //suffixes
   titles: string[] = ['Sr', 'Jr', 'II', 'III', 'IV', 'V'];
 
-  regions: any = []
-  provinces: any = []
-  municipalities: any = []
-  barangays: any = []
+  regions: any = [];
+  provinces: any = [];
+  municipalities: any = [];
+  barangays: any = [];
 
   constructor(
     private fb: FormBuilder,
@@ -37,23 +49,23 @@ export class ProfileComponent {
     private ls: LocationService,
     private us: UserService,
     private matDialog: MatDialog,
+    private sanitizer: DomSanitizer
   ) {
     this.formDetails = this.fb.group({
       company_name: [null, [Validators.required, Validators.maxLength(64)]],
       description: [null, [Validators.required, Validators.maxLength(2048)]],
-  
+
       // company_head: [null, [Validators.required, Validators.maxLength(128)]],
       company_head: this.fb.group({
         first_name: [null, [Validators.required, Validators.maxLength(64)]],
         middle_name: [null, [Validators.maxLength(64)]],
         last_name: [null, [Validators.required, Validators.maxLength(64)]],
-        ext_name: [null], 
+        ext_name: [null],
         sex: [null, Validators.required],
       }),
 
       head_position: [null, [Validators.required, Validators.maxLength(64)]],
-      
-      
+
       // immediate_supervisor: [null, [Validators.required, Validators.maxLength(128)]],
       immediate_supervisor: this.fb.group({
         first_name: [null, [Validators.required, Validators.maxLength(64)]],
@@ -62,61 +74,86 @@ export class ProfileComponent {
         ext_name: [null],
         sex: [null, Validators.required],
       }),
-      supervisor_position: [null, [Validators.required, Validators.maxLength(64)]],
-  
+      supervisor_position: [
+        null,
+        [Validators.required, Validators.maxLength(64)],
+      ],
+
       region: [null, [Validators.required]],
       province: [null, [Validators.required]],
       municipality: [null, [Validators.required]],
       barangay: [null, [Validators.required]],
       street: [null, [Validators.required, Validators.maxLength(128)]],
-  
+
       telephone_number: ['', [Validators.pattern('^[0-9 ()-]+$')]],
-      mobile_number: [null, [Validators.required, Validators.pattern('^[0-9 ()-]+$')]],
+      mobile_number: [
+        null,
+        [Validators.required, Validators.pattern('^[0-9 ()-]+$')],
+      ],
       fax_number: ['', [Validators.pattern('^[0-9 ()-]+$')]],
       email: [null, [Validators.required, Validators.email]],
       website: ['', [Validators.maxLength(128)]],
 
       job_requirements: this.fb.array([
-        this.fb.control(null, [Validators.required, Validators.maxLength(32)])
-      ])
-    })
+        this.fb.control(null, [Validators.required, Validators.maxLength(32)]),
+      ]),
+
+      technical_skills: this.fb.array([
+        this.fb.control(null, [Validators.required, Validators.maxLength(128)]),
+      ]),
+    });
   }
 
   async ngOnInit() {
-    await this.getCompanyProfile()
+    await this.getCompanyProfile();
 
-    this.regions = await this.ls.getRegions()
-    let regionFormValue =  this.regions.find((data: any) => data.regDesc == this.formDetails.value.region)
-    
-    this.provinces = await this.ls.getProvinces(regionFormValue.regCode)
-    let provinceFormValue = this.provinces.find((data: any) => data.provDesc === this.formDetails.value.province)
+    this.regions = await this.ls.getRegions();
+    let regionFormValue = this.regions.find(
+      (data: any) => data.regDesc == this.formDetails.value.region
+    );
 
-    this.municipalities = await this.ls.getMunicipalities(provinceFormValue.provCode)
-    let municipalityFormValue = this.municipalities.find((data: any) => data.citymunDesc === this.formDetails.value.municipality)
-    
-    this.barangays = await this.ls.getBarangays(municipalityFormValue.citymunCode)
-    let barangayFormValue = this.barangays.find((data: any) => data.brgyDesc === this.formDetails.value.barangay)
+    this.provinces = await this.ls.getProvinces(regionFormValue.regCode);
+    let provinceFormValue = this.provinces.find(
+      (data: any) => data.provDesc === this.formDetails.value.province
+    );
+
+    this.municipalities = await this.ls.getMunicipalities(
+      provinceFormValue.provCode
+    );
+    let municipalityFormValue = this.municipalities.find(
+      (data: any) => data.citymunDesc === this.formDetails.value.municipality
+    );
+
+    this.barangays = await this.ls.getBarangays(
+      municipalityFormValue.citymunCode
+    );
+    let barangayFormValue = this.barangays.find(
+      (data: any) => data.brgyDesc === this.formDetails.value.barangay
+    );
 
     this.formDetails.patchValue({
       region: regionFormValue,
       province: provinceFormValue,
-      municipality: municipalityFormValue, 
-      barangay: barangayFormValue
-    })
+      municipality: municipalityFormValue,
+      barangay: barangayFormValue,
+    });
   }
 
   get requirementsForm(): FormArray {
     return this.formDetails.get('job_requirements') as FormArray;
   }
-  
+
   addSkillRequirement() {
-    if(this.requirementsForm.length >= 7) {
-      return
+    if (this.requirementsForm.length >= 7) {
+      return;
     }
 
-    const requirementsForm: FormControl = this.fb.control(null, [Validators.required, Validators.maxLength(32)])
+    const requirementsForm: FormControl = this.fb.control(null, [
+      Validators.required,
+      Validators.maxLength(32),
+    ]);
 
-    this.requirementsForm.push(requirementsForm)
+    this.requirementsForm.push(requirementsForm);
   }
 
   removeSkills(Index: number) {
@@ -125,21 +162,24 @@ export class ProfileComponent {
 
   openChangeProfileModal() {
     const dialog = this.matDialog.open(ChangeProfileComponent, {
-      data: { logo: this.logo }
+      data: { logo: this.logo },
     });
 
     dialog.afterClosed().subscribe((result) => {
-      if(result) {
-        this.logo = result
+      if (result) {
+        this.logo = result;
       }
-    })
-
+    });
   }
 
   get skillButtonLabel(): string {
     return this.displayedSkills.length < 5
       ? 'Add Technical Skills'
       : 'Edit Technical Skills';
+  }
+
+  get technicalSkillsFormArray(): FormArray {
+    return this.formDetails.get('technical_skills') as FormArray;
   }
 
   openTechnicalSkills(): void {
@@ -149,6 +189,8 @@ export class ProfileComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: string[] | null) => {
+      console.log(result);
+
       if (result && result.length > 0) {
         const removed = this.displayedSkills.filter(
           (skill) => !result.includes(skill)
@@ -169,6 +211,38 @@ export class ProfileComponent {
         } else {
           this.displayedSkills = result;
         }
+
+        this.technicalSkillsFormArray.clear();
+
+        if (result.length < 3) {
+          this.technicalSkillsFormArray.push(
+            this.fb.control(null, [
+              Validators.required,
+              Validators.maxLength(128),
+            ])
+          );
+          return;
+        }
+
+        result.forEach((skill) => {
+          this.technicalSkillsFormArray.push(
+            this.fb.control(skill, [
+              Validators.required,
+              Validators.maxLength(128),
+            ])
+          );
+        });
+
+        console.log(this.formDetails.value.technical_skills);
+      } else if (result && result.length === 0) {
+        this.technicalSkillsFormArray.clear();
+        this.displayedSkills = [];
+        this.technicalSkillsFormArray.push(
+          this.fb.control(null, [
+            Validators.required,
+            Validators.maxLength(128),
+          ])
+        );
       }
     });
   }
@@ -176,14 +250,26 @@ export class ProfileComponent {
   async getCompanyProfile() {
     try {
       const profile = await firstValueFrom(this.ds.get('supervisor/profile'));
-      this.logo = profile.image
+      this.logo = profile.image;
       this.formDetails.patchValue({ ...profile });
+      this.displayedSkills = profile.technical_skills || [];
+      this.mou = {
+        ...profile.latest_mou,
+        file_location: this.sanitizer.bypassSecurityTrustResourceUrl(
+          profile.latest_mou.file_location
+        ),
+      };
 
-      if(profile.job_requirements.length > 0) {
+      if (profile.job_requirements?.length > 0) {
         this.requirementsForm.clear();
 
         profile.job_requirements.forEach((value: any) => {
-          this.requirementsForm.push(this.fb.control(value, [Validators.required, Validators.maxLength(32)]));
+          this.requirementsForm.push(
+            this.fb.control(value, [
+              Validators.required,
+              Validators.maxLength(32),
+            ])
+          );
         });
       }
     } catch (error) {
@@ -191,139 +277,163 @@ export class ProfileComponent {
     }
   }
 
-  updateProfile() {
-    if(this.formDetails.invalid) {
-      const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
-      
-      if (firstInvalidControl) {
-        firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  async updateProfile() {
+    if (this.formDetails.invalid) {
+      //custom validator
+      if (this.formDetails.get('technical_skills')?.invalid) {
+        this.gs.makeAlert(
+          'error',
+          'Technical Skills Required!',
+          'Please place at least 3 technical skills'
+        );
+        return;
       }
-  
+
+      const firstInvalidControl: HTMLElement =
+        document.querySelector('form .ng-invalid')!;
+
+      if (firstInvalidControl) {
+        firstInvalidControl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+
       this.formDetails.markAllAsTouched();
       return;
     }
-    
-    let alert = this.gs.promptConfirmationAlert("Save?", "Your changes will be saved", 'question')
 
-    alert.fire().then((result) => {
-      if (result.isConfirmed) {
-        this.create()
-      }
-    });
-  }
+    const res = await this.gs.confirmationAlert(
+      'Save?',
+      'Your changes will be saved',
+      'question',
+      'Save',
+      'confirmation'
+    );
 
-  create() {
+    if (!res) return;
+
     var formData = new FormData();
 
-    formData.append('company_name', this.formDetails.get('company_name')?.value);
-    formData.append('description', this.formDetails.get('description')?.value);
-    formData.append('region', this.formDetails.get('region')?.value.regDesc);
-    formData.append('province', this.formDetails.get('province')?.value.provDesc);
-    formData.append('municipality', this.formDetails.get('municipality')?.value.citymunDesc);
-    formData.append('barangay', this.formDetails.get('barangay')?.value.brgyDesc);
-    formData.append('street', this.formDetails.get('street')?.value);
-    if(this.formDetails.get('telephone_number')?.value)
-      formData.append('telephone_number', this.formDetails.get('telephone_number')?.value);
-    formData.append('mobile_number', this.formDetails.get('mobile_number')?.value);
-    if(this.formDetails.get('fax_number')?.value)
-      formData.append('fax_number', this.formDetails.get('fax_number')?.value);
-    formData.append('email', this.formDetails.get('email')?.value);
-    if(this.formDetails.get('website')?.value)
-      formData.append('website', this.formDetails.get('website')?.value);
-    formData.append('email_2', this.formDetails.get('email_2')?.value);
-    formData.append('password', this.formDetails.get('password')?.value);
+    const formValue = this.formDetails.value;
 
-    const companyHead = this.formDetails.get('company_head')?.value;
+    formData.append('company_name', formValue.company_name);
+    formData.append('description', formValue.description);
+    formData.append('region', formValue.region.regDesc);
+    formData.append('province', formValue.province.provDesc);
+    formData.append('municipality', formValue.municipality.citymunDesc);
+    formData.append('barangay', formValue.barangay.brgyDesc);
+    formData.append('street', formValue.street);
+    if (formValue.telephone_number)
+      formData.append('telephone_number', formValue.telephone_number);
+    formData.append('mobile_number', formValue.mobile_number);
+    if (formValue.fax_number)
+      formData.append('fax_number', formValue.fax_number);
+    formData.append('email', formValue.email);
+    if (formValue.website) formData.append('website', formValue.website);
+
+    const companyHead = formValue.company_head;
     formData.append('company_head[first_name]', companyHead.first_name);
-    if(companyHead.middle_name)
+    if (companyHead.middle_name)
       formData.append('company_head[middle_name]', companyHead.middle_name);
     formData.append('company_head[last_name]', companyHead.last_name);
     formData.append('company_head[sex]', companyHead.sex);
-    if(companyHead.ext_name)
+    if (companyHead.ext_name)
       formData.append('company_head[ext_name]', companyHead.ext_name);
 
-    formData.append('head_position', this.formDetails.get('head_position')?.value);
+    formData.append('head_position', formValue.head_position);
 
-    const supervisor = this.formDetails.get('immediate_supervisor')?.value;
+    const supervisor = formValue.immediate_supervisor;
     formData.append('immediate_supervisor[first_name]', supervisor.first_name);
-    if(supervisor.middle_name)
-      formData.append('immediate_supervisor[middle_name]', supervisor.middle_name);
+    if (supervisor.middle_name)
+      formData.append(
+        'immediate_supervisor[middle_name]',
+        supervisor.middle_name
+      );
     formData.append('immediate_supervisor[last_name]', supervisor.last_name);
     formData.append('immediate_supervisor[sex]', supervisor.sex);
-    if(supervisor.ext_name)
+    if (supervisor.ext_name)
       formData.append('immediate_supervisor[ext_name]', supervisor.ext_name);
 
-    formData.append('supervisor_position', this.formDetails.get('supervisor_position')?.value);
-    
+    formData.append('supervisor_position', formValue.supervisor_position);
+
     this.requirementsForm.controls.forEach((control, index) => {
       if (control.value) {
         formData.append(`job_requirements[${index}]`, control.value);
       }
     });
 
+    this.technicalSkillsFormArray.controls.forEach((control, index) => {
+      if (control.value) {
+        formData.append(`technical_skills[${index}]`, control.value);
+      }
+    });
 
     this.ds.post('supervisor/profile', '', formData).subscribe(
-      response => {
-        console.log(response)
-        this.gs.successAlert(response.title, response.message)
+      (response) => {
+        console.log(response);
+        this.gs.successAlert(response.title, response.message);
 
-        let user = this.us.getUser()
-        if(response.image)
-          user.industry_partner.image = response.image
+        let user = this.us.getUser();
+        if (response.image) user.industry_partner.image = response.image;
 
-        this.us.setUser(user)
+        this.us.setUser(user);
       },
-      error => {
-        console.error(error)
+      (error) => {
+        console.error(error);
         if (error.status == 422) {
-          this.gs.errorAlert('Error!', "Invalid input.")
-        }
-        else if (error.status == 409) {
-          this.gs.errorAlert(error.error.title, error.error.message)
-        }
-        else {
-          this.gs.errorAlert('Oops!', "Something went wrong, please try again later.")
+          this.gs.makeAlert(
+            'error',
+            error.error.title || 'Invalid Input!',
+            error.error.message || 'Your input is invalid.'
+          );
+        } else if (error.status == 409) {
+          this.gs.makeAlert('error', error.error.title, error.error.message);
+        } else {
+          this.gs.makeAlert(
+            'error',
+            'Oops!',
+            'Something went wrong, please try again later.'
+          );
         }
       }
-    )
+    );
   }
 
   async onRegionChange(region: any) {
-    let regCode = region.regCode
-    this.provinces = []
-    this.municipalities = []
-    this.barangays = []
+    let regCode = region.regCode;
+    this.provinces = [];
+    this.municipalities = [];
+    this.barangays = [];
 
     this.formDetails.patchValue({
       municipality: null,
       province: null,
       barangay: null,
-    })
+    });
 
-    this.provinces = await this.ls.getProvinces(regCode)
+    this.provinces = await this.ls.getProvinces(regCode);
   }
 
   async onProvinceChange(province: any) {
-    this.municipalities = []
-    this.barangays = []
+    this.municipalities = [];
+    this.barangays = [];
 
     this.formDetails.patchValue({
       municipality: null,
       barangay: null,
-    })
+    });
 
-    this.municipalities = await this.ls.getMunicipalities(province.provCode)
+    this.municipalities = await this.ls.getMunicipalities(province.provCode);
   }
 
   async onMunicipalityChange(municipality: any) {
-    this.barangays = []
+    this.barangays = [];
 
     this.formDetails.patchValue({
       barangay: null,
-    })
+    });
 
-    this.barangays = await this.ls.getBarangays(municipality.citymunCode)
+    this.barangays = await this.ls.getBarangays(municipality.citymunCode);
   }
-  
-  
 }
