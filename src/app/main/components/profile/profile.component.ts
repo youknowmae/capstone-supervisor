@@ -214,7 +214,7 @@ export class ProfileComponent {
 
         this.technicalSkillsFormArray.clear();
 
-        if (result.length < 3) {
+        if (result.length < 5) {
           this.technicalSkillsFormArray.push(
             this.fb.control(null, [
               Validators.required,
@@ -296,7 +296,7 @@ export class ProfileComponent {
         this.gs.makeAlert(
           'error',
           'Technical Skills Required!',
-          'Please place at least 3 technical skills'
+          'Please place at least 5 technical skills'
         );
         return;
       }
