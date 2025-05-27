@@ -260,6 +260,18 @@ export class ProfileComponent {
         ),
       };
 
+      const technicalSkills = profile.technical_skills;
+
+      if (technicalSkills) {
+        this.technicalSkillsFormArray.clear();
+
+        technicalSkills.forEach((item: any) => {
+          this.technicalSkillsFormArray.push(
+            this.fb.control(item, [Validators.required])
+          );
+        });
+      }
+
       if (profile.job_requirements?.length > 0) {
         this.requirementsForm.clear();
 

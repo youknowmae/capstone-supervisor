@@ -38,18 +38,18 @@ export class AuthInterceptor implements HttpInterceptor {
         if (error.status === 401) {
           this.router.navigate(['/login']);
           this.gs.makeAlert(
+            'error',
             error.error.title || 'Unauthenticated!',
             error.error.message ||
-              'You do not the necessary credentials to perform this action.',
-            'error'
+              'You do not the necessary credentials to perform this action.'
           );
           return throwError(() => new Error('Unauthenticated'));
         } else if (error.status === 403) {
           this.router.navigate(['/login']);
           this.gs.makeAlert(
+            'error',
             error.error.title || 'Unauthorized!',
-            error.error.message || 'You do not have access to this resources.',
-            'error'
+            error.error.message || 'You do not have access to this resources.'
           );
           return throwError(() => new Error('Unauthenticated'));
         }
