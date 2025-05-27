@@ -3,43 +3,40 @@ import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { DataService } from '../../../../../services/data.service';
 import { GeneralService } from '../../../../../services/general.service';
 import { UserService } from '../../../../../services/user.service';
-import { Router } from '@angular/router';
+import { Router, withDebugTracing } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
-import { jsPDF } from "jspdf";
-
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-student-evaluation',
   templateUrl: './student-evaluation.component.html',
-  styleUrl: './student-evaluation.component.scss'
+  styleUrl: './student-evaluation.component.scss',
 })
 export class StudentEvaluationComponent {
-
-
-  data: any 
-  totalRating: number = 0
+  data: any;
+  totalRating: number = 0;
   overallPerformance: any = {
-    average: '', 
-    remarks: ''
-  } 
+    average: '',
+    remarks: '',
+  };
 
-  isSubmitting: boolean = false
+  isSubmitting: boolean = false;
   exitPollDetails: any = {
     user: '',
     industry_partner: {
       supervisor_position: '',
       immediate_supervisor: '',
       full_address: '',
-      company_name: ''
+      company_name: '',
     },
-    total_hours_completed: ''
-  }
+    total_hours_completed: '',
+  };
 
-  file: any = null
-  isImage: boolean = false
+  file: any = null;
+  isImage: boolean = false;
   fileSrc: any = null;
-  formDetails: FormGroup 
+  formDetails: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +44,7 @@ export class StudentEvaluationComponent {
     private gs: GeneralService,
     private us: UserService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.formDetails = this.fb.group({
       knowledge: this.fb.array([
@@ -54,36 +52,39 @@ export class StudentEvaluationComponent {
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
-        this.fb.control(null, Validators.required), 
+        this.fb.control(null, Validators.required),
       ]),
       skills: this.fb.array([
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
-        this.fb.control(null, Validators.required), 
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
-        this.fb.control(null, Validators.required), 
+        this.fb.control(null, Validators.required),
+        this.fb.control(null, Validators.required),
       ]),
       attitude: this.fb.array([
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
-        this.fb.control(null, Validators.required), 
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
-        this.fb.control(null, Validators.required), 
+        this.fb.control(null, Validators.required),
+        this.fb.control(null, Validators.required),
         this.fb.control(null, Validators.required),
       ]),
       suggestions: this.fb.group({
         strong_point: [null, [Validators.required, Validators.maxLength(256)]],
-        utilized_effectively: [null, [Validators.required, Validators.maxLength(256)]],
+        utilized_effectively: [
+          null,
+          [Validators.required, Validators.maxLength(256)],
+        ],
         weak_point: [null, [Validators.required, Validators.maxLength(256)]],
         corrected_by: [null, [Validators.required, Validators.maxLength(256)]],
         other_comment: [null, [Validators.required, Validators.maxLength(256)]],
@@ -96,53 +97,53 @@ export class StudentEvaluationComponent {
           this.fb.control(null),
           this.fb.control(null),
           this.fb.control(null),
-          this.fb.control(null), 
           this.fb.control(null),
-        ])
+          this.fb.control(null),
+        ]),
       }),
       total_rating: [null, Validators.required],
       remarks: [null, Validators.required],
       average: [null, Validators.required],
-
-    })
+    });
   }
 
   get ifNotArray() {
     return this.formDetails.get('further_employment.if_not') as FormArray;
   }
 
-
   ngOnInit() {
+    this.data = this.us.getStudentEvaluation();
 
-
-    this.data = this.us.getStudentEvaluation()
-
-    if(!this.data.id) {
-      this.router.navigate(['main/student/list'])
+    if (!this.data.id) {
+      this.router.navigate(['main/student/list']);
     }
 
-    this.formDetails.get('knowledge')?.valueChanges.subscribe(values => {
-      this.calculateTotal(); 
-    });
-    
-    this.formDetails.get('skills')?.valueChanges.subscribe(values => {
-      this.calculateTotal();
-    });
-    
-    this.formDetails.get('attitude')?.valueChanges.subscribe(values => {
+    this.formDetails.get('knowledge')?.valueChanges.subscribe((values) => {
       this.calculateTotal();
     });
 
-    this.formDetails.get('further_employment.response')?.valueChanges.subscribe((value) => {
-      const ifNotArray = this.formDetails.get('further_employment.if_not') as FormArray;
-
-      if (value === '1') {
-        ifNotArray.disable();  
-        ifNotArray.reset()
-      } else {
-        ifNotArray.enable();  
-      }
+    this.formDetails.get('skills')?.valueChanges.subscribe((values) => {
+      this.calculateTotal();
     });
+
+    this.formDetails.get('attitude')?.valueChanges.subscribe((values) => {
+      this.calculateTotal();
+    });
+
+    this.formDetails
+      .get('further_employment.response')
+      ?.valueChanges.subscribe((value) => {
+        const ifNotArray = this.formDetails.get(
+          'further_employment.if_not'
+        ) as FormArray;
+
+        if (value === '1') {
+          ifNotArray.disable();
+          ifNotArray.reset();
+        } else {
+          ifNotArray.enable();
+        }
+      });
   }
 
   getKnowledgeControls() {
@@ -161,12 +162,11 @@ export class StudentEvaluationComponent {
 
   uploadFile(event: any) {
     this.file = event.target.files[0];
-    
-    let file = this.file
+
+    let file = this.file;
     if (file) {
       const fileType = file.type;
-      console.log(file.size)
-      // Check if the file is an image
+      console.log(file.size);
       if (fileType.startsWith('image/')) {
         this.isImage = true;
         const reader = new FileReader();
@@ -174,196 +174,225 @@ export class StudentEvaluationComponent {
           this.fileSrc = e.target.result;
         };
         reader.readAsDataURL(file);
-      } 
-      // Check if the file is a PDF
-      else if (fileType === 'application/pdf') {
+      } else if (fileType === 'application/pdf') {
         this.isImage = false;
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.fileSrc = e.target.result+ '#toolbar=0&navpanes=0&scrollbar=0';
-        };
-        reader.readAsDataURL(file);  // Read PDF as Data URL for embedding
+        const objectUrl = URL.createObjectURL(file);
+        this.fileSrc = this.sanitizer.bypassSecurityTrustResourceUrl(
+          objectUrl + '#toolbar=0&navpanes=0'
+        );
       } else {
-        this.fileSrc = null;  // Reset if not image or PDF
+        this.fileSrc = null;
+        this.gs.makeAlert(
+          'error',
+          'Invalid File Type!',
+          'Only files of type jpg, jpeg, png and pdf are supported.'
+        );
       }
     }
   }
 
-
   // Calculate the total rating
   calculateTotal() {
-    const knowledgeTotal = this.getKnowledgeControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
-    const skillsTotal = this.getSkillsControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
-    const attitudeTotal = this.getAttitudeControls().reduce((sum, control) => sum + parseInt(control.value || 0), 0);
-    
+    const knowledgeTotal = this.getKnowledgeControls().reduce(
+      (sum, control) => sum + parseInt(control.value || 0),
+      0
+    );
+    const skillsTotal = this.getSkillsControls().reduce(
+      (sum, control) => sum + parseInt(control.value || 0),
+      0
+    );
+    const attitudeTotal = this.getAttitudeControls().reduce(
+      (sum, control) => sum + parseInt(control.value || 0),
+      0
+    );
+
     this.totalRating = knowledgeTotal + skillsTotal + attitudeTotal;
 
-    this.calculateAverage(this.totalRating)
+    this.calculateAverage(this.totalRating);
   }
-  
+
   calculateAverage(totalRating: number) {
     const isKnowledgeInvalid = this.formDetails?.get('knowledge')?.invalid;
     const isSkillsInvalid = this.formDetails?.get('skills')?.invalid;
     const isAttitudeInvalid = this.formDetails?.get('attitude')?.invalid;
 
     if (isKnowledgeInvalid || isSkillsInvalid || isAttitudeInvalid) {
-      return
+      return;
     }
 
-    
+    let totalRatingAverage = totalRating / 130;
 
-    let totalRatingAverage = totalRating/130;
+    let baseScore = 75;
+    let variable = 25;
 
-    let baseScore = 75 
-    let variable = 25
+    this.overallPerformance.average = Math.round(
+      variable * totalRatingAverage + baseScore
+    );
 
-    this.overallPerformance.average = Math.round((variable * totalRatingAverage) + baseScore)
-
-    let score = this.overallPerformance.average
+    let score = this.overallPerformance.average;
     if (score >= 96 && score <= 100) {
-      this.overallPerformance.remarks = "Excellent";
+      this.overallPerformance.remarks = 'Excellent';
     } else if (score >= 91 && score <= 95) {
-      this.overallPerformance.remarks = "Very Good";
+      this.overallPerformance.remarks = 'Very Good';
     } else if (score >= 86 && score <= 90) {
-      this.overallPerformance.remarks = "Good";
+      this.overallPerformance.remarks = 'Good';
     } else if (score >= 81 && score <= 85) {
-      this.overallPerformance.remarks = "Fair";
+      this.overallPerformance.remarks = 'Fair';
     } else if (score >= 75 && score <= 80) {
-      this.overallPerformance.remarks = "Poor";
-    } 
+      this.overallPerformance.remarks = 'Poor';
+    }
 
     this.formDetails.patchValue({
       total_rating: this.totalRating,
       remarks: this.overallPerformance.remarks,
       average: this.overallPerformance.average,
-    })
+    });
   }
 
   formCheck() {
-    const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
-      
+    const firstInvalidControl: HTMLElement =
+      document.querySelector('form .ng-invalid')!;
+
     if (firstInvalidControl) {
-      firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstInvalidControl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
     }
 
     this.formDetails.markAllAsTouched();
   }
 
   submit() {
-    if(this.isSubmitting) {
-      return
+    if (this.isSubmitting) {
+      return;
     }
 
-    if(!this.file) {
-      this.gs.errorAlert('Certificate Required!', 'Please upload the student\'s completion certificate.')
-      return
+    if (!this.file) {
+      this.gs.errorAlert(
+        'Certificate Required!',
+        "Please upload the student's completion certificate."
+      );
+      return;
     }
 
-    console.log(this.formDetails.value)
+    console.log(this.formDetails.value);
 
     var payload = new FormData();
 
-    payload.append('evaluation', JSON.stringify(this.formDetails.value))
-    if(this.file)
-      payload.append('file', this.file)
+    payload.append('evaluation', JSON.stringify(this.formDetails.value));
+    if (this.file) payload.append('file', this.file);
 
-    this.isSubmitting = true
+    this.isSubmitting = true;
 
     payload.forEach((value, key) => {
       console.log(key + ': ' + value);
     });
-    
-    this.ds.post('supervisor/students/evaluate/', this.data.id, payload).subscribe(
-      response => {
-        console.log('response');
-        this.router.navigate(['main/student/list'])
-        this.gs.successAlert('Submitted!', response.message)
-        this.isSubmitting = false
-      },
-      error => {
-        console.error(error)
-        if(error.status === 409) {
-          this.gs.errorAlert(error.error.title, error.error.message)
+
+    this.ds
+      .post('supervisor/students/evaluate/', this.data.id, payload)
+      .subscribe(
+        (response) => {
+          console.log('response');
+          this.router.navigate(['main/student/list']);
+          this.gs.successAlert('Submitted!', response.message);
+          this.isSubmitting = false;
+        },
+        (error) => {
+          console.error(error);
+          if (error.status === 409) {
+            this.gs.errorAlert(error.error.title, error.error.message);
+          } else {
+            this.gs.errorAlert(
+              'Error!',
+              'Something went wrong, Please try again later.'
+            );
+          }
+          this.isSubmitting = false;
         }
-        else {
-          this.gs.errorAlert('Error!', 'Something went wrong, Please try again later.')
-        }
-        this.isSubmitting = false
-      }
-    )
+      );
   }
 
   confirmation() {
     Swal.fire({
-      title: "Submit?",
-      text: "Are you sure you want to submit this evaluation?",
-      icon: "warning",
+      title: 'Submit?',
+      text: 'Are you sure you want to submit this evaluation?',
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       cancelButtonText: 'Cancel',
-      confirmButtonColor: "#4f6f52",
-      cancelButtonColor: "#777777",
+      confirmButtonColor: '#4f6f52',
+      cancelButtonColor: '#777777',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.submit()
+        this.submit();
       }
     });
   }
 
   @ViewChild('image') image!: any;
   @ViewChild('canvas') canvas!: any;
-  canvasBase64: any
+  canvasBase64: any;
 
   ngAfterViewInit() {
     this.drawImageWithText();
   }
 
   drawImageWithText() {
-    const canvas = this.canvas.nativeElement
+    const canvas = this.canvas.nativeElement;
     const ctx = canvas.getContext('2d');
-    const image = this.image.nativeElement
+    const image = this.image.nativeElement;
 
-    if(ctx) {
+    if (ctx) {
       image.onload = async () => {
-        canvas.width = image.width;
-        canvas.height = image.height;
-  
-        const center = canvas.width / 2;
+        const scaleFactor = 0.8;
 
-        ctx.drawImage(image, 0, 0);
-  
-        ctx.font = '96px Lucida Handwriting';
-        ctx.textAlign = "center"
+        const scaledWidth = image.width * scaleFactor;
+        const scaledHeight = image.height * scaleFactor;
+
+        canvas.width = scaledWidth;
+        canvas.height = scaledHeight;
+
+        ctx.drawImage(image, 0, 0, scaledWidth, scaledHeight);
+
+        const offCenter = 115;
+        const center = canvas.width / 2 + offCenter;
+
+        ctx.font = '76px Lucida Handwriting';
+        ctx.textAlign = 'center';
         ctx.fillStyle = 'black';
-        ctx.fillText(this.data.name, center, 700); 
-        console.log(this.data.name)
+        ctx.fillText(this.data.name, center, 575);
+        console.log(this.data.name);
 
-        ctx.font = '30px Poppins';
-        let text = `This is to certify that ${this.data.gender} ${this.data.name}, a student of Gordon College has completed ${this.data.pronoun} ${this.data.ojt_hours} hours `
-        ctx.fillText(text, center, 825); 
+        ctx.fillStyle = '#333333';
+        let lineHeight = 40;
 
-        text =  `On-the-Job Training (OJT) academic requirement in our company from ${this.data.start_date} to ${this.data.end_date}.`
-        ctx.fillText(text, center, 865); 
-        
-        text = `${this.data.supervisor_name.first_name} ${this.data.supervisor_name.last_name}`
-        ctx.fillText(text, 1410, 1190); 
+        ctx.font = '28px Poppins';
+        const line1 = `This is to certify that ${this.data.gender} ${this.data.name}, a student of Gordon College`;
+        const line2 = `has completed ${this.data.pronoun} ${this.data.ojt_hours} OJT hours, from ${this.data.start_date} to ${this.data.end_date}.`;
 
+        let y = 675;
+
+        ctx.fillText(line1, center, y);
+        ctx.fillText(line2, center, y + lineHeight);
+
+        y = 895;
         let date = new Date().toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
-          day: 'numeric'
+          day: 'numeric',
         });
 
-        text = `Issued on ${date}`
-        ctx.fillText(text, center, 1060); 
+        const issueDate = `Issued on ${date}`;
+        ctx.fillText(issueDate, center, y);
 
-        
+        const supervisorName = `${this.data.supervisor_name.first_name} ${this.data.supervisor_name.last_name}`;
+        ctx.fillText(supervisorName, center, 970);
+
         const logoImg = await this.loadLogo();
-        if(logoImg)
-          ctx.drawImage(logoImg, 590, 1140, 120, 120);
+        if (logoImg) ctx.drawImage(logoImg, scaledWidth - 160, 21, 90, 90);
 
-
-        this.canvasBase64 = canvas.toDataURL('image/png')
+        this.canvasBase64 = canvas.toDataURL('image/png');
       };
     }
   }
@@ -372,23 +401,22 @@ export class StudentEvaluationComponent {
     return new Promise((resolve, reject) => {
       const img = new Image();
       this.ds.download('supervisor/profile/get-logo').subscribe(
-        response => {
+        (response) => {
           const imageUrl = URL.createObjectURL(response);
 
           img.src = imageUrl;
 
-          img.onload = () => resolve(img); 
+          img.onload = () => resolve(img);
         },
-        error => {
+        (error) => {
           resolve(null);
         }
       );
     });
   }
 
-  
   generateCertificate() {
-    let size = [210, 297] //a4
+    let size = [210, 297]; //a4
     var pdf = new jsPDF('l', 'mm', size);
     pdf.addImage(this.canvasBase64, 0, 0, size[1], size[0]);
     pdf.save(`${this.data.name}_CERTIFICATE_OF_COMPLETION.pdf`);
