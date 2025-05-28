@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';import { GeneralService } from '../../../../../services/general.service';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { GeneralService } from '../../../../../services/general.service';
 import { UserService } from '../../../../../services/user.service';
 import { PdfPreviewComponent } from '../../../../../components/pdf-preview/pdf-preview.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,18 +11,16 @@ import { ScheduleDetailsModalComponent } from '../schedule-details-modal/schedul
 import { Router } from '@angular/router';
 import { OJTInfoComponent } from '../ojtinfo/ojtinfo.component';
 
-
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
-  styleUrl: './view.component.scss'
+  styleUrl: './view.component.scss',
 })
 export class ViewComponent {
-  isLoading: boolean = true
+  isLoading: boolean = true;
   applicationDetails: any = null;
   comments: any = [];
   logo: any = null;
-  displayedSkills: string[] = [];
 
   constructor(
     private ds: DataService,
@@ -38,10 +37,9 @@ export class ViewComponent {
   getApplicationDetails() {
     let id = this.us.getStudentApplication();
 
-
     this.ds.get('supervisor/applications/', id).subscribe(
-      application => {
-        console.log(application)
+      (application) => {
+        console.log(application);
 
         application.application_comments.forEach((element: any) => {
           if (element.supervisor) {
@@ -57,7 +55,6 @@ export class ViewComponent {
 
         console.log(this.comments);
 
-
         this.applicationDetails = {
           id: application.id,
           status: application.status,
@@ -67,6 +64,7 @@ export class ViewComponent {
               application.user.first_name + ' ' + application.user.last_name,
             ...application.user.student_profile,
             skills: application.user.student_skills?.skill_areas,
+            technical_skills: application.user.student_skills?.technical_skills,
             ...application.user.active_ojt_class,
             image: application.user.image,
           },
@@ -91,23 +89,22 @@ export class ViewComponent {
             { strong_skill: '', weak_skill: '' },
           ];
 
-
-
-        this.isLoading = false
+        this.isLoading = false;
       },
-      error => {
-        this.isLoading = false
-        console.error(error)
-        if(error.status === 404) {
-          this.router.navigate(['main/applications/list'])
-          this.gs.errorAlert('Not Found!', 'Application not found.')
-        }
-        else {
-          this.gs.errorAlert('Oops!', 'Something went wrong. Please try again later.')
+      (error) => {
+        this.isLoading = false;
+        console.error(error);
+        if (error.status === 404) {
+          this.router.navigate(['main/applications/list']);
+          this.gs.errorAlert('Not Found!', 'Application not found.');
+        } else {
+          this.gs.errorAlert(
+            'Oops!',
+            'Something went wrong. Please try again later.'
+          );
         }
       }
-    )
-
+    );
   }
 
   previewDocument(file: any) {
@@ -121,18 +118,17 @@ export class ViewComponent {
     const dialogRef = this.dialog.open(OJTInfoComponent, {
       width: '400px',
       disableClose: true,
-      data: { id: this.applicationDetails.id }
+      data: { id: this.applicationDetails.id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.applicationDetails.start_date =  result.start_date,
-        this.applicationDetails.department = result.department,
-        this.applicationDetails.task = result.task,
-        this.applicationDetails.status = 8;
+        (this.applicationDetails.start_date = result.start_date),
+          (this.applicationDetails.department = result.department),
+          (this.applicationDetails.task = result.task),
+          (this.applicationDetails.status = 8);
       }
     });
-
   }
 
   rejectApplication() {
@@ -150,25 +146,34 @@ export class ViewComponent {
     }).then((result) => {
       console.log(result);
       if (result.isConfirmed) {
-        if(result.value.trim().length === 0) {
-          this.gs.errorAlert('Invalid input!', 'Please give the reason for declining.');
-          return
+        if (result.value.trim().length === 0) {
+          this.gs.errorAlert(
+            'Invalid input!',
+            'Please give the reason for declining.'
+          );
+          return;
         }
 
         const formData = new FormData();
         formData.append('message', result.value);
-        this.ds.post('supervisor/applications/reject/', this.applicationDetails.id, formData).subscribe(
-          (response) => {
-            this.gs.successAlert(response.title, response.message);
-            this.applicationDetails.status = 4;
-          },
-          (error) => {
-            console.error(error);
-            if ((error.status = 422)) {
-              this.gs.errorAlert(error.error.title, error.error.message);
+        this.ds
+          .post(
+            'supervisor/applications/reject/',
+            this.applicationDetails.id,
+            formData
+          )
+          .subscribe(
+            (response) => {
+              this.gs.successAlert(response.title, response.message);
+              this.applicationDetails.status = 4;
+            },
+            (error) => {
+              console.error(error);
+              if ((error.status = 422)) {
+                this.gs.errorAlert(error.error.title, error.error.message);
+              }
             }
-          }
-        );
+          );
         console.log(this.applicationDetails);
       }
     });
@@ -192,34 +197,36 @@ export class ViewComponent {
     let dialog = this.dialog.open(SchedulemodalComponent, {
       width: '400px',
       disableClose: true,
-      data: { id: this.applicationDetails.id}
+      data: { id: this.applicationDetails.id },
     });
 
     dialog.afterClosed().subscribe((result) => {
-      if(!result) {
-        return
+      if (!result) {
+        return;
       }
       if (result.action === 'scheduled') {
         this.applicationDetails.status = 4;
-        this.applicationDetails.interview_schedules.unshift(result.data)
+        this.applicationDetails.interview_schedules.unshift(result.data);
       }
     });
-
   }
-
 
   formatTime(time: string): string {
     const [hours, minutes, seconds] = time.split(':').map(Number);
     const date = new Date();
     date.setHours(hours, minutes, seconds);
-    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
   }
 
   openScheduleDetailsModal(data: any) {
     this.dialog.open(ScheduleDetailsModalComponent, {
       width: '400px',
       disableClose: true,
-      data: data
+      data: data,
     });
   }
 }

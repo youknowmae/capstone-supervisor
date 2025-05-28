@@ -1,54 +1,57 @@
 //sponsor ni whacky
-@use '@angular/material'as mat;
+@use "@angular/material" as mat;
 
 @include mat.core();
 
 $myintern-primary: mat.m2-define-palette(mat.$m2-green-palette, 800);
 // $myintern-accent: mat.m2-define-palette(mat.$m2-orange-palette, A200);
-$myintern-accent: mat.m2-define-palette(mat.$m2-blue-palette, A700); //default color for now
+$myintern-accent: mat.m2-define-palette(
+  mat.$m2-blue-palette,
+  A700
+); //default color for now
 
-
-
-$myintern-theme: mat.m2-define-light-theme((color: (primary: $myintern-primary,
+$myintern-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $myintern-primary,
       accent: $myintern-accent,
     ),
     typography: mat.m2-define-typography-config(),
-    density: -1));
+    density: -1,
+  )
+);
 
 @include mat.all-component-themes($myintern-theme);
 
 * {
-  font-family: 'Poppins';
+  font-family: "Poppins";
   // outline: none;
   margin: 0;
   border: none;
   box-sizing: border-box;
   outline: none;
-
 }
 
 :root {
   font-size: 100%;
-  --primary-color: #EE7214;
+  --primary-color: #ee7214;
 
   --warning-color: #ff4141;
 
-  --main-bg-color: #F9E8D9;
-  --active-color: #99B080;
+  --main-bg-color: #f9e8d9;
+  --active-color: #99b080;
 
-  --primary-font-color: #F9E8D9;
+  --primary-font-color: #f9e8d9;
   --font-color: white;
 
   --secondary-color: #527853;
-  --secondary-color-semi-transparent: 137, 129, 33, .1;
-
+  --secondary-color-semi-transparent: 137, 129, 33, 0.1;
 
   --border-color: rgba(0, 0, 0, 0.12);
   --table-border-color: #e0e0e0;
   --shadow: 3px 3px 10px rgba(0, 0, 0, 0.1), -3px -3px 10px rgba(0, 0, 0, 0.05);
   --sidebar-width: 210px;
 }
-
 
 html,
 body {
@@ -61,17 +64,20 @@ body {
   overflow: hidden;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Poppins', sans-serif !important; 
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Poppins", sans-serif !important;
 }
 
 *::-webkit-scrollbar {
-  height: .4rem;
-  width: .4rem;
+  height: 0.4rem;
+  width: 0.4rem;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgba(232, 117, 26, .3);
+  background-color: rgba(232, 117, 26, 0.3);
   border-radius: 10px;
 }
 
@@ -141,6 +147,10 @@ h1, h2, h3, h4 {
   padding: 0px 5px;
 }
 
+mat-chip {
+  background-color: white !important;
+  border: 1px solid mat.m2-get-color-from-palette(mat.$green-palette, 800);
+}
 
 mat-form-field {
   width: 100%;
@@ -151,7 +161,6 @@ mat-paginator {
 }
 
 @media only screen and (max-width: 720px) {
-
   .col-md-1,
   .col-md-2,
   .col-md-3,

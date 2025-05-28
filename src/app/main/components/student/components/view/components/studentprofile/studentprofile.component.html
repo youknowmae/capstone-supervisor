@@ -1,7 +1,10 @@
 <div class="container">
   <div class="info-header">
     <div class="info-image">
-      <img [src]="(student.image) ? student.image :'assets/images/profile-dark.png'" alt="Image">
+      <img
+        [src]="student.image ? student.image : 'assets/images/profile-dark.png'"
+        alt="Image"
+      />
     </div>
 
     <div class="info-content">
@@ -9,125 +12,117 @@
         <tbody>
           <tr>
             <td><p>Student Number</p></td>
-            <td><p>{{ student.student_profile.student_number }}</p></td>
+            <td>
+              <p>{{ student.student_profile.student_number }}</p>
+            </td>
           </tr>
           <tr>
             <td><p>Full Name</p></td>
-            <td><p>{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }} {{ student.ext_name }}</p></td>
+            <td>
+              <p>
+                {{ student.first_name }} {{ student.middle_name }}
+                {{ student.last_name }} {{ student.ext_name }}
+              </p>
+            </td>
           </tr>
           <tr>
             <td><p>College/Program</p></td>
-            <td><p>CCS/{{ student.student_profile.program }}</p></td>
+            <td>
+              <p>CCS/{{ student.student_profile.program }}</p>
+            </td>
           </tr>
           <tr>
             <td><p>Domain Email</p></td>
-            <td><p>{{ student.student_profile.student_number }}&#64;gordoncollege.edu.ph</p></td>
+            <td>
+              <p>
+                {{
+                  student.student_profile.student_number
+                }}&#64;gordoncollege.edu.ph
+              </p>
+            </td>
           </tr>
           <tr>
             <td><p>Mobile Number</p></td>
-            <td><p>{{ student.student_profile.contact_number }}</p></td>
+            <td>
+              <p>{{ student.student_profile.contact_number }}</p>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  
+
   <div class="info-container">
-      <div class="content">
-          <h3>Personal Information</h3>
-          <div class="row">
-              <div class="col-md-4">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Date of Birth</mat-label>
-                    <input matInput [(ngModel)]="student.birth_date" readonly>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Civil Status</mat-label>
-                    <input matInput [(ngModel)]="student.student_profile.civil_status" readonly>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Gender</mat-label>
-                    <input matInput [(ngModel)]="student.gender" readonly>
-                  </mat-form-field>
-              </div>
-          </div>
-  
-          <div class="row">
-            <div class="col-md-3">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Citizenship</mat-label>
-                  <input matInput [(ngModel)]="student.citizenship" readonly>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field appearance="outline" floatLabel='always'>
-                  <mat-label>Religion</mat-label>
-                  <input matInput  [(ngModel)]="student.religion" readonly>
-                </mat-form-field>
-            </div>
-          </div>
+    <div class="content">
+      <h3>Personal Information</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [(ngModel)]="student.birth_date" readonly />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Civil Status</mat-label>
+            <input
+              matInput
+              [(ngModel)]="student.student_profile.civil_status"
+              readonly
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Gender</mat-label>
+            <input matInput [(ngModel)]="student.gender" readonly />
+          </mat-form-field>
+        </div>
       </div>
-  
-      <!-- <div class="content">
-          <h3>Address</h3>
-          <div class="row">
-              <div class="col-md-5">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Address</mat-label>
-                    <input matInput [(ngModel)]="student.address" readonly>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Barangay</mat-label>
-                    <input matInput [(ngModel)]="student.barangay" readonly>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-3">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Municipality</mat-label>
-                    <input matInput [(ngModel)]="student.municipality" readonly>
-                  </mat-form-field>
-              </div>
-          </div>
-          <div class="row">
-              <div class="col-md-2">
-                  <mat-form-field appearance="outline" floatLabel='always'>
-                    <mat-label>Province</mat-label>
-                    <input matInput [(ngModel)]="student.province" readonly>
-                  </mat-form-field>
-              </div>
-          </div>
-      </div> -->
-  
-      <!-- skills -->
-      <div class="content" *ngIf="student.student_skills">
-        <h3>Skill Area</h3>
-        <div class="table-container">
-          <div class="table">
-            <div class="table-row">
-              <div class="col-md-6">
-                <h4>Strong Skills Area</h4>
-              </div>
-              <div class="col-md-6">
-                <h4>Weak Skills Area</h4>
-              </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Citizenship</mat-label>
+            <input matInput [(ngModel)]="student.citizenship" readonly />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Religion</mat-label>
+            <input matInput [(ngModel)]="student.religion" readonly />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <!-- skills -->
+    <div class="content" *ngIf="student.student_skills?.skill_areas">
+      <h3>Skill Area</h3>
+      <div class="table-container">
+        <div class="table">
+          <div class="table-row">
+            <div class="col-md-6">
+              <h4>Strong Skills Area</h4>
             </div>
-            <div class="table-row" *ngFor="let skill of student.student_skills.skills">
-              <div class="col-md-6">
-                <p> {{ skill.strong_skill }} </p>
-              </div>
-              <div class="col-md-6">
-                <p> {{ skill.weak_skill }} </p>
-              </div>
+            <div class="col-md-6">
+              <h4>Weak Skills Area</h4>
+            </div>
+          </div>
+          <div
+            class="table-row"
+            *ngFor="let skill of student.student_skills.skill_areas"
+          >
+            <div class="col-md-6">
+              <p>{{ skill.strong_skill }}</p>
+            </div>
+            <div class="col-md-6">
+              <p>{{ skill.weak_skill }}</p>
             </div>
           </div>
         </div>
       </div>
-      <!-- skills end -->
     </div>
+    <!-- skills end -->
+  </div>
 </div>

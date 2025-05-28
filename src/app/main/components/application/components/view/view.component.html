@@ -75,12 +75,20 @@
           </div>
 
           <!-- padisplay ng technical skills -->
-          <h3>Technical Skils</h3>
-          <div class="content">
-            <div class="skills" *ngFor="let skill of displayedSkills">
-              {{ skill }}
+          <ng-container *ngIf="applicationDetails.student.technical_skills">
+            <h3>Technical Skills</h3>
+            <div class="content">
+              <mat-chip-set aria-label="Fish selection">
+                <mat-chip
+                  disableRipple
+                  *ngFor="
+                    let skill of applicationDetails.student.technical_skills
+                  "
+                  >{{ skill }}</mat-chip
+                >
+              </mat-chip-set>
             </div>
-          </div>
+          </ng-container>
 
           <div class="remarks-section" *ngIf="applicationDetails.status != 3">
             <div class="remarks">

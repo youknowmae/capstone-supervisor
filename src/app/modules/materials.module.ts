@@ -22,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSortModule } from '@angular/material/sort';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import {MatChipsModule} from '@angular/material/chips';
 
 const var_modules = [
   MatFormFieldModule,
@@ -45,6 +46,7 @@ const var_modules = [
   MatSortModule,
   MatProgressSpinner,
   MatButtonModule,
+  MatChipsModule
 ];
 
 @NgModule({

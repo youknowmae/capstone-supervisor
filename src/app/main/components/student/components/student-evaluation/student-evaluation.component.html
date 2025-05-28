@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-stepper [linear]="false" #stepper>
+  <mat-stepper [linear]="true" #stepper>
     <mat-step [stepControl]="formDetails">
       <ng-template matStepLabel>Performance Evaluation</ng-template>
 
@@ -485,7 +485,7 @@
 
         <div class="row" style="padding: 10px 0; margin-bottom: 20px">
           <div>
-            <p style="width: 210px; font-weight: 600">OVER-ALL PERFORMACE:</p>
+            <p style="width: 210px; font-weight: 600">OVER-ALL PERFORMANCE:</p>
           </div>
           <div>
             <p *ngIf="overallPerformance.average; else invalidPerformance">
