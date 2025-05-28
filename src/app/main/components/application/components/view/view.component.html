@@ -74,6 +74,14 @@
             </div>
           </div>
 
+          <!-- padisplay ng technical skills -->
+          <h3>Technical Skils</h3>
+          <div class="content">
+            <div class="skills" *ngFor="let skill of displayedSkills">
+              {{ skill }}
+            </div>
+          </div>
+
           <div class="remarks-section" *ngIf="applicationDetails.status != 3">
             <div class="remarks">
               <p

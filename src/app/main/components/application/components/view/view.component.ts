@@ -21,6 +21,7 @@ export class ViewComponent {
   applicationDetails: any = null;
   comments: any = [];
   logo: any = null;
+  displayedSkills: string[] = [];
 
   constructor(
     private ds: DataService,
@@ -65,7 +66,7 @@ export class ViewComponent {
             full_name:
               application.user.first_name + ' ' + application.user.last_name,
             ...application.user.student_profile,
-            skills: application.user.student_skills?.skills,
+            skills: application.user.student_skills?.skill_areas,
             ...application.user.active_ojt_class,
             image: application.user.image,
           },
