@@ -94,9 +94,9 @@ export class ProfileComponent {
       email: [null, [Validators.required, Validators.email]],
       website: ['', [Validators.maxLength(128)]],
 
-      job_requirements: this.fb.array([
-        this.fb.control(null, [Validators.required, Validators.maxLength(32)]),
-      ]),
+      // job_requirements: this.fb.array([
+      //   this.fb.control(null, [Validators.required, Validators.maxLength(32)]),
+      // ]),
 
       technical_skills: this.fb.array([
         this.fb.control(null, [Validators.required, Validators.maxLength(128)]),
@@ -369,11 +369,11 @@ export class ProfileComponent {
 
     formData.append('supervisor_position', formValue.supervisor_position);
 
-    this.requirementsForm.controls.forEach((control, index) => {
-      if (control.value) {
-        formData.append(`job_requirements[${index}]`, control.value);
-      }
-    });
+    // this.requirementsForm.controls.forEach((control, index) => {
+    //   if (control.value) {
+    //     formData.append(`job_requirements[${index}]`, control.value);
+    //   }
+    // });
 
     this.technicalSkillsFormArray.controls.forEach((control, index) => {
       if (control.value) {
