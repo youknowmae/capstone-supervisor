@@ -13,6 +13,8 @@ import { UserService } from '../../../../services/user.service';
 export class SkillsmodalComponent {
   selectedSkills: Set<string> = new Set();
   maxSelect = 15;
+  searchTerm: string = '';
+
 
   skills: string[] = [];
 
@@ -46,6 +48,13 @@ export class SkillsmodalComponent {
       this.us.setTechnicalSkillsData(this.skills);
       console.log(this.skills);
     });
+  }
+
+  get filteredSkills(): string[] {
+    if (!this.searchTerm.trim()) return this.skills;
+    return this.skills.filter((skill) =>
+      skill.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   toggleSkillSelection(skill: string): void {

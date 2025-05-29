@@ -5,14 +5,20 @@
   </div>
 
   <div class="modal-search">
-    <form>
+        <form>
       <mat-form-field appearance="fill" class="search-field">
-        <input #searchValue matInput type="text" placeholder="Search..." />
+        <input
+          matInput
+          type="text"
+          placeholder="Search..."
+          [(ngModel)]="searchTerm"
+          name="search"
+        />
         <button
-          *ngIf="searchValue.value"
           mat-icon-button
+          *ngIf="searchTerm"
           matSuffix
-          (click)="searchValue.value = ''"
+          (click)="searchTerm = ''"
         >
           <mat-icon>clear</mat-icon>
         </button>
@@ -24,7 +30,7 @@
     <div class="skills-column">
       <div
         class="skills-item"
-        *ngFor="let skill of skills"
+        *ngFor="let skill of filteredSkills"
         (click)="toggleSkillSelection(skill)"
         [class.selected]="isSelected(skill)"
       >
