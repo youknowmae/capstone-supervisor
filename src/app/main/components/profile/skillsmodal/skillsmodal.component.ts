@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
+import { DataService } from '../../../../services/data.service';
+import { GeneralService } from '../../../../services/general.service';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-skillsmodal',
@@ -11,120 +14,38 @@ export class SkillsmodalComponent {
   selectedSkills: Set<string> = new Set();
   maxSelect = 15;
 
-  skills: string[] = [
-    'Adobe After Effects',
-    'Adobe Animate',
-    'Adobe Audition',
-    'Adobe Dreamweaver',
-    'Adobe Illustrator',
-    'Adobe InDesign',
-    'Adobe Lightroom',
-    'Adobe Photoshop',
-    'Adobe Premiere Pro',
-    'Adobe XD',
-    'Amazon Web',
-    'Android',
-    'Android SD Kit',
-    'Angular',
-    'AngularJS',
-    'Assembly Language',
-    'AWS',
-    'AWK',
-    'Backbone.js',
-    'Blender',
-    'Bootstrap',
-    'Canva',
-    'Certified Ethical Hacker (CEH)',
-    'Cloud Security',
-    'Clojure',
-    'CSS',
-    'Data and File Encryption',
-    'Github',
-    'GIMP',
-    'Go',
-    'Google Apps Scripts',
-    'Google Cloud',
-    'Growth Hacking',
-    'Grunt',
-    'Gulp',
-    'Hadoop',
-    'Haskell',
-    'HTML',
-    'HTML5',
-    'iOS',
-    'iOS SD Kit',
-    'Inkscape',
-    'Intrusion Detection',
-    'Java',
-    'JavaScript',
-    'Kamatera',
-    'Kotlin',
-    'Krita',
-    'Linux',
-    'MacOS',
-    'Malware Analysis',
-    'Matplotlib',
-    'MATLAB',
-    'Microsoft Access',
-    'Microsoft Azure',
-    'Microsoft Excel',
-    'Microsoft OneNote',
-    'Microsoft Outlook',
-    'Microsoft PowerPoint',
-    'Microsoft Publisher',
-    'Microsoft Word',
-    'Microsoft Office 365',
-    'Objective-C',
-    'Oracle',
-    'Perl',
-    'PHP',
-    'PL/SQL',
-    'Power BI',
-    'Programming in C',
-    'Programming in C#',
-    'Programming in C++',
-    'Programming in Go',
-    'Programming in HTML5',
-    'Programming in Java',
-    'Programming in JavaScript',
-    'Programming in Kotlin',
-    'Programming in MATLAB',
-    'Programming in Objective-C',
-    'Programming in Perl',
-    'Programming in PL/SQL',
-    'Programming in Python',
-    'Programming in R',
-    'Programming in Ruby',
-    'Programming in Scala',
-    'Programming in SQL',
-    'Programming in Swift',
-    'Programming in VB.Net',
-    'Programming in Visual Basic',
-    'React.js',
-    'Scala',
-    'SketchUp',
-    'SQL',
-    'Swift',
-    'Tableau',
-    'TensorFlow',
-    'Ubuntu',
-    'Unix',
-    'Unity',
-    'UX/UI',
-    'VB.Net',
-    'Visual Basic',
-    'Windows OS',
-    'Xcode',
-  ];
+  skills: string[] = [];
 
   constructor(
     private ref: MatDialogRef<SkillsmodalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private gs: GeneralService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private ds: DataService,
+    private us: UserService
   ) {
     // Initialize selectedSkills with the data
     if (data?.selected?.length) {
       this.selectedSkills = new Set(data.selected);
     }
+  }
+
+  ngOnInit() {
+    this.getSkills();
+  }
+
+  getSkills() {
+    const technicalSkills = this.us.getTechnicalSkillsData();
+
+    if (technicalSkills) {
+      this.skills = technicalSkills;
+      return;
+    }
+
+    this.ds.get('technical-skills').subscribe((response) => {
+      this.skills = response.map((item: any) => item.skills);
+      this.us.setTechnicalSkillsData(this.skills);
+      console.log(this.skills);
+    });
   }
 
   toggleSkillSelection(skill: string): void {
