@@ -152,6 +152,10 @@ mat-chip {
   border: 1px solid mat.m2-get-color-from-palette(mat.$green-palette, 800);
 }
 
+mat-chip {
+  border-color: var(--secondary-color);
+}
+
 mat-form-field {
   width: 100%;
 }

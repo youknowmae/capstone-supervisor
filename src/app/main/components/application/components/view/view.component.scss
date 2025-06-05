@@ -19,8 +19,8 @@
     }
 
     &:hover {
-      background: rgba(0, 0, 0, .08);
-      transition: all .1s ease-in-out;
+      background: rgba(0, 0, 0, 0.08);
+      transition: all 0.1s ease-in-out;
     }
   }
 }
@@ -48,7 +48,6 @@
 .card-accent {
   border-left: 4px solid var(--primary-color);
 }
-
 
 .right-container {
   flex: 0 0 auto;
@@ -123,8 +122,6 @@
   width: 58.3333333%;
   padding: 0 15px;
   margin-bottom: 30px;
-
-
 }
 
 //student details
@@ -193,6 +190,7 @@
 }
 
 .remarks-section {
+  margin-top: 20px;
   padding: 8px 0;
   display: flex;
   flex-wrap: wrap;
@@ -234,7 +232,7 @@
     text-align: center;
     color: #ffffff;
     cursor: pointer;
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
   }
 
   .success {
@@ -256,10 +254,11 @@
     color: var(--warning-color);
     background-color: white;
   }
-
 }
 
 h3 {
+  margin: 0;
+  padding: 10px;
   font-size: 1.5rem;
   color: var(--secondary-color);
   transform: translateX(-5px);
@@ -320,7 +319,6 @@ h3 {
 }
 
 @media only screen and (max-width: 720px) {
-
   .profile-content {
     font-size: 12px;
   }
@@ -345,6 +343,7 @@ h3 {
 }
 
 .scheduledinterview {
+  flex: 1;
   h4 {
     font-size: 20px;
     color: #898121;
