@@ -14,12 +14,13 @@ interface User {
   providedIn: 'root',
 })
 export class UserService {
-  user: string = 'user';
-  token: string = btoa('token');
-  studentProfile: string = 'studentProfile';
-  studentApplication: string = 'studentApplication';
-  studentEvaluation: string = 'studentEvalutation';
-  technicalSkills: string = btoa('technicalSkills');
+  private user: string = 'user';
+  private token: string = btoa('token');
+  private studentProfile: string = 'studentProfile';
+  private studentApplication: string = 'studentApplication';
+  private studentEvaluation: string = 'studentEvaluation';
+  private technicalSkills: string = btoa('technicalSkills');
+  private selectedAcademicYear: string = btoa('selectedAcademicYears');
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
@@ -79,6 +80,14 @@ export class UserService {
   getTechnicalSkillsData() {
     return this.extractData(this.technicalSkills);
   }
+
+  setSelectedAcademicYears(data: any) {
+    this.setData(this.selectedAcademicYear, data);
+  }
+  getSelectedAcademicYears() {
+    return this.extractData(this.selectedAcademicYear);
+  }
+
   encrypt(data: any): string {
     const note = appSettings.frontNote;
 

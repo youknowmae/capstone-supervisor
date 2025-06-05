@@ -7,6 +7,7 @@ import { Router, withDebugTracing } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { jsPDF } from 'jspdf';
+import { AcademicYear } from '../../../../../models/academicYear.model';
 
 @Component({
   selector: 'app-student-evaluation',
@@ -289,8 +290,14 @@ export class StudentEvaluationComponent {
       console.log(key + ': ' + value);
     });
 
+    const acadYear: AcademicYear = this.us.getSelectedAcademicYears();
+    
     this.ds
-      .post('supervisor/students/evaluate/', this.data.id, payload)
+      .post(
+        `supervisor/students/evaluate/${this.data.id}`,
+        `?acad_year=${acadYear.acad_year}&semester=${acadYear.semester}`,
+        payload
+      )
       .subscribe(
         (response) => {
           console.log('response');

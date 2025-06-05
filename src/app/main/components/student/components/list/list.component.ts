@@ -8,6 +8,7 @@ import { UserService } from '../../../../../services/user.service';
 
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
+import { AcademicYear } from '../../../../../models/academicYear.model';
 
 @Component({
   selector: 'app-list',
@@ -156,9 +157,16 @@ export class ListComponent {
 
     this.isLoading = true;
 
-    let studentDetails = this.unfilteredStudents.find(
-      (student: any) => (student.id = id)
+    const studentDetails = this.unfilteredStudents.find(
+      (student: any) => (student.id === id)
     );
+
+    const acadYear: AcademicYear = {
+      acad_year: studentDetails.ojt_class.acad_year,
+      semester: studentDetails.ojt_class.semester
+    }
+
+    this.us.setSelectedAcademicYears(acadYear)
 
     this.ds.get('supervisor/students/', id).subscribe(
       (student) => {
@@ -188,6 +196,13 @@ export class ListComponent {
       gender = 'Mr.';
       pronoun = 'his';
     }
+
+    const acadYear: AcademicYear = {
+      acad_year: student.ojt_class.acad_year,
+      semester: student.ojt_class.semester
+    }
+    
+    this.us.setSelectedAcademicYears(acadYear)
 
     this.us.setStudentEvaluation({
       id: student.id,
