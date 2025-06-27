@@ -325,63 +325,19 @@ export class ProfileComponent {
 
     if (!res) return;
 
-    var formData = new FormData();
+    let companyInfo = this.formDetails.value;
 
-    const formValue = this.formDetails.value;
+    companyInfo.region = companyInfo.region?.regDesc || '';
+    companyInfo.province = companyInfo.province?.provDesc || '';
+    companyInfo.municipality = companyInfo.municipality?.citymunDesc || '';
+    companyInfo.barangay = companyInfo.barangay?.brgyDesc || '';
 
-    formData.append('company_name', formValue.company_name);
-    formData.append('description', formValue.description);
-    formData.append('region', formValue.region.regDesc);
-    formData.append('province', formValue.province.provDesc);
-    formData.append('municipality', formValue.municipality.citymunDesc);
-    formData.append('barangay', formValue.barangay.brgyDesc);
-    formData.append('street', formValue.street);
-    if (formValue.telephone_number)
-      formData.append('telephone_number', formValue.telephone_number);
-    formData.append('mobile_number', formValue.mobile_number);
-    if (formValue.fax_number)
-      formData.append('fax_number', formValue.fax_number);
-    formData.append('email', formValue.email);
-    if (formValue.website) formData.append('website', formValue.website);
+    const payload = {
+      payload: this.us.encryptPayload(companyInfo)
+    }
 
-    const companyHead = formValue.company_head;
-    formData.append('company_head[first_name]', companyHead.first_name);
-    if (companyHead.middle_name)
-      formData.append('company_head[middle_name]', companyHead.middle_name);
-    formData.append('company_head[last_name]', companyHead.last_name);
-    formData.append('company_head[sex]', companyHead.sex);
-    if (companyHead.ext_name)
-      formData.append('company_head[ext_name]', companyHead.ext_name);
 
-    formData.append('head_position', formValue.head_position);
-
-    const supervisor = formValue.immediate_supervisor;
-    formData.append('immediate_supervisor[first_name]', supervisor.first_name);
-    if (supervisor.middle_name)
-      formData.append(
-        'immediate_supervisor[middle_name]',
-        supervisor.middle_name
-      );
-    formData.append('immediate_supervisor[last_name]', supervisor.last_name);
-    formData.append('immediate_supervisor[sex]', supervisor.sex);
-    if (supervisor.ext_name)
-      formData.append('immediate_supervisor[ext_name]', supervisor.ext_name);
-
-    formData.append('supervisor_position', formValue.supervisor_position);
-
-    // this.requirementsForm.controls.forEach((control, index) => {
-    //   if (control.value) {
-    //     formData.append(`job_requirements[${index}]`, control.value);
-    //   }
-    // });
-
-    this.technicalSkillsFormArray.controls.forEach((control, index) => {
-      if (control.value) {
-        formData.append(`technical_skills[${index}]`, control.value);
-      }
-    });
-
-    this.ds.post('supervisor/profile', '', formData).subscribe(
+    this.ds.post('supervisor/profile', '', payload).subscribe(
       (response) => {
         console.log(response);
         this.gs.successAlert(response.title, response.message);

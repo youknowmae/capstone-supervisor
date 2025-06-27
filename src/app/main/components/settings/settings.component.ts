@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
 import { GeneralService } from '../../../services/general.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +20,8 @@ export class SettingsComponent {
   constructor(
     private fb: FormBuilder,
     private ds: DataService,
-    private gs: GeneralService
+    private gs: GeneralService,
+    private us: UserService
   ) {
     this.passwordDetails = this.fb.group({
       current_password: [null, [Validators.required]],
@@ -60,12 +62,6 @@ export class SettingsComponent {
       return;
     }
 
-    if (this.isSubmitting) {
-      return;
-    }
-
-    this.isSubmitting = true;
-
     const new_password = this.passwordDetails.get('new_password')?.value;
     const confirm_password = this.passwordDetails.get(
       'password_confirmation'
@@ -79,17 +75,26 @@ export class SettingsComponent {
       return;
     }
 
-    console.log(this.passwordDetails.value);
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
+
+    const payload = {
+      payload: this.us.encryptPayload(this.passwordDetails.value)
+    }
+
     this.ds
       .post(
         'supervisor/profile/change-password',
         '',
-        this.passwordDetails.value
+        payload
       )
       .subscribe(
         (response) => {
           this.gs.successAlert(response.title, response.message);
-          this.passwordDetails.reset(this.passwordDetails.value);
+          this.passwordDetails.reset();
+          this.passwordDetails.markAsPristine();
+          this.passwordDetails.markAsUntouched();
           this.isSubmitting = false;
         },
         (error) => {
@@ -97,11 +102,9 @@ export class SettingsComponent {
           if (error.status === 422) {
             this.gs.errorAlert(
               'Invalid Input!',
-              'Please double check you inputs.'
+              error.error.message || 'Please double check you inputs.'
             );
-          } else if (error.status === 403) {
-            this.gs.errorAlert(error.error.title, error.error.message);
-          }
+          } 
 
           console.error(error);
         }

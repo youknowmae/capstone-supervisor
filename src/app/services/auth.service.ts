@@ -18,8 +18,11 @@ export class AuthService {
     apiUrl = appSettings.apiUrl
 
     login(credentials: {email: string, password: string}) {
+        const payload = {
+            payload: this.us.encryptPayload(credentials)
+        }
 
-        return this.http.post<any>(`${this.apiUrl}login/supervisor`, credentials).pipe(
+        return this.http.post<any>(`${this.apiUrl}login/supervisor`, payload).pipe(
             tap((response => {
                 console.log(response)
                 if(response.token){

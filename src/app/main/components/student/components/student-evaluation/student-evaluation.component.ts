@@ -281,14 +281,14 @@ export class StudentEvaluationComponent {
 
     var payload = new FormData();
 
-    payload.append('evaluation', JSON.stringify(this.formDetails.value));
+    const data = {
+      evaluation: this.formDetails.value
+    }
+
+    payload.append('payload', this.us.encryptPayload(data));
     if (this.file) payload.append('file', this.file);
 
     this.isSubmitting = true;
-
-    payload.forEach((value, key) => {
-      console.log(key + ': ' + value);
-    });
 
     const acadYear: AcademicYear = this.us.getSelectedAcademicYears();
     
