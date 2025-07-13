@@ -11,10 +11,10 @@ import { GeneralService } from '../../../../../services/general.service';
   styleUrls: ['./ojtinfo.component.scss'],
 })
 export class OJTInfoComponent {
-  ojtInfo: FormGroup
-  today: Date
+  ojtInfo: FormGroup;
+  today: Date;
 
-  isSubmitting: boolean = false
+  isSubmitting: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -23,13 +23,13 @@ export class OJTInfoComponent {
     private ds: DataService,
     private gs: GeneralService
   ) {
-    this.today = new Date()
+    this.today = new Date();
 
     this.ojtInfo = this.fb.group({
       start_date: [null, [Validators.required]],
       department: [null, [Validators.required, Validators.maxLength(64)]],
       task: [null, [Validators.required, Validators.maxLength(516)]],
-    })
+    });
   }
 
   closeDialog(): void {
@@ -37,47 +37,60 @@ export class OJTInfoComponent {
   }
 
   submit(): void {
-    if(this.isSubmitting) {
-      return
-    }
-    
-    this.isSubmitting = true
+    if (this.ojtInfo.invalid) {
+      const firstInvalidControl: HTMLElement =
+        document.querySelector('form .ng-invalid')!;
 
-    if(this.ojtInfo.invalid) {
-      const firstInvalidControl: HTMLElement = document.querySelector('form .ng-invalid')!;
-      
       if (firstInvalidControl) {
-        firstInvalidControl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalidControl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       }
-  
+
       this.ojtInfo.markAllAsTouched();
       return;
     }
 
+    if (this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+
     var payload = new FormData();
 
-    payload.append('department', this.ojtInfo.value.department)
-    payload.append('task', this.ojtInfo.value.task)
-    payload.append('start_date', moment.tz(this.ojtInfo.value.start_date, 'Asia/Manila').format('YYYY-MM-DD'))
+    payload.append('department', this.ojtInfo.value.department);
+    payload.append('task', this.ojtInfo.value.task);
+    payload.append(
+      'start_date',
+      moment
+        .tz(this.ojtInfo.value.start_date, 'Asia/Manila')
+        .format('YYYY-MM-DD')
+    );
 
     console.log('OJT Information:', this.ojtInfo.value);
-    
-    this.ds.post('supervisor/applications/accept/', this.data.id, payload).subscribe(
-      (response) => {
-        this.gs.successAlert(response.title, response.message);
-        this.dialogRef.close(response.data);
-        this.isSubmitting = false
-      },
-      (error) => {
-        console.error(error);
-        this.isSubmitting = false
-        if(error.status === 409) {
-          this.gs.errorAlert(error.error.title, error.error.message)
+
+    this.ds
+      .post('supervisor/applications/accept/', this.data.id, payload)
+      .subscribe(
+        (response) => {
+          this.gs.successAlert(response.title, response.message);
+          this.dialogRef.close(response.data);
+          this.isSubmitting = false;
+        },
+        (error) => {
+          console.error(error);
+          this.isSubmitting = false;
+          if (error.status === 409) {
+            this.gs.errorAlert(error.error.title, error.error.message);
+          } else {
+            this.gs.errorAlert(
+              'Oops!',
+              'Something went wrong. Please try again later.'
+            );
+          }
         }
-        else {
-          this.gs.errorAlert('Oops!', 'Something went wrong. Please try again later.')
-        }
-      }
-    );
+      );
   }
 }

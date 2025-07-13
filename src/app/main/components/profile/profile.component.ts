@@ -332,12 +332,7 @@ export class ProfileComponent {
     companyInfo.municipality = companyInfo.municipality?.citymunDesc || '';
     companyInfo.barangay = companyInfo.barangay?.brgyDesc || '';
 
-    const payload = {
-      payload: this.us.encryptPayload(companyInfo)
-    }
-
-
-    this.ds.post('supervisor/profile', '', payload).subscribe(
+    this.ds.post('supervisor/profile', '', companyInfo).subscribe(
       (response) => {
         console.log(response);
         this.gs.successAlert(response.title, response.message);

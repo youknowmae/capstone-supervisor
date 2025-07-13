@@ -281,11 +281,7 @@ export class StudentEvaluationComponent {
 
     var payload = new FormData();
 
-    const data = {
-      evaluation: this.formDetails.value
-    }
-
-    payload.append('payload', this.us.encryptPayload(data));
+    payload.append('evaluation', JSON.stringify(this.formDetails.value));
     if (this.file) payload.append('file', this.file);
 
     this.isSubmitting = true;

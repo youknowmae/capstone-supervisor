@@ -79,15 +79,11 @@ export class SettingsComponent {
 
     this.isSubmitting = true;
 
-    const payload = {
-      payload: this.us.encryptPayload(this.passwordDetails.value)
-    }
-
     this.ds
       .post(
         'supervisor/profile/change-password',
         '',
-        payload
+        this.passwordDetails.value
       )
       .subscribe(
         (response) => {
